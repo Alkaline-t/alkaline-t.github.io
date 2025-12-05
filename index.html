@@ -252,6 +252,78 @@
     font-size:26px;
     cursor:pointer;
   }
+
+  /* 🎨 BEAUTIFUL FOOTER */
+  footer{
+    margin-top: 60px;
+    padding: 40px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 -8px 32px rgba(102, 126, 234, 0.3);
+  }
+
+  footer::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shine 4s infinite;
+    pointer-events: none;
+  }
+
+  @keyframes shine{
+    0%{ left: -100%; }
+    100%{ left: 100%; }
+  }
+
+  footer{
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  @keyframes fadeInUp{
+    from{ opacity: 0; transform: translateY(30px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  footer:hover{
+    box-shadow: 0 -8px 40px rgba(102, 126, 234, 0.5), 0 0 30px rgba(240, 147, 251, 0.3);
+    transform: translateY(-4px);
+  }
+
+  /* Dark mode footer */
+  body.dark-mode footer{
+    background: linear-gradient(135deg, #1e2a5a 0%, #2d1b4e 50%, #4a2567 100%);
+    box-shadow: 0 -8px 32px rgba(102, 126, 234, 0.2);
+  }
+
+  body.dark-mode footer:hover{
+    box-shadow: 0 -8px 40px rgba(102, 126, 234, 0.4), 0 0 30px rgba(240, 147, 251, 0.2);
+  }
+
+  /* Responsive footer */
+  @media(max-width: 768px){
+    footer{
+      margin-top: 40px;
+      padding: 30px 16px;
+      font-size: 14px;
+    }
+  }
+
+  @media(max-width: 480px){
+    footer{
+      margin-top: 30px;
+      padding: 24px 12px;
+      font-size: 13px;
+    }
+  }
 </style>
 </head>
 
@@ -260,7 +332,7 @@
 <header class="vk-header">
   <div class="vk-container">
     <div class="vk-logo">
-      <a href="#"><img src="logo.png">AI Fitness Device</a>
+      <a href="#"><img src="logo.png">AI Fitness Monitoring Device</a>
     </div>
 
     <nav class="vk-nav">
@@ -327,7 +399,21 @@
 </div>
 
 <footer>
-  © 2025 AI Fitness Monitoring Device
+  <div style="max-width: 900px; margin: 0 auto; position: relative; z-index: 1;">
+    <div style="margin-bottom: 12px;">
+      <p style="margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px;">
+        ❤️ AI Fitness Monitoring Device
+      </p>
+    </div>
+    <p style="margin: 8px 0; opacity: 0.95;">
+      © 2025 All Rights Reserved | Designed & Developed with ✨
+    </p>
+
+    </div>
+    <p style="margin: 12px 0 0 0; opacity: 0.85; font-size: 12px;">
+      Monitoring Health • Advancing Wellness 🚀
+    </p>
+  </div>
 </footer>
 
 <!-- FLOATING BUTTON -->
