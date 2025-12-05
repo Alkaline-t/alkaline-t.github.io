@@ -15,43 +15,146 @@
     --muted:#6b7280;
     --card-shadow: 0 8px 30px rgba(12,24,60,0.08);
     --radius: 14px;
-
     --dark-bg: #111;
     --dark-text: #eee;
-    --dark-muted: #aaa;
-    --dark-card: rgba(30,30,30,0.72);
   }
 
   body{
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    font-family: Inter, system-ui;
     color:var(--text);
     background:#f4faff;
     line-height:1.5;
     overflow-x:hidden;
-    transition: background 0.3s ease, color 0.3s ease;
   }
 
   * { transition: all 0.35s ease; }
   img {max-width:100%; display:block;}
 
+  /* HEADER */
   .vk-header{width:100%; background:#111; color:#fff; position:fixed; top:0; left:0; z-index:100; padding:12px 0;}
   .vk-container{width:90%; max-width:1200px; margin:auto; display:flex; align-items:center; justify-content:space-between;}
+
+  /* NAV */
   .vk-logo a{color:#fff; font-size:20px; font-weight:700; text-decoration:none; display:flex; align-items:center;}
   .vk-logo img{height:40px; margin-right:8px;}
   .vk-nav ul{display:flex; list-style:none; gap:25px;}
   .vk-nav ul li a{color:#ddd; text-decoration:none; font-size:16px;}
-  .vk-nav ul li a:hover{color:#ff9500; transform:translateY(-2px);}
-  .vk-toggle{display:none; font-size:26px; cursor:pointer;}
+  .vk-toggle{display:none;}
 
-  @media(max-width:768px){
-    .vk-nav{position:absolute; top:58px; right:0; background:#111; width:100%; display:none; flex-direction:column; text-align:center; padding:12px 0;}
-    .vk-nav ul{flex-direction:column; gap:12px;}
-    .vk-toggle{display:block;}
+  /* 🌙 THEME TOGGLE BUTTON */
+  .theme-toggle{
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
   }
 
-  .wrap{max-width:1100px; margin:120px auto 30px auto; padding:24px;}
-  .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:18px;}
-  .col-7{grid-column:span 7;}
+  .theme-toggle:hover{
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+  }
+
+  .theme-toggle:active{
+    transform: scale(0.95);
+  }
+
+  .theme-toggle-icon{
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    position: absolute;
+  }
+
+  .sun-icon{
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  .moon-icon{
+    opacity: 0;
+    transform: rotate(-180deg) scale(0);
+  }
+
+  .theme-toggle.dark-mode .sun-icon{
+    opacity: 0;
+    transform: rotate(180deg) scale(0);
+  }
+
+  .theme-toggle.dark-mode .moon-icon{
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  /* DARK MODE STYLES */
+  body.dark-mode{
+    background: #0a0e27;
+    color: var(--dark-text);
+  }
+
+  body.dark-mode .vk-header{
+    background: #1a1f3a;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  body.dark-mode .card{
+    background: #1e2333;
+    color: var(--dark-text);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+
+  body.dark-mode .wrap{
+    background: linear-gradient(135deg, rgba(20,25,50,0.5) 0%, rgba(30,35,70,0.3) 100%);
+  }
+
+  body.dark-mode h2, body.dark-mode h3, body.dark-mode h4{
+    color: #00d4ff;
+  }
+
+  body.dark-mode ol, body.dark-mode li{
+    color: #b0b8d4;
+  }
+
+  body.dark-mode .vk-nav ul li a{
+    color: #a0a8c0;
+  }
+
+  body.dark-mode .vk-nav ul li a:hover{
+    color: #00d4ff;
+  }
+
+  @media(max-width:768px){
+    .vk-nav{position:absolute; top:58px; right:0; background:#111; width:100%; display:none; flex-direction:column; text-align:center;}
+    .vk-nav ul{flex-direction:column; gap:12px;}
+    .vk-toggle{display:block; font-size:26px; cursor:pointer;}
+    .theme-toggle{
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+      margin-right: 8px;
+    }
+    .wrap{max-width:100%; padding:16px; margin:100px auto;}
+    .col-7{max-width:100%;}
+    .card{max-width:100%; padding:14px;}
+  }
+
+  @media(max-width:480px){
+    .wrap{max-width:100%; padding:12px; margin:90px auto;}
+    .col-7{max-width:100%;}
+    .card{max-width:100%; padding:12px;}
+  }
+
+  /* MAIN LAYOUT */
+  .wrap{max-width:900px; margin:120px auto; padding:24px;}
+  .grid{display:grid; grid-template-columns:1fr; gap:18px; justify-items:center;}
+  .col-7{grid-column:span 1; width:100%; max-width:800px;}
 
   .card{
     background:white;
@@ -60,59 +163,95 @@
     box-shadow:var(--card-shadow);
     opacity:0;
     transform:translateY(60px);
+    width:100%;
+    margin:0 auto;
+    max-width:800px;
   }
   .card.show{
     opacity:1;
     transform:translateY(0);
   }
-  .card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 14px 28px rgba(0,0,0,0.18);
+
+  /* 🔵 ROTATING BACKGROUND CIRCLE */
+  .rotate-bg{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:420px;
+    opacity:0.35;
+    z-index:-1;
+    animation:spin 28s linear infinite;
+  }
+  @keyframes spin{
+    from{ transform:translate(-50%, -50%) rotate(0deg); }
+    to{ transform:translate(-50%, -50%) rotate(360deg); }
   }
 
-  footer{
-    margin-top:28px; padding:16px; border-radius:12px;
-    background:linear-gradient(90deg,#021a4b,#042a66);
-    color:white; text-align:center;
+  /* 🔥 PROJECT IMAGE GLOW */
+  .project-img{
+    width:100%;
+    border-radius:18px;
+    animation:glowPulse 4s infinite ease-in-out;
+    box-shadow:0 0 22px rgba(0,200,255,0.7);
+    transition:0.35s ease;
+    opacity:0;
+    transform:translateY(40px);
   }
-  footer:hover{
-    transform:translateY(-4px);
-    box-shadow:0 8px 18px rgba(0,0,0,0.25);
+  .card.show .project-img{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .project-img:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 35px rgba(0,240,255,0.8),
+               0 0 55px rgba(0,160,255,0.6);
+  }
+  @keyframes glowPulse{
+    0%{ box-shadow:0 0 16px rgba(0,200,255,0.6); }
+    50%{ box-shadow:0 0 38px rgba(0,240,255,0.9); }
+    100%{ box-shadow:0 0 16px rgba(0,200,255,0.6); }
   }
 
-  footer button{
-    margin-top:8px; padding:6px 12px; border:none; border-radius:6px; background:#0084ff; color:#fff; cursor:pointer;
+  /* FLOAT BUTTON */
+  #floatBtn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:58px;
+    height:58px;
+    font-size:20px;
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    z-index:9999;
   }
 
-  body.dark { background:#121212; color:var(--dark-text); }
-  body.dark .vk-header, body.dark footer{background:#222;}
-
-  .modal {
+  /* POPUP */
+  .popup{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.65);
+    background:rgba(0,0,0,0.45);
+    z-index:9998;
     justify-content:center;
     align-items:center;
-    z-index:9999;
   }
-  .modal-content {
+  .popupContent{
     background:white;
-    padding:24px;
-    width:500px;
-    max-width:90%;
+    padding:20px;
     border-radius:12px;
-    position:relative;
-    box-shadow:0 0 22px rgba(0,0,0,0.45);
-    animation:popupScale .35s ease;
-    text-align:left;
+    max-width:450px;
+    width:90%;
   }
-  @keyframes popupScale { from {transform:scale(0.7); opacity:0;} to {transform:scale(1); opacity:1;} }
-
-  .closeBtn { position:absolute; right:12px; top:6px; cursor:pointer; font-size:26px; font-weight:bold; transition:transform .2s ease; }
-  .closeBtn:active { transform:scale(0.9); }
-
-  h2,h3{color:var(--accent);}
+  .closeBtn{
+    float:right;
+    font-size:26px;
+    cursor:pointer;
+  }
 </style>
 </head>
 
@@ -121,20 +260,22 @@
 <header class="vk-header">
   <div class="vk-container">
     <div class="vk-logo">
-      <a href="#"><img src="logo.png" alt="Logo">AI Fitness Device</a>
+      <a href="#"><img src="logo.png">AI Fitness Device</a>
     </div>
+
     <nav class="vk-nav">
       <ul>
-        <li><a id="aboutBtn" href="#">About</a></li>
         <li><a href="#functionsCard">Functions</a></li>
         <li><a href="#workCard">Work Process</a></li>
       </ul>
     </nav>
+
+    <button class="theme-toggle" id="themeToggle">
+      <span class="theme-toggle-icon sun-icon">☀️</span>
+      <span class="theme-toggle-icon moon-icon">🌙</span>
+    </button>
+
     <div class="vk-toggle" onclick="toggleMenu()">☰</div>
-    <label class="theme-switch">
-      <input type="checkbox" id="themeToggle">
-      <span class="slider"></span>
-    </label>
   </div>
 </header>
 
@@ -142,32 +283,42 @@
   <div class="grid">
     <div class="col-7">
 
-      <!-- Functions Card -->
-      <div class="card reveal" id="functionsCard">
-        <h2>⚙️ Device Functions</h2>
-        <p style="color:var(--muted);margin-top:8px">
-          The AI Fitness Device performs the following functions:
-        </p>
-        <ol style="margin-top:8px; color:var(--muted);">
-          <li>Measures Heart Rate & SpO₂ using MAX30100 sensor.</li>
-          <li>Measures Body Temperature using DS18B20 sensor.</li>
-          <li>Displays real-time time & date using DS3231 RTC.</li>
-          <li>Shows LCD slides guiding the user step by step.</li>
-          <li>Alerts the user for abnormal readings.</li>
+      <!-- PROJECT IMAGE WITH ROTATING BG -->
+      <div class="card reveal" id="imgCard" style="position:relative;">
+        <img src="logo.png" class="rotate-bg">
+        <img src="image.jpg" class="project-img">
+      </div>
+
+      <!-- DEVICE THINGS -->
+      <div class="card reveal">
+        <h2>🧩 Device Things</h2>
+        <ol style="color:var(--muted);">
+          <li><b>Black & Yellow Box:</b> HR, SpO₂ & Pulse</li>
+          <li><b>Red & Brown Box:</b> Main Processor</li>
+          <li><b>Blue Rectangle:</b> LCD Display</li>
+          <li><b>Black Wire:</b> Temperature Sensor</li>
         </ol>
       </div>
 
-      <!-- Work Process Card -->
-      <div class="card reveal" id="workCard" style="margin-top:16px">
+      <!-- FUNCTIONS -->
+      <div class="card reveal" id="functionsCard">
+        <h2>⚙️ Functions</h2>
+        <ol style="color:var(--muted);">
+          <li>Heart Rate & SpO₂</li>
+          <li>Temperature</li>
+          <li>Time & Date</li>
+          <li>Smart Alerts</li>
+        </ol>
+      </div>
+
+      <!-- WORK PROCESS -->
+      <div class="card reveal" id="workCard">
         <h2>🔧 How It Works</h2>
-        <ol style="margin-top:8px; color:var(--muted);">
-          <li>Power on the device → LCD shows "Hello User".</li>
-          <li>Introductory slides guide the user through device features.</li>
-          <li>Place finger on MAX30100 sensor → measures Heart Rate & SpO₂.</li>
-          <li>DS18B20 sensor measures body temperature automatically.</li>
-          <li>DS3231 RTC provides current time on LCD slides.</li>
-          <li>Device alerts for abnormal readings (beeps & notifications).</li>
-          <li>All readings are displayed clearly on LCD for the user.</li>
+        <ol style="color:var(--muted);">
+          <li>Power on → Slides</li>
+          <li>Place finger → HR & SpO₂</li>
+          <li>Hold sensor → Temperature</li>
+          <li>Shows real-time readings</li>
         </ol>
       </div>
 
@@ -176,121 +327,146 @@
 </div>
 
 <footer>
-  <p>&copy; 2025 AI Fitness Monitoring Device. All Rights Reserved.</p>
-  <button id="footerAboutBtn">About Team</button>
+  © 2025 AI Fitness Monitoring Device
 </footer>
 
-<!-- Combined About Modal (Device + Team) -->
-<div id="aboutModal" class="modal">
-  <div class="modal-content">
-    <span class="closeBtn">&times;</span>
+<!-- FLOATING BUTTON -->
+<button id="floatBtn" onclick="openPopup('devicePopup')">ℹ️</button>
 
-    <!-- Tabs -->
-    <div style="display:flex; justify-content:center; gap:12px; margin-bottom:16px;">
-      <button id="deviceTab" style="padding:6px 12px; border:none; border-radius:6px; cursor:pointer; background:#0084ff; color:#fff;">Device Info</button>
-      <button id="teamTab" style="padding:6px 12px; border:none; border-radius:6px; cursor:pointer; background:#ccc; color:#000;">Team Info</button>
+<!-- DEVICE POPUP -->
+<div id="devicePopup" class="popup">
+  <div class="popupContent">
+    <span class="closeBtn" onclick="closePopup('devicePopup')">×</span>
+
+    <h2 style="text-align:center; color:var(--accent);">About This Project</h2>
+    <ul>
+      <li>❤️ HR & SpO₂ — MAX30100</li>
+      <li>🌡 Temperature — DS18B20</li>
+      <li>⏱ Time — DS3231 RTC</li>
+      <li>📺 LCD Slides</li>
+    </ul>
+
+    <button style="width:100%; padding:10px; background:var(--accent); color:#fff; border:none; border-radius:6px; margin-top:12px;"
+      onclick="openPopup('teamPopup')">Team Info →</button>
+  </div>
+</div>
+
+<!-- TEAM POPUP -->
+<div id="teamPopup" class="popup">
+  <div class="popupContent" style="max-height:80vh; overflow-y:auto;">
+    <span class="closeBtn" onclick="closePopup('teamPopup')">×</span>
+
+    <h2 style="text-align:center; color:var(--accent);">TEAM</h2>
+
+    <!-- Team Members -->
+    <ul>
+      <li><b>IoT Specialist:</b> Aarav Thakur</li>
+      <li><b>Circuit Designer:</b> Ankit</li>
+      <li><b>System Designer:</b> MD Rizwan</li>
+      <li><b>Website Developer:</b> Aarav Thakur</li>
+    </ul>
+
+    <!-- School & Mentors Info -->
+    <div style="margin-top:15px; color:var(--muted); line-height:1.6;">
+      <p>We are the students of <b>Class-10th</b> from the School: <b>SCAN SBV NO.2 JANAKPURI B BLOCK</b></p>
+      <p>Our school principal name is <b>INDER KUMAR</b></p>
+      <p>Our PTVT is <b>Mrs. VINITA KUMARI</b></p>
     </div>
 
-    <!-- Device Info Content -->
-    <div id="deviceContent">
-      <img src="logo.png" style="width:90px; margin-bottom:10px;">
-      <h2 style="text-align:center; color:#0084ff;">About This Project</h2>
-      <p style="margin-top:12px;">This AI Fitness Device shows:</p>
-      <ul style="text-align:left; margin:12px 0;">
-        <li>❤️ Heart Rate & SpO₂ — MAX30100</li>
-        <li>🌡 Temperature — DS18B20</li>
-        <li>⏱ Time — DS3231 RTC</li>
-        <li>📺 LCD Slides + With Smart Beeps</li>
-      </ul>
-    </div>
-
-    <!-- Team Info Content -->
-    <div id="teamContent" style="display:none;">
-      <h2 style="text-align:center; color:#0084ff;">AIFITNESS MONITORING DEVICE TEAM</h2>
-      <ul style="margin:16px 0; line-height:1.6; color:#333;">
-        <li><b>IoT Specialist:</b> Aarav Thakur</li>
-        <li><b>Circuit Designer:</b> Ankit</li>
-        <li><b>System Designer:</b> MD Rizwan</li>
-
-        
-        <li><b>Website Developer:</b> Aarav Thakur</li>
-      </ul>
-    </div>
+    <!-- HOLISTIC WELLNESS LINE -->
+    <p style="
+      text-align:center; 
+      margin-top:20px; 
+      font-size:24px; 
+      font-weight:800; 
+      background: linear-gradient(135deg, #00d4ff, #0084ff); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.35);
+      font-family:'Arial Black', Gadget, sans-serif;
+    ">
+      HOLISTIC WELLNESS AND LIFE STYLE!!
+    </p>
   </div>
 </div>
 
 <script>
-  // Toggle mobile menu
   function toggleMenu(){
     const menu=document.querySelector('.vk-nav');
-    if(menu.style.display==='flex'){
-      menu.style.opacity=0;
-      setTimeout(()=>menu.style.display='none',300);
-    } else {
-      menu.style.display='flex';
-      setTimeout(()=>menu.style.opacity=1,10);
-    }
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
   }
 
-  // Dark mode toggle
-  document.getElementById('themeToggle').addEventListener('click', ()=>{
-    document.body.classList.toggle('dark');
+  /* 🌙 THEME TOGGLE FUNCTIONALITY */
+  const themeToggle = document.getElementById('themeToggle');
+  const htmlElement = document.documentElement;
+  const body = document.body;
+
+  // Load theme preference from localStorage
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if(savedTheme === 'dark'){
+    body.classList.add('dark-mode');
+    themeToggle.classList.add('dark-mode');
+  }
+
+  // Toggle theme on button click
+  themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    themeToggle.classList.toggle('dark-mode');
+    
+    // Save preference to localStorage
+    const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', currentTheme);
   });
 
-  // Scroll reveal
+  // Prevent multiple rapid clicks
+  let isToggling = false;
+  themeToggle.addEventListener('click', function(e){
+    if(isToggling) return;
+    isToggling = true;
+    setTimeout(() => { isToggling = false; }, 400);
+  });
+
+  function openPopup(id){
+    document.getElementById(id).style.display="flex";
+  }
+
+  function closePopup(id){
+    document.getElementById(id).style.display="none";
+  }
+
+  // Close popup when clicking outside of it
+  document.addEventListener('click', function(event){
+    const popups = document.querySelectorAll('.popup');
+    popups.forEach(popup => {
+      if(event.target === popup){
+        popup.style.display = "none";
+      }
+    });
+  });
+
+  // Close popup when pressing Escape key
+  document.addEventListener('keydown', function(event){
+    if(event.key === 'Escape' || event.keyCode === 27){
+      const popups = document.querySelectorAll('.popup');
+      popups.forEach(popup => {
+        if(popup.style.display === "flex"){
+          popup.style.display = "none";
+        }
+      });
+    }
+  });
+
   const reveals=document.querySelectorAll('.reveal');
   function revealOnScroll(){
     reveals.forEach(el=>{
-      const rect=el.getBoundingClientRect();
-      if(rect.top < window.innerHeight-80){
+      if(el.getBoundingClientRect().top < window.innerHeight-80){
         el.classList.add("show");
       }
     });
   }
+
   window.addEventListener("scroll", revealOnScroll);
   window.addEventListener("load", revealOnScroll);
-
-  // Modal and Tabs
-  const aboutBtn = document.getElementById("aboutBtn");
-  const footerAboutBtn = document.getElementById("footerAboutBtn");
-  const modal = document.getElementById("aboutModal");
-  const closeBtn = modal.querySelector(".closeBtn");
-
-  const deviceTab = document.getElementById("deviceTab");
-  const teamTab = document.getElementById("teamTab");
-  const deviceContent = document.getElementById("deviceContent");
-  const teamContent = document.getElementById("teamContent");
-
-  // Open modal from header or footer
-  [aboutBtn, footerAboutBtn].forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      modal.style.display = "flex";
-    });
-  });
-
-  // Close modal
-  closeBtn.onclick = () => modal.style.display = "none";
-  window.onclick = (e) => { if(e.target === modal) modal.style.display = "none"; }
-
-  // Tab switching
-  deviceTab.addEventListener("click", () => {
-    deviceContent.style.display = "block";
-    teamContent.style.display = "none";
-    deviceTab.style.background = "#0084ff";
-    deviceTab.style.color = "#fff";
-    teamTab.style.background = "#ccc";
-    teamTab.style.color = "#000";
-  });
-
-  teamTab.addEventListener("click", () => {
-    deviceContent.style.display = "none";
-    teamContent.style.display = "block";
-    teamTab.style.background = "#0084ff";
-    teamTab.style.color = "#fff";
-    deviceTab.style.background = "#ccc";
-    deviceTab.style.color = "#000";
-  });
 </script>
 
 </body>
