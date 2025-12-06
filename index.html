@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1, minimum-scale=1" />
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <title>AI Fitness Monitoring Device</title>
@@ -137,6 +137,39 @@
     color: #00d4ff;
   }
 
+  body.dark-mode .hero-section{
+    background: linear-gradient(180deg, #1a1f3a 0%, #151b33 60%);
+  }
+
+  body.dark-mode .hero-card{
+    background: linear-gradient(180deg, #1e2333, #1a1f33);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  body.dark-mode .hero-card h2{
+    color: #00d4ff;
+  }
+
+  body.dark-mode .hero-lead{
+    color: #b0b8d4;
+  }
+
+  body.dark-mode .hero-btn{
+    color: #00d4ff;
+  }
+
+  body.dark-mode .hero-btn:hover{
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  body.dark-mode .hero-dot{
+    background: rgba(0, 212, 255, 0.2);
+  }
+
+  body.dark-mode .hero-dot.active{
+    background: #00d4ff;
+  }
+
   @media(max-width:768px){
     .vk-nav{position:absolute; top:58px; right:0; background:#111; width:100%; display:none; flex-direction:column; text-align:center;}
     .vk-nav ul{flex-direction:column; gap:12px;}
@@ -186,7 +219,7 @@
   /* 🔵 ROTATING BACKGROUND CIRCLE */
   .rotate-bg{
     position:absolute;
-    top:50%;
+    top:35%;
     left:50%;
     transform:translate(-50%, -50%);
     width:420px;
@@ -203,6 +236,518 @@
   .blob.b3{width:500px; height:300px; background:linear-gradient(45deg,#d1fae5,#34d399); left:20%; bottom:4%; animation:blobmove 26s ease-in-out 4s infinite}
 
   @keyframes blobmove{ 0%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-30px) translateX(20px)} 100%{transform:translateY(0) translateX(0)} }
+
+  /* TYPING INTRO ANIMATION */
+  .typing-intro{position:relative; text-align:center; padding:40px 20px; z-index:50; opacity:0; display:none}
+  .typing-intro.show{animation:fadeOutIntro 0.8s ease-out 50s forwards}
+  .typing-intro h1{font-size:48px; font-weight:800; background:linear-gradient(135deg, #0084ff, #00d4ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; margin:0 0 16px; letter-spacing:2px}
+  .typing-intro p{font-size:28px; color:#546e7a; margin:0; font-weight:600}
+  .typing-text{display:inline-block; border-right:3px solid #0084ff; overflow:hidden; white-space:nowrap}
+  @keyframes fadeOutIntro{from{opacity:1} to{opacity:0; transform:scale(0.95)}}
+  @keyframes typewriter{from{width:0} to{width:100%}}
+  .line1{animation:typewriter 1.2s steps(11, end) forwards}
+  .line2{animation:typewriter 0.9s steps(7, end) 1.2s forwards; opacity:0; animation-fill-mode:both}
+
+  /* TOP IMAGE SECTION */
+  .top-image-section{
+    position: relative;
+    width: 100%;
+    padding: 0px 20px;
+    text-align: center;
+    z-index: 40;
+    margin-top: 0;
+    background: linear-gradient(135deg, rgba(0, 132, 255, 0.08) 0%, rgba(0, 212, 255, 0.04) 50%, rgba(102, 126, 234, 0.08) 100%);
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 8px 32px rgba(0, 132, 255, 0.1);
+    animation: sectionGlow 4s ease-in-out infinite;
+  }
+  .top-image-title{
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #0084ff 0%, #00d4ff 50%, #0084ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin: 0 0 24px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: fadeInDown 0.8s ease-out;
+    font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
+  }
+  @keyframes sectionGlow{
+    0%, 100%{ box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 8px 32px rgba(0, 132, 255, 0.1); }
+    50%{ box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 12px 48px rgba(0, 212, 255, 0.2); }
+  }
+  .top-image{
+    max-width: 550px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 132, 255, 0.2);
+    animation: slideInUp 0.8s ease-out, imageBorderGlow 3s ease-in-out infinite;
+    border: 3px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #0084ff, #00d4ff, #0084ff) border-box;
+    position: relative;
+  }
+  @keyframes slideInUp{
+    from{ opacity: 0; transform: translateY(30px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  @keyframes imageBorderGlow{
+    0%, 100%{ box-shadow: 0 0 20px rgba(0, 132, 255, 0.3), 0 8px 25px rgba(0, 132, 255, 0.2); }
+    50%{ box-shadow: 0 0 40px rgba(0, 212, 255, 0.6), 0 8px 35px rgba(0, 132, 255, 0.3); }
+  }
+  @media(max-width: 768px){
+    .top-image-section{ padding: 40px 16px; margin-top: 60px; border-radius: 20px; }
+    .top-image-title{ font-size: 26px; margin-bottom: 20px; }
+    .top-image{ max-width: 420px; }
+  }
+  @media(max-width: 480px){
+    .top-image-section{ padding: 30px 12px; margin-top: 50px; border-radius: 16px; }
+    .top-image-title{ font-size: 20px; margin-bottom: 16px; }
+    .top-image{ max-width: 320px; border: 2px solid transparent; }
+  }
+
+  /* DEVICE ANGLES SECTION STYLES */
+  .device-angles-section{
+    position: relative;
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    z-index: 40;
+    margin: 40px 0;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 132, 255, 0.04) 50%, rgba(240, 147, 251, 0.08) 100%);
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 8px 32px rgba(0, 132, 255, 0.1);
+    animation: sectionGlow 4s ease-in-out infinite;
+  }
+
+  .device-angles-title{
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #0084ff 0%, #00d4ff 50%, #764ba2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin: 0 0 32px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: fadeInDown 0.8s ease-out;
+    font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
+  }
+
+  .angles-gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .angle-card{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 255, 0.9));
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 8px 32px rgba(0, 132, 255, 0.1);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out backwards;
+  }
+
+  .angle-card:nth-child(1){ animation-delay: 0.1s; }
+  .angle-card:nth-child(2){ animation-delay: 0.2s; }
+  .angle-card:nth-child(3){ animation-delay: 0.3s; }
+  .angle-card:nth-child(4){ animation-delay: 0.4s; }
+  .angle-card:nth-child(5){ animation-delay: 0.5s; }
+  .angle-card:nth-child(6){ animation-delay: 0.6s; }
+
+  .angle-card:hover{
+    transform: translateY(-12px);
+    box-shadow: 0 16px 48px rgba(0, 132, 255, 0.25);
+    border: 2px solid rgba(0, 132, 255, 0.3);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 250, 255, 0.95));
+  }
+
+  .angle-image-wrapper{
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, rgba(0, 132, 255, 0.1), rgba(0, 212, 255, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .angle-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+    border-radius: 10px;
+  }
+
+  .angle-card:hover .angle-image{
+    transform: scale(1.08);
+  }
+
+  .angle-label{
+    font-size: 18px;
+    font-weight: 700;
+    color: #0084ff;
+    margin: 12px 0 6px 0;
+    font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
+  }
+
+  .angle-description{
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Dark mode styles for angles section */
+  body.dark-mode .device-angles-section{
+    background: linear-gradient(135deg, rgba(30, 35, 70, 0.5) 0%, rgba(20, 25, 50, 0.3) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  body.dark-mode .device-angles-title{
+    background: linear-gradient(135deg, #00d4ff 0%, #00b8ff 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  body.dark-mode .angle-card{
+    background: linear-gradient(180deg, #1e2333, #1a1f33);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(0, 212, 255, 0.1);
+  }
+
+  body.dark-mode .angle-card:hover{
+    box-shadow: 0 16px 48px rgba(0, 212, 255, 0.3);
+    border: 2px solid rgba(0, 212, 255, 0.4);
+    background: linear-gradient(180deg, #232a40, #1e2438);
+  }
+
+  body.dark-mode .angle-image-wrapper{
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 132, 255, 0.1));
+  }
+
+  body.dark-mode .angle-label{
+    color: #00d4ff;
+  }
+
+  body.dark-mode .angle-description{
+    color: #a0a8c0;
+  }
+
+  /* Responsive styles for angles gallery */
+  @media(max-width: 768px){
+    .device-angles-section{
+      padding: 30px 16px;
+      margin: 30px 0;
+      border-radius: 20px;
+    }
+    
+    .device-angles-title{
+      font-size: 26px;
+      margin-bottom: 24px;
+    }
+
+    .angles-gallery{
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .angle-image-wrapper{
+      height: 160px;
+      margin-bottom: 10px;
+    }
+
+    .angle-label{
+      font-size: 16px;
+      margin: 10px 0 4px 0;
+    }
+
+    .angle-description{
+      font-size: 12px;
+    }
+  }
+
+  @media(max-width: 480px){
+    .device-angles-section{
+      padding: 24px 12px;
+      margin: 24px 0;
+      border-radius: 16px;
+    }
+    
+    .device-angles-title{
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .angles-gallery{
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .angle-image-wrapper{
+      height: 140px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+    }
+
+    .angle-label{
+      font-size: 14px;
+      margin: 8px 0 3px 0;
+    }
+
+    .angle-description{
+      font-size: 11px;
+    }
+  }
+
+  /* MENTORS SECTION STYLES */
+  .mentors-section{
+    position: relative;
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    z-index: 40;
+    margin: 40px 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(240, 147, 251, 0.08) 50%, rgba(0, 212, 255, 0.08) 100%);
+    border-radius: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 8px 32px rgba(102, 126, 234, 0.1);
+    animation: sectionGlow 4s ease-in-out infinite;
+  }
+
+  .mentors-title{
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin: 0 0 32px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: fadeInDown 0.8s ease-out;
+    font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
+  }
+
+  .mentors-gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .mentor-card{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 255, 0.9));
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out backwards;
+  }
+
+  .mentor-card:nth-child(1){ animation-delay: 0.1s; }
+  .mentor-card:nth-child(2){ animation-delay: 0.2s; }
+
+  .mentor-card:hover{
+    transform: translateY(-12px);
+    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 250, 255, 0.95));
+  }
+
+  .mentor-image-wrapper{
+    width: 100%;
+    height: 240px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    position: relative;
+  }
+
+  .mentor-image{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.35s ease;
+    border-radius: 10px;
+  }
+
+  .mentor-card:hover .mentor-image{
+    transform: scale(1.08);
+  }
+
+  .mentor-name{
+    font-size: 20px;
+    font-weight: 700;
+    color: #667eea;
+    margin: 12px 0 6px 0;
+    font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
+  }
+
+  .mentor-role{
+    font-size: 16px;
+    font-weight: 600;
+    color: #764ba2;
+    margin: 4px 0;
+  }
+
+  .mentor-position{
+    font-size: 14px;
+    color: #6b7280;
+    margin: 8px 0 0 0;
+    line-height: 1.4;
+  }
+
+  /* Dark mode styles for mentors section */
+  body.dark-mode .mentors-section{
+    background: linear-gradient(135deg, rgba(30, 35, 70, 0.5) 0%, rgba(45, 27, 78, 0.3) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  body.dark-mode .mentors-title{
+    background: linear-gradient(135deg, #f093fb 0%, #667eea 50%, #764ba2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  body.dark-mode .mentor-card{
+    background: linear-gradient(180deg, #1e2333, #1a1f33);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(102, 126, 234, 0.15);
+  }
+
+  body.dark-mode .mentor-card:hover{
+    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.3);
+    border: 2px solid rgba(102, 126, 234, 0.4);
+    background: linear-gradient(180deg, #232a40, #1e2438);
+  }
+
+  body.dark-mode .mentor-image-wrapper{
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(240, 147, 251, 0.1));
+  }
+
+  body.dark-mode .mentor-name{
+    color: #f093fb;
+  }
+
+  body.dark-mode .mentor-role{
+    color: #667eea;
+  }
+
+  body.dark-mode .mentor-position{
+    color: #a0a8c0;
+  }
+
+  /* Responsive styles for mentors gallery */
+  @media(max-width: 768px){
+    .mentors-section{
+      padding: 30px 16px;
+      margin: 30px 0;
+      border-radius: 20px;
+    }
+    
+    .mentors-title{
+      font-size: 26px;
+      margin-bottom: 24px;
+    }
+
+    .mentors-gallery{
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .mentor-image-wrapper{
+      height: 200px;
+      margin-bottom: 12px;
+    }
+
+    .mentor-name{
+      font-size: 18px;
+      margin: 10px 0 4px 0;
+    }
+
+    .mentor-role{
+      font-size: 14px;
+    }
+
+    .mentor-position{
+      font-size: 13px;
+    }
+  }
+
+  @media(max-width: 480px){
+    .mentors-section{
+      padding: 24px 12px;
+      margin: 24px 0;
+      border-radius: 16px;
+    }
+    
+    .mentors-title{
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .mentors-gallery{
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .mentor-image-wrapper{
+      height: 200px;
+      margin-bottom: 10px;
+    }
+
+    .mentor-name{
+      font-size: 16px;
+      margin: 8px 0 3px 0;
+    }
+
+    .mentor-role{
+      font-size: 13px;
+    }
+
+    .mentor-position{
+      font-size: 12px;
+    }
+  }
+
   @keyframes spin{
     from{ transform:translate(-50%, -50%) rotate(0deg); }
     to{ transform:translate(-50%, -50%) rotate(360deg); }
@@ -246,7 +791,7 @@
   @media(max-width:600px){.slide-card{padding:14px} .slide-controls{flex-direction:column;gap:6px} }
 
   /* === HERO SECTION STYLES === */
-  .hero-section{padding:56px 0 18px; background: linear-gradient(180deg, #f0fbff 0%, #eef7ff 60%);}
+  .hero-section{padding:0 0 18px; background: linear-gradient(180deg, #f0fbff 0%, #eef7ff 60%);}
   .hero-wrap{max-width:1100px;margin:0 auto;padding:12px 20px;}
   .hero-card{background:linear-gradient(180deg, #ffffff, #fbfdff); padding:28px; border-radius:18px; box-shadow:0 18px 50px rgba(16,64,120,0.08); position:relative; overflow:hidden; display:none}
   .hero-card h2{margin:0 0 10px; font-size:26px; color:#052640}
@@ -413,6 +958,11 @@
   <div class="blob b3"></div>
 </div>
 
+<!-- TOP IMAGE SECTION -->
+<div class="top-image-section">
+  <h2 class="top-image-title">Our Device!!</h2>
+  <img src="image.jpeg" alt="Top Image" class="top-image">
+</div>
 
 
 <div class="wrap">
@@ -482,6 +1032,106 @@
           <li>Time & Date</li>
           <li>Smart Alerts</li>
         </ol>
+      </div>
+
+      <!-- DEVICE IMAGES FROM DIFFERENT ANGLES SECTION -->
+      <div class="device-angles-section">
+        <h2 class="device-angles-title">Device Views From Different Angles</h2>
+        <div class="angles-gallery">
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image2.jpeg" alt="When Display On" class="angle-image">
+            </div>
+            <h3 class="angle-label">When Display On</h3>
+          </div>
+          
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image3.jpeg" alt="Buzzer (For Sound Effects)" class="angle-image">
+            </div>
+            <h3 class="angle-label">Buzzer (For Sound Effects)</h3>
+          </div>
+          
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image4.jpeg" alt="When Display Off" class="angle-image">
+            </div>
+            <h3 class="angle-label">When Display Off</h3>
+          </div>
+          
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image5.jpeg" alt="Temperature Sensor" class="angle-image">
+            </div>
+            <h3 class="angle-label">Temperature Sensor (For Measuring Temperature)</h3>
+          </div>
+
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image6.jpeg" alt="Inside the Sensor Box View" class="angle-image">
+            </div>
+            <h3 class="angle-label">Inside The Sensor Box View</h3>
+          </div>
+
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image7.jpeg" alt="Inside of Main Controller Box" class="angle-image">
+            </div>
+            <h3 class="angle-label">Inside Of Main Controller Box</h3>
+          </div>
+
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image8.jpeg" alt="Sensor Box" class="angle-image">
+            </div>
+            <h3 class="angle-label">Sensor Box (HR, SpO2 And Pulse Sensor)</h3>
+          </div>
+
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image9.jpeg" alt="Device View From Left Side" class="angle-image">
+            </div>
+            <h3 class="angle-label">Device View From Left Side</h3>
+          </div>
+
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image10.jpeg" alt="View For Full Device While Opening" class="angle-image">
+            </div>
+            <h3 class="angle-label">View of Full Device While Opening The Main Box</h3>
+          </div>
+
+          <div class="angle-card">
+            <div class="angle-image-wrapper">
+              <img src="image11.jpeg" alt="Device View From Right Side" class="angle-image">
+            </div>
+            <h3 class="angle-label">Device View From The Right Side</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRINCIPAL SIR AND PTVT MA'AM SECTION -->
+      <div class="mentors-section">
+        <h2 class="mentors-title">Our Mentors & Guide</h2>
+        <div class="mentors-gallery">
+          <div class="mentor-card">
+            <div class="mentor-image-wrapper">
+              <img src="image12.jpg" alt="Principal Sir" class="mentor-image">
+            </div>
+            <h3 class="mentor-name">Principal Sir</h3>
+            <p class="mentor-role">INDER KUMAR</p>
+            <p class="mentor-position">School Principal</p>
+          </div>
+
+          <div class="mentor-card">
+            <div class="mentor-image-wrapper">
+              <img src="image13.png" alt="PTVT Ma'am" class="mentor-image">
+            </div>
+            <h3 class="mentor-name">PTVT Ma'am</h3>
+            <p class="mentor-role">Mrs. VINITA KUMARI</p>
+            <p class="mentor-position">Project Mentor</p>
+          </div>
+        </div>
       </div>
 
 
@@ -646,6 +1296,24 @@
 
   window.addEventListener("scroll", revealOnScroll);
   window.addEventListener("load", revealOnScroll);
+
+  // --- Show typing intro after page load (only on first visit) ---
+  window.addEventListener("load", function(){
+    const typingIntro = document.querySelector('.typing-intro');
+    if(typingIntro){
+      // Check if intro was already shown
+      const introShown = sessionStorage.getItem('introShown');
+      if(!introShown){
+        typingIntro.style.display = 'block';
+        setTimeout(function(){
+          typingIntro.classList.add('show');
+          sessionStorage.setItem('introShown', 'true');
+        }, 100);
+      } else {
+        typingIntro.style.display = 'none';
+      }
+    }
+  });
 
   // --- Hero slider (top section) ---
   (function(){
