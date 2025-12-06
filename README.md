@@ -1,4 +1,4 @@
-﻿📟 AI Fitness Monitoring Device
+# ﻿📟 AI Fitness Monitoring Device
 
 A compact, smart health-monitoring system that reads Heart Rate, SpO₂, Temperature, and Real-Time Clock, using sensors and an Arduino microcontroller.
 All readings are displayed on an LCD with live updates, smart alerts, and a beautiful UI.
@@ -72,5 +72,6 @@ Mentors & team details
 Pop-up sections
 
 Floating info button
+
 
 Hero slider and animations
