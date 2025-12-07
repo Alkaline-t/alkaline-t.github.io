@@ -3169,6 +3169,17 @@ let voicePlayed = false;
 if (music) {
   music.preload = 'metadata';
   music.crossOrigin = 'anonymous';
+  // Start playing music immediately when page loads (muted initially)
+  music.muted = true;
+  music.volume = 0.7;
+  const playPromise = music.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      console.log('🎵 Background music pre-loading started (muted)');
+    }).catch((err) => {
+      console.log('⚠️ Music preload error:', err);
+    });
+  }
 }
 
 // Voice welcome - play immediately when script loads
@@ -3215,41 +3226,31 @@ function playWelcomeVoice() {
     };
     
     welcomeMessage.onend = () => {
-      // Start background music IMMEDIATELY after voice finishes
+      // Unmute background music that's already playing
       if (music) {
-        music.muted = false; // Ensure unmuted
-        music.volume = 0.7; // Original volume
-        // Play without delay
-        const playPromise = music.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((err) => {
-            console.log('Music play error:', err);
-            // Retry after short delay if first attempt fails
-            setTimeout(() => {
-              music.play().catch(() => {});
-            }, 100);
-          });
-        }
+        console.log('⏹️ Voice message ended, unmuting music');
+        music.muted = false; // Unmute the already-playing music
+        music.volume = 0.7; // Ensure volume is set
+        console.log('✅ Music unmuted and playing');
       }
     };
     
     welcomeMessage.onerror = (event) => {
       console.log('Speech error:', event.error);
-      // Fallback: play music if voice fails
+      // Fallback: unmute music if voice fails
       if (music) {
-        music.muted = false;
+        music.muted = false; // Music is already playing, just unmute it
         music.volume = 0.7;
-        music.play().catch(() => {});
       }
     };
     
     window.speechSynthesis.speak(welcomeMessage);
   } else {
-    // Fallback: just play music if speech synthesis not available
+    // Fallback: unmute music if speech synthesis not available
+    console.log('❌ Speech synthesis not available, unmuting music');
     if (music) {
-      music.muted = false;
+      music.muted = false; // Music is already playing, just unmute it
       music.volume = 0.7;
-      music.play().catch(() => {});
     }
   }
 }
