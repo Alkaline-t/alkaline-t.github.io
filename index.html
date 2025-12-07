@@ -1747,6 +1747,7 @@
     font-weight: 700;
     font-size: 12px;
     z-index: 99;
+    display: block !important;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
     animation: slideDown 0.6s ease-out;
@@ -3078,10 +3079,28 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 const music = document.getElementById("bg-music");
 let musicUnmuted = false;
 
-// Start playing silently on page load
+// Voice welcome on page load
 window.addEventListener("load", () => {
-  if (music) {
-    music.play().catch(() => {});
+  // Play welcome voice message
+  if ('speechSynthesis' in window) {
+    const welcomeMessage = new SpeechSynthesisUtterance("Welcome to AI Fitness Monitoring Device Web Page");
+    welcomeMessage.rate = 0.9;
+    welcomeMessage.pitch = 1;
+    welcomeMessage.volume = 1;
+    
+    welcomeMessage.onend = () => {
+      // Start background music after voice message finishes
+      if (music) {
+        music.play().catch(() => {});
+      }
+    };
+    
+    window.speechSynthesis.speak(welcomeMessage);
+  } else {
+    // Fallback: just play music if speech synthesis not available
+    if (music) {
+      music.play().catch(() => {});
+    }
   }
 });
 
