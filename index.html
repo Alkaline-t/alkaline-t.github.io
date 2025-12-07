@@ -3085,12 +3085,34 @@ window.addEventListener("load", () => {
   if ('speechSynthesis' in window) {
     const welcomeMessage = new SpeechSynthesisUtterance("Welcome to AI Fitness Monitoring Device Web Page");
     welcomeMessage.rate = 0.9;
-    welcomeMessage.pitch = 1;
+    welcomeMessage.pitch = 0.8; // Lower pitch for male voice
     welcomeMessage.volume = 1;
+    welcomeMessage.lang = 'en-IN'; // Indian English
+    
+    // Set voice to male Indian English if available
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      // Try to find an Indian English male voice
+      const indianMaleVoice = voices.find(voice => 
+        (voice.lang.includes('en-IN') || voice.lang.includes('en_IN')) && 
+        (voice.name.includes('Male') || voice.name.includes('male'))
+      );
+      if (indianMaleVoice) {
+        welcomeMessage.voice = indianMaleVoice;
+      }
+    }
+    
+    welcomeMessage.onstart = () => {
+      // Lower music volume when voice starts
+      if (music) {
+        music.volume = 0.2;
+      }
+    };
     
     welcomeMessage.onend = () => {
-      // Start background music after voice message finishes
+      // Restore music to normal volume and start playing
       if (music) {
+        music.volume = 0.7; // Original volume
         music.play().catch(() => {});
       }
     };
@@ -3112,6 +3134,9 @@ const unmuteMusic = () => {
     musicUnmuted = true;
   }
 };
+
+// Start music on scroll
+window.addEventListener('scroll', unmuteMusic, { once: true });
 
 document.addEventListener("click", unmuteMusic, { once: true });
 document.addEventListener("keydown", unmuteMusic, { once: true });
