@@ -3,9 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1, minimum-scale=1" />
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
+<!-- Preconnect for faster font loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+<!-- Google Font - Critical for page render -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
 <title>AI Fitness Monitoring Device</title>
 <link rel="icon" href="logo.png" />
 
@@ -40,8 +43,8 @@
     position: relative;
   }
 
-  * { transition: all 0.2s ease; will-change: auto; }
-  img {max-width:100%; display:block; backface-visibility: hidden; -webkit-font-smoothing: antialiased; loading: lazy;}
+  * { transition: all 0.15s ease; will-change: auto; }
+  img {max-width:100%; display:block; backface-visibility: hidden; -webkit-font-smoothing: antialiased;}
 
   /* HEADER */
   .vk-header{
@@ -3125,16 +3128,18 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 
 </script>
 
-<audio id="bg-music" src="audio/Music.mp3" preload="auto" loop muted></audio>
+<audio id="bg-music" src="audio/Music.mp3" preload="metadata" loop muted crossorigin="anonymous"></audio>
 
 <script>
 const music = document.getElementById("bg-music");
 let musicUnmuted = false;
 
-// Voice welcome on page load
-window.addEventListener("load", () => {
-  // Play welcome voice message
+// Voice welcome - play immediately when script loads
+function playWelcomeVoice() {
   if ('speechSynthesis' in window) {
+    // Cancel any pending speech
+    window.speechSynthesis.cancel();
+    
     const welcomeMessage = new SpeechSynthesisUtterance("Welcome to AI Fitness Monitoring Device Web Page");
     welcomeMessage.rate = 0.9;
     welcomeMessage.pitch = 0.8; // Lower pitch for male voice
@@ -3151,6 +3156,10 @@ window.addEventListener("load", () => {
       );
       if (indianMaleVoice) {
         welcomeMessage.voice = indianMaleVoice;
+      } else {
+        // Fallback to any male voice
+        const maleVoice = voices.find(voice => voice.name.includes('Male') || voice.name.includes('male'));
+        if (maleVoice) welcomeMessage.voice = maleVoice;
       }
     }
     
@@ -3176,6 +3185,20 @@ window.addEventListener("load", () => {
       music.play().catch(() => {});
     }
   }
+}
+
+// Play voice message as soon as possible
+setTimeout(() => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', playWelcomeVoice);
+  } else {
+    playWelcomeVoice();
+  }
+}, 100);
+
+// Also try to play on window load as backup
+window.addEventListener("load", () => {
+  setTimeout(playWelcomeVoice, 200);
 });
 
 // Unmute on first interaction (only once)
