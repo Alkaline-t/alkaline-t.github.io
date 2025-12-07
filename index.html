@@ -3158,6 +3158,7 @@ function playWelcomeVoice() {
   if (voicePlayed) return; // Prevent multiple plays
   voicePlayed = true;
   
+  console.log('🎤 Voice function called at:', new Date().toLocaleTimeString());
   if ('speechSynthesis' in window) {
     // Cancel any pending speech
     window.speechSynthesis.cancel();
@@ -3237,22 +3238,30 @@ function playWelcomeVoice() {
 
 // Play voice message as soon as possible (works on mobile and desktop)
 function initVoiceAndMusic() {
-  // Play voice immediately without delay on mobile
-  playWelcomeVoice();
+  console.log('⏱️ initVoiceAndMusic called, scheduling voice for 500ms delay');
+  // Add small delay to ensure browser audio context is ready (important for GitHub Pages)
+  setTimeout(() => {
+    console.log('⏱️ 500ms delay complete, calling playWelcomeVoice');
+    playWelcomeVoice();
+  }, 500);
 }
 
 // Execute on DOMContentLoaded - this is the earliest reliable point
 if (document.readyState === 'loading') {
+  console.log('📄 DOM is loading, adding DOMContentLoaded listener');
   document.addEventListener('DOMContentLoaded', initVoiceAndMusic, { once: true });
 } else {
   // If DOM is already loaded, play immediately
+  console.log('📄 DOM already loaded, calling initVoiceAndMusic');
   initVoiceAndMusic();
 }
 
 // Backup: also play on window load
 window.addEventListener('load', () => {
   if (!voicePlayed) {
-    playWelcomeVoice();
+    setTimeout(() => {
+      playWelcomeVoice();
+    }, 1000);
   }
 }, { once: true });
 
