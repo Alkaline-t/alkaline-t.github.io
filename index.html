@@ -3289,31 +3289,17 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       audioElement.src = 'Music.mp3';
       audioElement.loop = true;
       audioElement.volume = 0.7;
+      audioElement.autoplay = true;
+      audioElement.preload = 'auto';
     }
     return audioElement;
   }
 
-  // Auto-play background music on page load
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const audio = getAudioElement();
-      // Try to play with user gesture
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Auto-play blocked by browser. Click the music button to start playing.');
-          updateVoiceStatus('🎵 Click play button to start music', false);
-        });
-      }
-    }, 1500);
+  // Auto-play music immediately
+  const audio = getAudioElement();
+  audio.play().catch(error => {
+    console.log('Autoplay failed, will play on first interaction');
   });
-
-  // Also allow playing on first user interaction (click anywhere)
-  document.addEventListener('click', () => {
-    if (audioElement && audioElement.paused) {
-      audioElement.play().catch(err => console.log('Play error:', err));
-    }
-  }, { once: true });
 
   // Play Audio
   playAudioBtn.addEventListener('click', () => {
@@ -3462,29 +3448,16 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   document.addEventListener('click', function startMusicOnClick() {
     if (!musicStarted) {
       const audio = getAudioElement();
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
+      if (audio.paused) {
+        audio.play().then(() => {
           musicStarted = true;
           updateVoiceStatus('🎵 Background music playing...', true);
-          document.removeEventListener('click', startMusicOnClick);
         }).catch(err => {
-          console.log('Could not play music:', err);
+          console.log('Play error:', err);
         });
-      }
-    }
-  });
-
-  // Also try to play on page visibility change
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && !musicStarted) {
-      const audio = getAudioElement();
-      audio.play().then(() => {
+      } else {
         musicStarted = true;
-        updateVoiceStatus('🎵 Background music playing...', true);
-      }).catch(err => {
-        console.log('Auto-play still blocked');
-      });
+      }
     }
   });
 
