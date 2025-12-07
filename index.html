@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -1939,10 +1939,8 @@
     .theme-toggle { width: 40px; height: 40px; font-size: 18px; }
     #floatBtn { width: 50px; height: 50px; font-size: 18px; }
     
-    /* Mobile sound button styles */
+    /* Mobile sound button container styles */
     #sound-btn {
-      bottom: 15px !important;
-      left: 15px !important;
       padding: 8px 12px !important;
       font-size: 14px !important;
       min-width: 45px;
@@ -1989,6 +1987,11 @@
 
   body.dark-mode #sound-btn:hover {
     box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5) !important;
+  }
+
+  /* Dark mode for Music label */
+  body.dark-mode #sound-btn + label {
+    color: #00d4ff !important;
   }
 
   /* VOLUME SLIDER STYLING */
@@ -2106,25 +2109,40 @@
 </header>
 
 <!-- FLOATING SOUND BUTTON WITH VOLUME CONTROL -->
-<button id="sound-btn" style="
+<div style="
   position: fixed;
   bottom: 20px;
   left: 20px;
-  padding: 6px 10px;
-  border-radius: 50px;
-  border: none;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-  transition: all 0.3s ease;
   z-index: 97;
-  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 ">
-🔈
-</button>
+  <label style="
+    color: #667eea;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  ">Music</label>
+  <button id="sound-btn" style="
+    padding: 6px 10px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+  ">
+  🔈
+  </button>
+</div>
 
 <!-- VOLUME SLIDER CONTROL -->
 <div style="
