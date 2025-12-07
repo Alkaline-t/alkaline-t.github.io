@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <title>AI Fitness Monitoring Device</title>
 <link rel="icon" href="logo.png" />
-<audio id="bg-music" src="audio/song.mp3" autoplay loop muted></audio>
+<audio id="bg-music" src="audio/Music.mp3" autoplay loop muted></audio>
 
 <style>
   html {
@@ -3546,6 +3546,20 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       document.removeEventListener('click', unmuteAudio);
     });
   }
+
+  // Auto-play music on page load
+  window.addEventListener("load", () => {
+    const music = document.getElementById("bg-music");
+    music.play().catch(() => {
+      console.log("Autoplay blocked, will unmute on click");
+    });
+  });
+
+  document.addEventListener("click", () => {
+    const music = document.getElementById("bg-music");
+    music.muted = false;
+    music.play();
+  });
 
 </script>
 
