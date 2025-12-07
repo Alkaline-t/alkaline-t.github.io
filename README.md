@@ -1,9 +1,9 @@
-﻿📟 AI Fitness Monitoring Device
+# ﻿📟 AI Fitness Monitoring Device
 
 A compact, smart health-monitoring system that reads Heart Rate, SpO₂, Temperature, and Real-Time Clock, using sensors and an Arduino microcontroller.
 All readings are displayed on an LCD with live updates, smart alerts, and a beautiful UI.
 
-✨ Features
+# ✨ Features
 
 ❤️ Heart Rate & SpO₂ monitoring
 
@@ -39,7 +39,7 @@ Power Bank (10,000 mAh) for portable use
 
 Jumper wires, boxes & casing
 
-🧩 How It Works
+# 🧩 How It Works
 
 Turn on the device using the power button.
 
@@ -59,7 +59,7 @@ Beeps indicate status or alerts.
 
 After the sequence, restart to take another reading.
 
-🎨 Website UI
+# 🎨 Website UI
 
 This repository includes a full website showcasing:
 
@@ -73,4 +73,6 @@ Pop-up sections
 
 Floating info button
 
+
 Hero slider and animations
+
