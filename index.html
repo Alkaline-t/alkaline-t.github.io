@@ -1953,7 +1953,7 @@
   /* ===== VOICE SYSTEM STYLES ===== */
   .voice-control-btn {
     position: fixed;
-    bottom: 30px;
+    top: 75px;
     right: 30px;
     width: 60px;
     height: 60px;
@@ -1982,7 +1982,7 @@
 
   .voice-control-panel {
     position: fixed;
-    bottom: 100px;
+    top: 145px;
     right: 30px;
     width: 320px;
     background: white;
@@ -2213,15 +2213,15 @@
       width: 50px;
       height: 50px;
       font-size: 22px;
-      bottom: 20px;
-      right: 20px;
+      top: 65px;
+      right: 15px;
     }
 
     .voice-control-panel {
       width: calc(100vw - 40px);
-      bottom: 80px;
-      right: 20px;
-      left: 20px;
+      top: 125px;
+      right: 15px;
+      left: 15px;
       max-width: calc(100vw - 40px);
     }
   }
@@ -3285,12 +3285,22 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   function getAudioElement() {
     if (!audioElement) {
       audioElement = new Audio();
-      // You can set a default background music URL here
-      // audioElement.src = 'path/to/your/background-music.mp3';
+      audioElement.src = 'Music.mp3';
       audioElement.loop = true;
+      audioElement.volume = 0.7;
     }
     return audioElement;
   }
+
+  // Auto-play background music on page load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const audio = getAudioElement();
+      audio.play().catch(err => {
+        console.log('Auto-play prevented by browser. User can manually play via control panel.');
+      });
+    }, 1500);
+  });
 
   // Play Audio
   playAudioBtn.addEventListener('click', () => {
