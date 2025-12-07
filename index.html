@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -9,6 +9,10 @@
 <link rel="icon" href="logo.png" />
 
 <style>
+  html {
+    scroll-behavior: smooth;
+  }
+
   :root{
     --glass-bg: rgba(255,255,255,0.72);
     --accent: #0084ff;
@@ -31,6 +35,7 @@
     background: linear-gradient(135deg, #f0f9ff 0%, #f4faff 50%, #e8f8ff 100%);
     line-height:1.5;
     overflow-x:hidden;
+    overflow-y:scroll;
     position: relative;
   }
 
@@ -235,18 +240,19 @@
     }
     .wrap{max-width:100%; padding:16px; margin:100px auto;}
     .col-7{max-width:100%;}
-    .card{max-width:100%; padding:14px;}
+    .card{max-width:100%; padding:18px;}
   }
 
   @media(max-width:480px){
     .wrap{max-width:100%; padding:12px; margin:90px auto;}
     .col-7{max-width:100%;}
-    .card{max-width:100%; padding:12px;}
+    .card{max-width:100%; padding:14px;}
   }
 
   /* MAIN LAYOUT */
-  .wrap{max-width:900px; margin:120px auto; padding:24px; position:relative; z-index:15;}
-  .col-7{grid-column:span 1; width:100%; max-width:800px;}
+  .wrap{width:100%; margin:120px auto; padding:0 20px; position:relative; z-index:15; box-sizing:border-box;}
+  .col-7{grid-column:span 1; width:100%; margin:0 auto; box-sizing:border-box;}
+  .grid{display:grid; width:100%; margin:0 auto; box-sizing:border-box;}
 
   .card{
     background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(250,250,255,0.88));
@@ -259,11 +265,12 @@
     transform:translateY(60px);
     width:100%;
     margin:0 auto 60px auto;
-    max-width:800px;
+    max-width:900px;
     position: relative;
     overflow: hidden;
     z-index:10;
     animation: cardEnter 0.8s ease-out forwards;
+    box-sizing:border-box;
   }
 
   @keyframes cardEnter {
@@ -296,6 +303,7 @@
     transform:translateY(-8px);
     box-shadow: 0 30px 80px rgba(0, 132, 255, 0.2);
     border: 2px solid rgba(0, 132, 255, 0.3);
+    animation: glow 2s ease-in-out infinite;
   }
 
   .card:hover::before {
@@ -324,12 +332,12 @@
 
   /* BACKGROUND BLOBS */
   .bg-blobs{position:fixed; inset:0; pointer-events:none; z-index:1}
-  .blob{position:absolute; filter:blur(36px); opacity:0.35; mix-blend-mode: screen; transform:translate3d(0,0,0); will-change: transform;}
-  .blob.b1{width:360px; height:360px; background:linear-gradient(45deg,#a5f3fc,#60a5fa); left:4%; top:10%; animation:blobmove 25s ease-in-out infinite}
-  .blob.b2{width:420px; height:420px; background:linear-gradient(45deg,#ffd1dc,#ffb6c1); right:6%; top:30%; animation:blobmove 30s ease-in-out 2s infinite}
-  .blob.b3{width:500px; height:300px; background:linear-gradient(45deg,#d1fae5,#34d399); left:20%; bottom:4%; animation:blobmove 35s ease-in-out 4s infinite}
+  .blob{position:absolute; filter:blur(36px); opacity:0.55; mix-blend-mode: screen; transform:translate3d(0,0,0)}
+  .blob.b1{width:360px; height:360px; background:linear-gradient(45deg,#a5f3fc,#60a5fa); left:4%; top:10%; animation:blobmove 18s ease-in-out infinite}
+  .blob.b2{width:420px; height:420px; background:linear-gradient(45deg,#ffd1dc,#ffb6c1); right:6%; top:30%; animation:blobmove 22s ease-in-out 2s infinite}
+  .blob.b3{width:500px; height:300px; background:linear-gradient(45deg,#d1fae5,#34d399); left:20%; bottom:4%; animation:blobmove 26s ease-in-out 4s infinite}
 
-  @keyframes blobmove{ 0%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-20px) translateX(15px)} 100%{transform:translateY(0) translateX(0)} }
+  @keyframes blobmove{ 0%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-30px) translateX(20px)} 100%{transform:translateY(0) translateX(0)} }
 
   /* ✨ ENCHANCED ANIMATIONS */
   @keyframes fadeInDown {
@@ -429,15 +437,18 @@
   .top-image-section{
     position: relative;
     width: 100%;
-    padding: 45px 20px;
+    padding: 120px 20px 45px 20px;
     text-align: center;
     z-index: 50;
-    margin: 60px 0 80px 0;
+    margin: 0 auto 80px auto;
     background: linear-gradient(135deg, rgba(0, 132, 255, 0.12) 0%, rgba(0, 212, 255, 0.08) 50%, rgba(102, 126, 234, 0.12) 100%);
     border-radius: 28px;
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 15px 50px rgba(0, 132, 255, 0.18);
     border: 2px solid rgba(0, 212, 255, 0.3);
+    box-sizing:border-box;
+    max-width:900px;
+    scroll-margin-top: 120px;
   }
   .top-image-title{
     font-size: 38px;
@@ -450,7 +461,7 @@
     margin: 0 0 30px 0;
     letter-spacing: 1.8px;
     text-transform: uppercase;
-    animation: fadeInDown 0.8s ease-out;
+    animation: fadeInDown 0.8s ease-out, gradientShift 4s ease infinite, shimmerText 3s ease-in-out infinite;
     font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
     background-size: 200% 200%;
   }
@@ -471,7 +482,7 @@
     margin: 0 auto;
     border-radius: 16px;
     box-shadow: 0 8px 25px rgba(0, 132, 255, 0.2);
-    animation: slideInUp 0.8s ease-out;
+    animation: slideInUp 0.8s ease-out, imageBorderGlow 3s ease-in-out infinite;
     border: 3px solid transparent;
     background: linear-gradient(white, white) padding-box,
                 linear-gradient(135deg, #0084ff, #00d4ff, #0084ff) border-box;
@@ -486,14 +497,14 @@
     50%{ box-shadow: 0 0 40px rgba(0, 212, 255, 0.6), 0 8px 35px rgba(0, 132, 255, 0.3); }
   }
   @media(max-width: 768px){
-    .top-image-section{ padding: 40px 16px; margin-top: 60px; border-radius: 20px; }
-    .top-image-title{ font-size: 26px; margin-bottom: 20px; }
-    .top-image{ max-width: 420px; }
+    .top-image-section{ padding: 100px 16px 35px 16px; margin: 0; border-radius: 20px; width: calc(100% - 32px); }
+    .top-image-title{ font-size: 28px; margin-bottom: 20px; }
+    .top-image{ max-width: 100%; height: auto; }
   }
   @media(max-width: 480px){
-    .top-image-section{ padding: 30px 12px; margin-top: 50px; border-radius: 16px; }
-    .top-image-title{ font-size: 20px; margin-bottom: 16px; }
-    .top-image{ max-width: 320px; border: 2px solid transparent; }
+    .top-image-section{ padding: 90px 12px 20px 12px; margin: 0; border-radius: 16px; width: calc(100% - 24px); }
+    .top-image-title{ font-size: 20px; margin-bottom: 14px; }
+    .top-image{ max-width: 100%; height: auto; border: 2px solid transparent; }
   }
 
   /* DEVICE ANGLES SECTION STYLES */
@@ -503,12 +514,14 @@
     padding: 45px 20px;
     text-align: center;
     z-index: 50;
-    margin: 80px 0;
+    margin: 80px auto;
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.12) 0%, rgba(0, 132, 255, 0.08) 50%, rgba(240, 147, 251, 0.12) 100%);
     border-radius: 28px;
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 15px 50px rgba(0, 132, 255, 0.18);
     border: 2px solid rgba(0, 212, 255, 0.3);
+    box-sizing:border-box;
+    max-width:900px;
   }
 
   .device-angles-title{
@@ -522,7 +535,7 @@
     margin: 0 0 36px 0;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    animation: fadeInDown 0.8s ease-out;
+    animation: fadeInDown 0.8s ease-out, gradientShift 4s ease infinite;
     font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
     background-size: 200% 200%;
   }
@@ -648,6 +661,7 @@
       padding: 30px 16px;
       margin: 30px 0;
       border-radius: 20px;
+      width: calc(100% - 32px);
     }
     
     .device-angles-title{
@@ -656,17 +670,17 @@
     }
 
     .angles-gallery{
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
     }
 
     .angle-image-wrapper{
-      height: 160px;
+      height: 140px;
       margin-bottom: 10px;
     }
 
     .angle-label{
-      font-size: 16px;
+      font-size: 14px;
       margin: 10px 0 4px 0;
     }
 
@@ -677,14 +691,15 @@
 
   @media(max-width: 480px){
     .device-angles-section{
-      padding: 24px 12px;
-      margin: 24px 0;
+      padding: 20px 12px;
+      margin: 20px 0;
       border-radius: 16px;
+      width: calc(100% - 24px);
     }
     
     .device-angles-title{
-      font-size: 20px;
-      margin-bottom: 20px;
+      font-size: 18px;
+      margin-bottom: 16px;
     }
 
     .angles-gallery{
@@ -715,12 +730,14 @@
     padding: 45px 20px;
     text-align: center;
     z-index: 50;
-    margin: 80px 0;
+    margin: 80px auto;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(240, 147, 251, 0.12) 50%, rgba(0, 212, 255, 0.12) 100%);
     border-radius: 28px;
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 15px 50px rgba(102, 126, 234, 0.18);
     border: 2px solid rgba(102, 126, 234, 0.3);
+    box-sizing:border-box;
+    max-width:900px;
   }
 
   .mentors-title{
@@ -734,7 +751,7 @@
     margin: 0 0 36px 0;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    animation: fadeInDown 0.8s ease-out;
+    animation: fadeInDown 0.8s ease-out, gradientShift 4s ease infinite;
     font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
     background-size: 200% 200%;
   }
@@ -767,6 +784,7 @@
     box-shadow: 0 16px 48px rgba(102, 126, 234, 0.25);
     border: 2px solid rgba(102, 126, 234, 0.3);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 250, 255, 0.95));
+    animation: glow 1.5s ease-in-out infinite;
   }
 
   .mentor-image-wrapper{
@@ -866,6 +884,7 @@
       padding: 30px 16px;
       margin: 30px 0;
       border-radius: 20px;
+      width: calc(100% - 32px);
     }
     
     .mentors-title{
@@ -874,39 +893,40 @@
     }
 
     .mentors-gallery{
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
     }
 
     .mentor-image-wrapper{
-      height: 200px;
+      height: 160px;
       margin-bottom: 12px;
     }
 
     .mentor-name{
-      font-size: 18px;
-      margin: 10px 0 4px 0;
+      font-size: 16px;
+      margin: 8px 0 3px 0;
     }
 
     .mentor-role{
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .mentor-position{
-      font-size: 13px;
+      font-size: 12px;
     }
   }
 
   @media(max-width: 480px){
     .mentors-section{
-      padding: 24px 12px;
-      margin: 24px 0;
+      padding: 20px 12px;
+      margin: 20px 0;
       border-radius: 16px;
+      width: calc(100% - 24px);
     }
     
     .mentors-title{
-      font-size: 20px;
-      margin-bottom: 20px;
+      font-size: 18px;
+      margin-bottom: 16px;
     }
 
     .mentors-gallery{
@@ -1021,6 +1041,7 @@
   #floatBtn:hover{
     transform: scale(1.2) rotate(20deg);
     box-shadow: 0 15px 50px rgba(0, 212, 255, 0.6);
+    animation: float 3s ease-in-out infinite, glow 1.5s ease-in-out infinite;
   }
 
   #floatBtn:active{
@@ -1366,6 +1387,7 @@
     background: linear-gradient(135deg, rgba(0, 132, 255, 0.15), rgba(0, 212, 255, 0.15));
     border-left-color: var(--accent-2);
     box-shadow: 0 8px 24px rgba(0, 132, 255, 0.2);
+    animation: glow 1.5s ease-in-out infinite;
   }
 
   .feature-item:hover::after {
@@ -1437,6 +1459,7 @@
     border: 2px solid rgba(0, 132, 255, 0.3);
     transform: translateY(-8px);
     box-shadow: 0 12px 40px rgba(0, 132, 255, 0.2);
+    animation: bounce 0.8s ease-in-out infinite;
   }
 
   .stat-number {
@@ -1755,6 +1778,11 @@
     border-color: rgba(0, 212, 255, 0.15);
   }
 
+  body.dark-mode .team-member h3 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
+
   body.dark-mode .team-member:hover {
     border-color: rgba(0, 212, 255, 0.3);
   }
@@ -1776,6 +1804,151 @@
   body.dark-mode .faq-answer p {
     color: rgba(238, 238, 238, 0.8);
   }
+
+  /* ===== COMPREHENSIVE RESPONSIVE IMPROVEMENTS ===== */
+  /* Extra Large Screens (1400px and up) */
+  @media(min-width: 1400px) {
+    .wrap { max-width: 1000px; padding: 0 40px; }
+    .card { max-width: 950px; }
+    .top-image-section { max-width: 950px; }
+    .device-angles-section { max-width: 950px; }
+    .mentors-section { max-width: 950px; }
+  }
+
+  /* Large Screens (1024px to 1399px) */
+  @media(1024px <= width <= 1399px) {
+    .wrap { max-width: 900px; padding: 0 30px; }
+    .card { max-width: 900px; }
+    .angles-gallery { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  }
+
+  /* Tablets (769px to 1023px) */
+  @media(769px <= width <= 1023px) {
+    .wrap { max-width: 100%; padding: 0 20px; margin: 110px auto; }
+    .card { max-width: 100%; width: calc(100% - 40px); margin: 0 auto 50px auto; padding: 20px; }
+    .top-image-section { max-width: 100%; width: calc(100% - 40px); padding: 30px 20px; margin: 50px auto; }
+    .device-angles-section { max-width: 100%; width: calc(100% - 40px); padding: 30px 20px; margin: 50px auto; }
+    .mentors-section { max-width: 100%; width: calc(100% - 40px); padding: 30px 20px; margin: 50px auto; }
+    .angles-gallery { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .mentors-gallery { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .top-image-title { font-size: 28px; margin-bottom: 20px; }
+    .device-angles-title { font-size: 26px; margin-bottom: 20px; }
+  }
+
+  /* Medium Tablets (681px to 768px) */
+  @media(681px <= width <= 768px) {
+    .wrap { max-width: 100%; padding: 0 16px; margin: 110px auto; }
+    .card { max-width: 100%; width: calc(100% - 32px); margin: 0 auto 45px auto; padding: 18px; }
+    .top-image-section { max-width: 100%; width: calc(100% - 32px); padding: 25px 16px; margin: 45px auto; }
+    .device-angles-section { max-width: 100%; width: calc(100% - 32px); padding: 25px 16px; margin: 45px auto; }
+    .mentors-section { max-width: 100%; width: calc(100% - 32px); padding: 25px 16px; margin: 45px auto; }
+    .angles-gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .top-image { max-width: 100%; }
+    .team-member { padding: 16px; }
+  }
+
+  /* Small Tablets (600px to 680px) */
+  @media(600px <= width <= 680px) {
+    .wrap { max-width: 100%; padding: 0 14px; margin: 100px auto; }
+    .card { max-width: 100%; width: calc(100% - 28px); margin: 0 auto 40px auto; padding: 16px; }
+    .top-image-section { max-width: 100%; width: calc(100% - 28px); padding: 20px 14px; margin: 40px auto; }
+    .device-angles-section { max-width: 100%; width: calc(100% - 28px); padding: 20px 14px; margin: 40px auto; }
+    .mentors-section { max-width: 100%; width: calc(100% - 28px); padding: 20px 14px; margin: 40px auto; }
+    .angles-gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .top-image-title { font-size: 24px; }
+    .device-angles-title { font-size: 22px; }
+    .angle-card { padding: 12px; }
+    .angle-label { font-size: 12px; }
+  }
+
+  /* Large Phones (481px to 599px) */
+  @media(481px <= width <= 599px) {
+    .wrap { max-width: 100%; padding: 0 12px; margin: 95px auto; }
+    .card { max-width: 100%; width: calc(100% - 24px); margin: 0 auto 35px auto; padding: 14px; }
+    .top-image-section { max-width: 100%; width: calc(100% - 24px); padding: 18px 12px; margin: 35px auto; }
+    .device-angles-section { max-width: 100%; width: calc(100% - 24px); padding: 18px 12px; margin: 35px auto; }
+    .mentors-section { max-width: 100%; width: calc(100% - 24px); padding: 18px 12px; margin: 35px auto; }
+    .angles-gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .top-image-title { font-size: 18px; margin-bottom: 12px; }
+    .device-angles-title { font-size: 16px; margin-bottom: 14px; }
+    .mentors-title { font-size: 16px; margin-bottom: 14px; }
+    .angle-card { padding: 10px; }
+    .angle-image-wrapper { height: 120px; margin-bottom: 8px; }
+    .team-member { padding: 12px; }
+  }
+
+  /* Small Phones (321px to 480px) */
+  @media(width <= 480px) {
+    html { font-size: 14px; }
+    .wrap { max-width: 100%; padding: 0 10px; margin: 90px auto; }
+    .card { max-width: 100%; width: 100%; margin: 0 0 30px 0; padding: 12px; }
+    .top-image-section { max-width: 100%; width: 100%; padding: 16px 10px; margin: 30px 0; }
+    .device-angles-section { max-width: 100%; width: 100%; padding: 16px 10px; margin: 30px 0; }
+    .mentors-section { max-width: 100%; width: 100%; padding: 16px 10px; margin: 30px 0; }
+    .angles-gallery { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .mentors-gallery { grid-template-columns: 1fr; gap: 12px; }
+    .top-image-title { font-size: 16px; margin-bottom: 10px; }
+    .device-angles-title { font-size: 14px; margin-bottom: 12px; }
+    .mentors-title { font-size: 14px; margin-bottom: 12px; }
+    .angle-card { padding: 8px; }
+    .angle-image-wrapper { height: 100px; margin-bottom: 6px; border-radius: 8px; }
+    .angle-label { font-size: 11px; margin: 6px 0 3px 0; }
+    .angle-description { font-size: 10px; }
+    .team-member { padding: 10px; }
+    .team-avatar { font-size: 36px; margin-bottom: 8px; }
+    .faq-question { padding: 12px; font-size: 13px; }
+    .faq-answer { max-height: 150px; }
+    .download-btn { padding: 10px 16px; font-size: 12px; }
+  }
+
+  /* Extra Small Phones (280px to 320px) */
+  @media(width <= 320px) {
+    html { font-size: 12px; }
+    .wrap { padding: 0 8px; margin: 80px auto; }
+    .card { padding: 10px; margin: 0 0 25px 0; }
+    .top-image-section { padding: 12px 8px; margin: 25px 0; }
+    .device-angles-section { padding: 12px 8px; margin: 25px 0; }
+    .mentors-section { padding: 12px 8px; margin: 25px 0; }
+    .top-image-title { font-size: 14px; margin-bottom: 8px; }
+    .device-angles-title { font-size: 12px; margin-bottom: 10px; }
+    .mentors-title { font-size: 12px; margin-bottom: 10px; }
+    .angle-card { padding: 6px; }
+    .angle-image-wrapper { height: 80px; margin-bottom: 4px; }
+    .angle-label { font-size: 10px; }
+    .team-avatar { font-size: 28px; }
+  }
+
+  /* UNIVERSAL RESPONSIVE IMPROVEMENTS */
+  @media(max-width: 1023px) {
+    .vk-container { flex-wrap: wrap; }
+    .vk-nav ul { flex-direction: column; gap: 10px; }
+    #liveClock { top: 60px; font-size: 11px; padding: 6px 12px; }
+  }
+
+  @media(max-width: 600px) {
+    .vk-header { padding: 10px 0; }
+    .vk-logo a { font-size: 14px; }
+    .vk-logo img { height: 30px; margin-right: 6px; }
+    .vk-nav ul { gap: 8px; }
+    .vk-nav ul li a { font-size: 12px; }
+    .theme-toggle { width: 40px; height: 40px; font-size: 18px; }
+    #floatBtn { width: 50px; height: 50px; font-size: 18px; }
+  }
+
+  /* ENSURE NO OVERFLOW ON ANY SCREEN */
+  * {
+    box-sizing: border-box !important;
+  }
+
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
+
+  .wrap, .card, .top-image-section, .device-angles-section, .mentors-section {
+    overflow: hidden;
+    max-width: 100% !important;
+  }
 </style>
 </head>
 
@@ -1794,9 +1967,9 @@
       <ul>
         <li><a href="#top-image-section">Device Views</a></li>
         <li><a href="#functionsCard">Functions</a></li>
-        <li><a href="#workCard">How It Works</a></li>
+        <li><a href="#heroSection">How It Works</a></li>
         <li><a href="#mentors-section">Mentors</a></li>
-        <li><a href="#feedbackForm">Contact</a></li>
+        <li><a href="#feedbackForm">Feedback</a></li>
       </ul>
     </nav>
 
@@ -1828,27 +2001,38 @@
     <div class="col-7">
 
       <!-- HERO SECTION (moved here) -->
-      <section class="hero-section">
+      <section class="hero-section" id="heroSection">
         <div class="hero-wrap">
           <div class="hero-card active" role="region" aria-label="Hero slide">
             <h2>What is AI FITNESS MONITORING DEVICE?</h2>
             <p class="hero-lead">AI Fitness Monitoring Device is a compact, user-friendly system that measures heart rate, blood oxygen (SpO₂), and temperature using reliable sensors and AI-assisted signal processing. It displays clear, real-time readings on an LCD and provides alerts and guidance for quick, at-home health checks.</p>
           </div>
 
-          <div class="hero-card" role="region" aria-label="Hero slide">
+          <div class="hero-card" id="workCard" role="region" aria-label="Hero slide">
             <h2>How it works</h2>
             <p class="hero-lead">The device captures raw signals from onboard sensors, applies filtering and smoothing to reduce noise, and calculates vital metrics like heart rate and SpO₂. A program coded for an Arduino microcontroller handles sampling, processing, and updates the LCD in real time.</p>
           </div>
 
           <div class="hero-card" role="region" aria-label="Hero slide">
-            <h2>How to use it</h2>
-            <ol class="hero-lead" style="margin-left:18px;">
-              <li>Press the power button located on the back of the device to turn it on.</li>
-              <li>After powering on, the LCD will display a welcome message and cycle through introductory slides.</li>
-              <li>When the LCD shows "Place Finger", put your finger or thumb into the right hole of the sensor box (HR & SpO₂ sensor). Wait a few seconds for the heart rate and SpO₂ readings to appear.</li>
-              <li>Next, when the LCD prompts "Place finger/thumb on the pulse", place your finger or thumb into the left hole (pulse analog sensor). Wait a few seconds for the pulse reading to appear.</li>
-              <li>Then, when the LCD shows "Hold the temp", hold the steel-colored temperature sensor against your hand or the surface you want to measure; the device will show the measured temperature and its changes.</li>
-            </ol>
+            <h2>How to use the Device</h2>
+            <ul class="hero-lead" style="margin-left:18px;">
+              <li><h4>Power On</h4></li>
+              <p>Press the power button located at the back of the unit to switch on the device.
+The LCD screen will display a welcome message followed by a series of introductory slides.</p>
+              <li><h4>Heart Rate & SpO₂ Measurement</h4></li>
+              <p>When the display shows "Place Finger", gently insert your finger or thumb into the right opening of the sensor box.
+Hold still for a few seconds while the device captures and displays your heart rate and SpO readings.</p>
+              <li><h4>Pulse Measurement</h4></li>
+              <p>When prompted with “Place finger/thumb on the pulse”, insert your finger or thumb into the left opening.
+Remain steady for a few seconds to allow the pulse value to appear.</p>
+              <li><h4>Temperature Measurement</h4></li>
+              <p>When the screen displays “Hold the temp”, place the steel-colored temperature sensor against your hand or the surface you wish to measure.
+The device will show the current temperature and real-time variations.</p>
+                <li><h4>Completion and Restart</h4></li>
+              <p>After all measurements are completed, a thank-you message will appear.
+To run the process again, long-press the power button to turn off the device, then press it once more to restart.
+Follow the on-screen instructions to repeat the measurement sequence.</p>
+            </ul>
             <p class="hero-lead">When the measurement sequence completes, the device will display a thank-you message. To run the sequence again, long-press the power button to turn the device off, then press it again to restart and follow the on-screen instructions.</p>
           </div>
 
@@ -1884,20 +2068,17 @@
         <h2>📊 Project Statistics</h2>
         <div class="stats-wrapper">
           <div class="stat-box">
-            <div class="stat-number counter" data-target="5">0</div>
+            <div class="stat-number counter" data-target="3">0</div>
             <div class="stat-label">Sensors</div>
           </div>
           <div class="stat-box">
-            <div class="stat-number counter" data-target="3">0</div>
+            <div class="stat-number counter" data-target="4">0</div>
             <div class="stat-label">Vital Metrics</div>
           </div>
           <div class="stat-box">
             <div class="stat-number counter" data-target="10000">0</div>
             <div class="stat-label">mAh Battery</div>
           </div>
-          <div class="stat-box">
-            <div class="stat-number">∞</div>
-            <div class="stat-label">Possibilities</div>
           </div>
         </div>
       </div>
@@ -2021,6 +2202,22 @@
         </div>
       </div>
 
+      <!-- VIDEO DEMO SECTION -->
+      <div class="card" style="margin: 80px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
+        <h2 style="color: var(--accent); text-align: center; margin-bottom: 20px; font-size: 28px;">🎥 Live Demo</h2>
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: #000;">
+          <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                  title="AI Fitness Monitoring Device Demo" 
+                  allowfullscreen="" 
+                  loading="lazy">
+          </iframe>
+        </div>
+        <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px;">
+          Watch the device in action — Measuring heart rate, SpO₂, and temperature in real-time
+        </p>
+      </div>
+
       <!-- PRINCIPAL SIR AND PTVT MA'AM SECTION -->
       <div class="mentors-section" id="mentors-section">
         <h2 class="mentors-title">Our Mentors & Guide</h2>
@@ -2045,19 +2242,31 @@
         </div>
       </div>
 
-      <!-- VIDEO DEMO SECTION -->
-      <div class="card" style="margin: 80px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
-        <h2 style="color: var(--accent); text-align: center; margin-bottom: 20px; font-size: 28px;">🎥 Live Demo</h2>
-        <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: #000;">
-          <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                  title="AI Fitness Monitoring Device Demo" 
-                  allowfullscreen="" 
-                  loading="lazy">
-          </iframe>
+      <!-- TEAM SECTION - UNDER MENTORS -->
+      <div class="card" style="margin: 60px auto 80px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
+        <h2 style="color: var(--accent); text-align: center; margin-bottom: 30px; font-size: 28px;">👥 Our Team</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px;">
+          <div class="team-member">
+            <div class="team-avatar">👨‍💻</div>
+            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">AARAV THAKUR</h3>
+            <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Device Software & Coding</p>
+            <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Website Developer, Idea Maker & QR Code Generator</p>
+          </div>
+          <div class="team-member">
+            <div class="team-avatar">⚡</div>
+            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">ANKT</h3>
+            <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Hardware & Wiring</p>
+            <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Circuit Designer, PCB Layout & Soldering</p>
+          </div>
+          <div class="team-member">
+            <div class="team-avatar">🎨</div>
+            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">MD RIZWAN</h3>
+            <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Device & UI/UX Design</p>
+            <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">3D Modeling, Case Design & Beautiful Aesthetics</p>
+          </div>
         </div>
-        <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px;">
-          Watch the device in action — Measuring heart rate, SpO₂, and temperature in real-time
+        <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,132,255,0.1); color: var(--muted); font-size: 14px; font-style: italic;">
+          "We built this from scrap, caffeine ☕, and passion for innovation! 🚀"
         </p>
       </div>
 
@@ -2078,34 +2287,6 @@
         </div>
       </div>
 
-      <!-- TEAM SECTION -->
-      <div class="card" style="margin: 60px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
-        <h2 style="color: var(--accent); text-align: center; margin-bottom: 30px; font-size: 28px;">👥 Our Team</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px;">
-          <div class="team-member">
-            <div class="team-avatar">👨‍💻</div>
-            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">Keshav</h3>
-            <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Electronics & Coding</p>
-            <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Circuit design & firmware</p>
-          </div>
-          <div class="team-member">
-            <div class="team-avatar">🎨</div>
-            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">Design Team</h3>
-            <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">UI/UX & Documentation</p>
-            <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Website & graphics</p>
-          </div>
-          <div class="team-member">
-            <div class="team-avatar">🧪</div>
-            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">Testing Team</h3>
-            <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">QA & Validation</p>
-            <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Performance testing</p>
-          </div>
-        </div>
-        <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,132,255,0.1); color: var(--muted); font-size: 14px; font-style: italic;">
-          "We built this from scrap, caffeine ☕, and passion for innovation! 🚀"
-        </p>
-      </div>
-
       <!-- FAQ SECTION -->
       <div class="card" style="margin: 60px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
         <h2 style="color: var(--accent); text-align: center; margin-bottom: 30px; font-size: 28px;">❓ FAQ</h2>
@@ -2116,7 +2297,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Our device achieves ±2% accuracy for heart rate and SpO₂ measurements, comparable to medical-grade devices. The MAX30100 sensor is clinically validated for wearable health monitoring.</p>
+              <p>Our device achieves 92-98% accuracy for heart rate and SpO₂ measurements, comparable to medical-grade devices.</p>
             </div>
           </div>
 
@@ -2126,7 +2307,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>With a 2000mAh Li-ion battery, the device provides 30 days of continuous monitoring on a single charge. Standby time extends up to 45 days with periodic measurements.</p>
+              <p>With a 10000mAh Li-ion battery, the device provides 30 days of continuous monitoring on a single charge. Standby time extends up to 45 days with periodic measurements.</p>
             </div>
           </div>
 
@@ -2136,17 +2317,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Absolutely! The device uses non-invasive optical sensors and operates within safe voltage levels. No skin irritation or harmful effects. FDA/CE certified components ensure safety standards are met.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">
-              <span>📱 Can it connect to my phone?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Yes! The device supports Bluetooth 5.0 connectivity. Sync your data instantly to our mobile app for detailed analytics and trend tracking across days and months.</p>
+              <p>Absolutely! The device uses non-invasive optical sensors and operates within safe voltage levels. No skin irritation or harmful effects.</p>
             </div>
           </div>
 
@@ -2156,7 +2327,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Heart rate and SpO₂ readings are displayed within 5-10 seconds. Temperature takes 3 seconds. Real-time continuous monitoring available once calibrated.</p>
+              <p>Heart rate and SpO₂ readings are displayed within 5-10 seconds. Temperature takes 20 seconds.</p>
             </div>
           </div>
         </div>
@@ -2210,8 +2381,8 @@
 
     <h2 style="text-align:center; color:var(--accent);">About This Project</h2>
     <ul>
-      <li>❤️ HR & SpO₂ — MAX30100</li>
-      <li>🌡 Temperature — DS18B20</li>
+      <li>❤️ Heart Rate & SpO₂ Sensor — MAX30100</li>
+      <li>🌡 Temperature Sensor — DS18B20</li>
       <li>⏱ Time — DS3231 RTC</li>
       <li>📺 LCD Slides</li>
     </ul>
@@ -2383,6 +2554,26 @@
     next && next.addEventListener('click', ()=> go(idx+1));
 
     render();
+
+    // Navigate to "How to use the Device" slide when anchor is accessed
+    window.addEventListener('hashchange', ()=>{
+      if(window.location.hash === '#heroSection'){
+        const useDeviceCard = heroCards.find(c => c.querySelector('h2') && c.querySelector('h2').textContent.includes('How to use'));
+        if(useDeviceCard){
+          const cardIdx = heroCards.indexOf(useDeviceCard);
+          if(cardIdx !== -1) go(cardIdx);
+        }
+      }
+    });
+
+    // Check on page load
+    if(window.location.hash === '#heroSection'){
+      const useDeviceCard = heroCards.find(c => c.querySelector('h2') && c.querySelector('h2').textContent.includes('How to use'));
+      if(useDeviceCard){
+        const cardIdx = heroCards.indexOf(useDeviceCard);
+        if(cardIdx !== -1) go(cardIdx);
+      }
+    }
   })();
 
   // Button ripple effect
@@ -2763,3 +2954,4 @@
 
 </body>
 </html>
+
