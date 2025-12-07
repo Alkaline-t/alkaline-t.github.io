@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <title>AI Fitness Monitoring Device</title>
 <link rel="icon" href="logo.png" />
-<audio id="bg-music" src="audio/Music.mp3" autoplay loop muted></audio>
 
 <style>
   html {
@@ -2208,6 +2207,30 @@
     color: #00d4ff;
   }
 
+  /* SOUND BUTTON STYLING */
+  #sound-btn {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  }
+
+  #sound-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6) !important;
+  }
+
+  #sound-btn:active {
+    transform: translateY(-1px);
+  }
+
+  /* DARK MODE FOR SOUND BUTTON */
+  body.dark-mode #sound-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3) !important;
+  }
+
+  body.dark-mode #sound-btn:hover {
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5) !important;
+  }
+
   /* MOBILE RESPONSIVE */
   @media(max-width: 600px) {
     .voice-control-btn {
@@ -2314,43 +2337,26 @@
   </div>
 </header>
 
-<!-- VOICE CONTROL SYSTEM -->
-<button class="voice-control-btn" id="voiceControlBtn" title="Open Voice Control Panel">🎙️</button>
-
-<div class="voice-control-panel" id="voiceControlPanel">
-  <h3>🎵 Voice Control</h3>
-  
-  <div class="voice-control-section">
-    <label>Background Audio</label>
-    <div class="voice-controls-row">
-      <button class="voice-btn voice-btn-play" id="playAudioBtn">▶️ Play</button>
-      <button class="voice-btn voice-btn-pause" id="pauseAudioBtn">⏸️ Pause</button>
-      <button class="voice-btn voice-btn-stop" id="stopAudioBtn">⏹️ Stop</button>
-    </div>
-    <p style="font-size: 11px; color: #999; margin-top: 8px; text-align: center;">💡 Tip: Click the Play button or anywhere on the page to start music</p>
-  </div>
-
-  <div class="voice-control-section">
-    <label>Volume</label>
-    <div class="voice-volume-control">
-      <input type="range" id="volumeSlider" min="0" max="100" value="70">
-      <span class="voice-volume-value" id="volumeValue">70%</span>
-    </div>
-  </div>
-
-  <div class="voice-control-section">
-    <label>Text to Speech</label>
-    <input type="text" id="textToSpeak" class="voice-text-input" placeholder="Enter text to speak...">
-    <button class="voice-speak-btn" id="speakBtn">🔊 Speak</button>
-  </div>
-
-  <div class="voice-control-section">
-    <div class="voice-status" id="voiceStatus">Ready</div>
-  </div>
-</div>
-
-<!-- MUSIC UNMUTE BUTTON -->
-<button id="music-btn" class="music-btn" title="Click to unmute music">🔈 Unmute</button>
+<!-- FLOATING SOUND BUTTON -->
+<button id="sound-btn" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 14px 18px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  z-index: 97;
+  letter-spacing: 0.5px;
+">
+🔈 Sound
+</button>
 
 <!-- decorative animated background blobs -->
 <div class="bg-blobs" aria-hidden="true">
@@ -2810,34 +2816,45 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   }
 
   /* 🌙 THEME TOGGLE FUNCTIONALITY */
-  const themeToggle = document.getElementById('themeToggle');
-  const htmlElement = document.documentElement;
-  const body = document.body;
+  
+  // Wait for DOM to be ready
+  function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
 
-  // Load theme preference from localStorage
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  if(savedTheme === 'dark'){
-    body.classList.add('dark-mode');
-    themeToggle.classList.add('dark-mode');
+    if (!themeToggle) {
+      console.log('Theme toggle button not found');
+      return;
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('myTheme') || 'light';
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+      themeToggle.classList.add('dark-mode');
+    }
+
+    // Click handler
+    themeToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Toggle the class
+      const isDarkMode = body.classList.toggle('dark-mode');
+      themeToggle.classList.toggle('dark-mode');
+      
+      // Save preference
+      localStorage.setItem('myTheme', isDarkMode ? 'dark' : 'light');
+      
+      console.log('✅ Theme changed to:', isDarkMode ? 'DARK' : 'LIGHT');
+    });
   }
 
-  // Toggle theme on button click
-  themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    themeToggle.classList.toggle('dark-mode');
-    
-    // Save preference to localStorage
-    const currentTheme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-    localStorage.setItem('theme', currentTheme);
-  });
-
-  // Prevent multiple rapid clicks
-  let isToggling = false;
-  themeToggle.addEventListener('click', function(e){
-    if(isToggling) return;
-    isToggling = true;
-    setTimeout(() => { isToggling = false; }, 400);
-  });
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemeToggle);
+  } else {
+    initThemeToggle();
+  }
 
   function openPopup(id){
     document.getElementById(id).style.display="flex";
@@ -3140,9 +3157,13 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
     const prevBtn = document.getElementById('prevSlide');
     const nextBtn = document.getElementById('nextSlide');
     const dotsWrap = document.getElementById('slideDots');
+    
+    if (!slides.length || !dotsWrap) return; // Exit if elements don't exist
+    
     let current = slides.findIndex(s=>s.classList.contains('active')) || 0;
 
     function renderDots(){
+      if (!dotsWrap) return;
       dotsWrap.innerHTML = '';
       slides.forEach((s,i)=>{
         const d = document.createElement('div'); d.className='dot';
@@ -3320,32 +3341,11 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 
   document.querySelectorAll('.stats-wrapper').forEach(el => observer.observe(el));
 
-  /* ===== VOICE SYSTEM FUNCTIONALITY ===== */
-  
-  // Voice Control Variables
-  let audioElement = null;
-  let isSpeaking = false;
-  const voiceControlBtn = document.getElementById('voiceControlBtn');
-  const voiceControlPanel = document.getElementById('voiceControlPanel');
-  const playAudioBtn = document.getElementById('playAudioBtn');
-  const pauseAudioBtn = document.getElementById('pauseAudioBtn');
-  const stopAudioBtn = document.getElementById('stopAudioBtn');
-  const volumeSlider = document.getElementById('volumeSlider');
-  const volumeValue = document.getElementById('volumeValue');
-  const textToSpeak = document.getElementById('textToSpeak');
-  const speakBtn = document.getElementById('speakBtn');
-  const voiceStatus = document.getElementById('voiceStatus');
-
-  // Toggle Voice Control Panel
-  voiceControlBtn.addEventListener('click', () => {
-    voiceControlPanel.classList.toggle('active');
-  });
-
   // Create or get audio element
   function getAudioElement() {
     if (!audioElement) {
       audioElement = new Audio();
-      audioElement.src = 'Music.mp3';
+      audioElement.src = 'audio/Music.mp3';
       audioElement.loop = true;
       audioElement.volume = 0.7;
       audioElement.autoplay = true;
@@ -3368,176 +3368,20 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
         updateVoiceStatus('⚠️ Unable to play audio. Check file path.', false);
         console.error('Audio play error:', err);
       });
-      updateVoiceStatus('🎵 Playing audio...', true);
-    } else {
-      updateVoiceStatus('⚠️ No audio file loaded. Set source in code.', false);
+      console.log('Audio play error:', err);
     }
-  });
-
-  // Pause Audio
-  pauseAudioBtn.addEventListener('click', () => {
-    const audio = getAudioElement();
-    audio.pause();
-    updateVoiceStatus('⏸️ Audio paused', false);
-  });
-
-  // Stop Audio
-  stopAudioBtn.addEventListener('click', () => {
-    const audio = getAudioElement();
-    audio.pause();
-    audio.currentTime = 0;
-    updateVoiceStatus('⏹️ Audio stopped', false);
-  });
-
-  // Volume Control
-  volumeSlider.addEventListener('input', (e) => {
-    const volume = e.target.value;
-    volumeValue.textContent = volume + '%';
-    const audio = getAudioElement();
-    audio.volume = volume / 100;
-  });
-
-  // Text to Speech
-  speakBtn.addEventListener('click', () => {
-    const text = textToSpeak.value.trim();
-    if (!text) {
-      updateVoiceStatus('⚠️ Please enter text to speak', false);
-      return;
-    }
-
-    if (!('speechSynthesis' in window)) {
-      updateVoiceStatus('❌ Speech synthesis not supported', false);
-      return;
-    }
-
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    utterance.onstart = () => {
-      isSpeaking = true;
-      updateVoiceStatus('🔊 Speaking...', true);
-      speakBtn.disabled = true;
-      speakBtn.style.opacity = '0.6';
-    };
-
-    utterance.onend = () => {
-      isSpeaking = false;
-      updateVoiceStatus('✅ Speech complete', false);
-      speakBtn.disabled = false;
-      speakBtn.style.opacity = '1';
-    };
-
-    utterance.onerror = (event) => {
-      updateVoiceStatus(`❌ Speech error: ${event.error}`, false);
-      speakBtn.disabled = false;
-      speakBtn.style.opacity = '1';
-    };
-
-    window.speechSynthesis.speak(utterance);
-  });
-
-  // Allow speaking on Enter key in text input
-  textToSpeak.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      speakBtn.click();
-    }
-  });
-
-  // Update Voice Status
-  function updateVoiceStatus(message, isPlaying = false) {
-    voiceStatus.textContent = message;
-    if (isPlaying) {
-      voiceStatus.classList.add('playing');
-    } else {
-      voiceStatus.classList.remove('playing');
-    }
+    return audioElement;
   }
 
-  // Voice Greeting on Page Load
-  function voiceGreeting() {
-    if ('speechSynthesis' in window) {
-      // Clear any pending speech
-      window.speechSynthesis.cancel();
-      
-      const greeting = new SpeechSynthesisUtterance(
-        'Welcome to the AI Fitness Monitoring Device. This is your voice assistant.'
-      );
-      greeting.rate = 0.9;
-      greeting.pitch = 1;
-      greeting.volume = 1;
-      
-      greeting.onstart = () => {
-        updateVoiceStatus('👋 Greeting in progress...', true);
-      };
-      
-      greeting.onend = () => {
-        updateVoiceStatus('Ready', false);
-      };
-      
-      greeting.onerror = (event) => {
-        console.log('Greeting error:', event.error);
-        updateVoiceStatus('Ready', false);
-      };
-      
-      // Speak with a slight delay for better experience
-      setTimeout(() => {
-        window.speechSynthesis.speak(greeting);
-      }, 800);
-    }
-  }
-
-  // Initialize voice system
-  setTimeout(() => {
-    voiceGreeting();
-  }, 500);
-
-  // Set initial volume
-  volumeSlider.value = 70;
-  if (audioElement) {
-    audioElement.volume = 0.7;
-  }
-
-  // Start music on first user interaction with notification
-  let musicStarted = false;
-  document.addEventListener('click', function startMusicOnClick() {
-    if (!musicStarted) {
-      const audio = getAudioElement();
-      if (audio.paused) {
-        audio.play().then(() => {
-          musicStarted = true;
-          updateVoiceStatus('🎵 Background music playing...', true);
-        }).catch(err => {
-          console.log('Play error:', err);
-        });
-      } else {
-        musicStarted = true;
-      }
+  // Auto-play music on page load
+  window.addEventListener("load", () => {
+    const music = document.getElementById("bg-music");
+    if (music) {
+      music.play().catch(() => {
+        console.log("Autoplay blocked, will unmute on click");
+      });
     }
   });
-
-  // Unmute background music on first user interaction
-  const bgMusic = document.getElementById('bg-music');
-  const musicBtn = document.getElementById('music-btn');
-  
-  if (bgMusic && musicBtn) {
-    musicBtn.addEventListener('click', () => {
-      if (bgMusic.muted) {
-        bgMusic.muted = false;
-        musicBtn.textContent = "🔊 Mute";
-        bgMusic.play();
-      } else {
-        bgMusic.muted = true;
-        musicBtn.textContent = "🔈 Unmute";
-      }
-    });
-
-    // Auto unmute on first interaction
-    document.addEventListener('click', function unmuteAudio() {
       if (bgMusic.muted) {
         bgMusic.muted = false;
         musicBtn.textContent = "🔊 Mute";
@@ -3550,17 +3394,53 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   // Auto-play music on page load
   window.addEventListener("load", () => {
     const music = document.getElementById("bg-music");
-    music.play().catch(() => {
-      console.log("Autoplay blocked, will unmute on click");
-    });
+    if (music) {
+      music.play().catch(() => {
+        console.log("Autoplay blocked, will unmute on click");
+      });
+    }
   });
 
-  document.addEventListener("click", () => {
-    const music = document.getElementById("bg-music");
+</script>
+
+<audio id="bg-music" src="audio/Music.mp3" preload="auto" loop muted></audio>
+
+<script>
+const music = document.getElementById("bg-music");
+let musicUnmuted = false;
+
+// Start playing silently on page load
+window.addEventListener("load", () => {
+  if (music) {
+    music.play().catch(() => {});
+  }
+});
+
+// Unmute on first interaction (only once)
+const unmuteMusic = () => {
+  if (!musicUnmuted && music) {
     music.muted = false;
-    music.play();
-  });
+    music.play().catch(() => {});
+    musicUnmuted = true;
+  }
+};
 
+document.addEventListener("click", unmuteMusic, { once: true });
+document.addEventListener("keydown", unmuteMusic, { once: true });
+
+// Sound button - toggle mute/unmute
+const soundBtn = document.getElementById("sound-btn");
+if (soundBtn) {
+  soundBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (music) {
+      music.muted = !music.muted;
+      if (!music.muted) {
+        music.play().catch(() => {});
+      }
+    }
+  });
+}
 </script>
 
 </body>
