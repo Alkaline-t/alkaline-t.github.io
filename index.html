@@ -3278,22 +3278,55 @@ document.addEventListener('click', handleFirstInteraction, { once: true });
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
+  console.log('🔊 unmuteMusic called, musicUnmuted:', musicUnmuted);
   if (!musicUnmuted && music) {
+    console.log('🔊 Unmuting music and playing');
     music.muted = false;
     music.volume = 0.7;
-    music.play().catch((err) => {
-      console.log('Mobile audio play error:', err);
-    });
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log('✅ Music playing successfully');
+      }).catch((err) => {
+        console.log('❌ Mobile audio play error:', err);
+        // Retry after delay
+        setTimeout(() => {
+          music.play().catch(() => {});
+        }, 200);
+      });
+    }
     musicUnmuted = true;
+  } else {
+    console.log('⚠️ Music already unmuted or music element not found');
   }
 };
 
 // Support both touch and click events for mobile compatibility
-window.addEventListener('touchstart', unmuteMusic, { once: true, passive: true });
-window.addEventListener('touchend', unmuteMusic, { once: true, passive: true });
-window.addEventListener('scroll', unmuteMusic, { once: true, passive: true });
-document.addEventListener("click", unmuteMusic, { once: true });
-document.addEventListener("keydown", unmuteMusic, { once: true });
+console.log('📱 Adding event listeners for touch, scroll, click');
+window.addEventListener('touchstart', () => {
+  console.log('👆 touchstart detected');
+  unmuteMusic();
+}, { once: true, passive: true });
+
+window.addEventListener('touchend', () => {
+  console.log('👆 touchend detected');
+  unmuteMusic();
+}, { once: true, passive: true });
+
+window.addEventListener('scroll', () => {
+  console.log('📜 scroll detected');
+  unmuteMusic();
+}, { once: true, passive: true });
+
+document.addEventListener("click", () => {
+  console.log('🖱️ click detected');
+  unmuteMusic();
+}, { once: true });
+
+document.addEventListener("keydown", () => {
+  console.log('⌨️ keydown detected');
+  unmuteMusic();
+}, { once: true });
 
 // Sound button - toggle mute/unmute
 const soundBtn = document.getElementById("sound-btn");
