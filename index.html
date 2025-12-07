@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <title>AI Fitness Monitoring Device</title>
 <link rel="icon" href="logo.png" />
+<audio id="bg-music" src="audio/song.mp3" autoplay loop muted></audio>
 
 <style>
   html {
@@ -2225,6 +2226,61 @@
       max-width: calc(100vw - 40px);
     }
   }
+
+  /* MUSIC UNMUTE BUTTON */
+  .music-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 97;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .music-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+  }
+
+  .music-btn:active {
+    transform: translateY(-1px);
+  }
+
+  .music-btn.muted {
+    background: linear-gradient(135deg, #ff6b6b, #ff9500);
+  }
+
+  /* DARK MODE FOR MUSIC BUTTON */
+  body.dark-mode .music-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  }
+
+  body.dark-mode .music-btn:hover {
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+  }
+
+  /* MOBILE RESPONSIVE FOR MUSIC BUTTON */
+  @media(max-width: 600px) {
+    .music-btn {
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+  }
 </style>
 </head>
 
@@ -2292,6 +2348,9 @@
     <div class="voice-status" id="voiceStatus">Ready</div>
   </div>
 </div>
+
+<!-- MUSIC UNMUTE BUTTON -->
+<button id="music-btn" class="music-btn" title="Click to unmute music">🔈 Unmute</button>
 
 <!-- decorative animated background blobs -->
 <div class="bg-blobs" aria-hidden="true">
@@ -3460,6 +3519,33 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       }
     }
   });
+
+  // Unmute background music on first user interaction
+  const bgMusic = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-btn');
+  
+  if (bgMusic && musicBtn) {
+    musicBtn.addEventListener('click', () => {
+      if (bgMusic.muted) {
+        bgMusic.muted = false;
+        musicBtn.textContent = "🔊 Mute";
+        bgMusic.play();
+      } else {
+        bgMusic.muted = true;
+        musicBtn.textContent = "🔈 Unmute";
+      }
+    });
+
+    // Auto unmute on first interaction
+    document.addEventListener('click', function unmuteAudio() {
+      if (bgMusic.muted) {
+        bgMusic.muted = false;
+        musicBtn.textContent = "🔊 Mute";
+        console.log('Background music unmuted');
+      }
+      document.removeEventListener('click', unmuteAudio);
+    });
+  }
 
 </script>
 
