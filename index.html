@@ -2271,6 +2271,7 @@
       <button class="voice-btn voice-btn-pause" id="pauseAudioBtn">⏸️ Pause</button>
       <button class="voice-btn voice-btn-stop" id="stopAudioBtn">⏹️ Stop</button>
     </div>
+    <p style="font-size: 11px; color: #999; margin-top: 8px; text-align: center;">💡 Tip: Click the Play button or anywhere on the page to start music</p>
   </div>
 
   <div class="voice-control-section">
@@ -3415,26 +3416,40 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   // Voice Greeting on Page Load
   function voiceGreeting() {
     if ('speechSynthesis' in window) {
+      // Clear any pending speech
+      window.speechSynthesis.cancel();
+      
       const greeting = new SpeechSynthesisUtterance(
         'Welcome to the AI Fitness Monitoring Device. This is your voice assistant.'
       );
       greeting.rate = 0.9;
       greeting.pitch = 1;
-      greeting.volume = 0.8;
+      greeting.volume = 1;
+      
+      greeting.onstart = () => {
+        updateVoiceStatus('👋 Greeting in progress...', true);
+      };
+      
+      greeting.onend = () => {
+        updateVoiceStatus('Ready', false);
+      };
+      
+      greeting.onerror = (event) => {
+        console.log('Greeting error:', event.error);
+        updateVoiceStatus('Ready', false);
+      };
       
       // Speak with a slight delay for better experience
       setTimeout(() => {
         window.speechSynthesis.speak(greeting);
-        updateVoiceStatus('👋 Greeting in progress...', true);
-        setTimeout(() => {
-          updateVoiceStatus('Ready', false);
-        }, 3000);
-      }, 1000);
+      }, 800);
     }
   }
 
   // Initialize voice system
-  voiceGreeting();
+  setTimeout(() => {
+    voiceGreeting();
+  }, 500);
 
   // Set initial volume
   volumeSlider.value = 70;
@@ -3447,12 +3462,28 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   document.addEventListener('click', function startMusicOnClick() {
     if (!musicStarted) {
       const audio = getAudioElement();
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          musicStarted = true;
+          updateVoiceStatus('🎵 Background music playing...', true);
+          document.removeEventListener('click', startMusicOnClick);
+        }).catch(err => {
+          console.log('Could not play music:', err);
+        });
+      }
+    }
+  });
+
+  // Also try to play on page visibility change
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && !musicStarted) {
+      const audio = getAudioElement();
       audio.play().then(() => {
         musicStarted = true;
         updateVoiceStatus('🎵 Background music playing...', true);
-        document.removeEventListener('click', startMusicOnClick);
       }).catch(err => {
-        console.log('Could not auto-start music:', err);
+        console.log('Auto-play still blocked');
       });
     }
   });
