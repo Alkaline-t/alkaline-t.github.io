@@ -3147,6 +3147,12 @@ const music = document.getElementById("bg-music");
 let musicUnmuted = false;
 let voicePlayed = false;
 
+// Ensure audio element exists and is properly configured
+if (music) {
+  music.preload = 'metadata';
+  music.crossOrigin = 'anonymous';
+}
+
 // Voice welcome - play immediately when script loads
 function playWelcomeVoice() {
   if (voicePlayed) return; // Prevent multiple plays
@@ -3155,6 +3161,9 @@ function playWelcomeVoice() {
   if ('speechSynthesis' in window) {
     // Cancel any pending speech
     window.speechSynthesis.cancel();
+    
+    // Load voices if not already loaded (important for mobile)
+    window.speechSynthesis.getVoices();
     
     const welcomeMessage = new SpeechSynthesisUtterance("Welcome to AI Fitness Monitoring Device Web Page");
     welcomeMessage.rate = 0.9;
@@ -3187,13 +3196,21 @@ function playWelcomeVoice() {
     };
     
     welcomeMessage.onend = () => {
-      // Start background music immediately after voice finishes
+      // Start background music IMMEDIATELY after voice finishes
       if (music) {
         music.muted = false; // Ensure unmuted
         music.volume = 0.7; // Original volume
-        music.play().catch((err) => {
-          console.log('Music play error:', err);
-        });
+        // Play without delay
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.log('Music play error:', err);
+            // Retry after short delay if first attempt fails
+            setTimeout(() => {
+              music.play().catch(() => {});
+            }, 100);
+          });
+        }
       }
     };
     
@@ -3220,36 +3237,34 @@ function playWelcomeVoice() {
 
 // Play voice message as soon as possible (works on mobile and desktop)
 function initVoiceAndMusic() {
-  // Small delay to ensure audio context is ready
-  setTimeout(playWelcomeVoice, 300);
+  // Play voice immediately without delay on mobile
+  playWelcomeVoice();
 }
 
-// Try multiple triggers for mobile compatibility
+// Execute on DOMContentLoaded - this is the earliest reliable point
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initVoiceAndMusic);
+  document.addEventListener('DOMContentLoaded', initVoiceAndMusic, { once: true });
 } else {
+  // If DOM is already loaded, play immediately
   initVoiceAndMusic();
 }
 
-// Backup: play on window load
+// Backup: also play on window load
 window.addEventListener('load', () => {
   if (!voicePlayed) {
-    setTimeout(playWelcomeVoice, 500);
+    playWelcomeVoice();
   }
-});
+}, { once: true });
 
 // Mobile-friendly: also trigger on first user interaction if needed
 function handleFirstInteraction() {
-  if (!voicePlayed && music) {
+  if (!voicePlayed) {
     playWelcomeVoice();
   }
-  // Remove listeners after first interaction
-  document.removeEventListener('touchstart', handleFirstInteraction);
-  document.removeEventListener('click', handleFirstInteraction);
 }
 
 // Add mobile touch support
-document.addEventListener('touchstart', handleFirstInteraction, { once: true });
+document.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
 document.addEventListener('click', handleFirstInteraction, { once: true });
 
 // Unmute on first interaction (only once) - Mobile friendly
