@@ -4,7 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, maximum-scale=1, minimum-scale=1" />
 <!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
 <title>AI Fitness Monitoring Device</title>
 <link rel="icon" href="logo.png" />
 
@@ -39,8 +40,8 @@
     position: relative;
   }
 
-  * { transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); will-change: auto; }
-  img {max-width:100%; display:block; backface-visibility: hidden; -webkit-font-smoothing: antialiased;}
+  * { transition: all 0.2s ease; will-change: auto; }
+  img {max-width:100%; display:block; backface-visibility: hidden; -webkit-font-smoothing: antialiased; loading: lazy;}
 
   /* HEADER */
   .vk-header{
@@ -1975,6 +1976,28 @@
     box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5) !important;
   }
 
+  /* VOLUME SLIDER STYLING */
+  #volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  #volumeSlider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
   /* MOBILE RESPONSIVE */
   @media(max-width: 600px) {
     /* Mobile responsive styles for other elements */
@@ -2067,26 +2090,55 @@
   </div>
 </header>
 
-<!-- FLOATING SOUND BUTTON -->
+<!-- FLOATING SOUND BUTTON WITH VOLUME CONTROL -->
 <button id="sound-btn" style="
   position: fixed;
   bottom: 20px;
   left: 20px;
-  padding: 14px 18px;
+  padding: 6px 10px;
   border-radius: 50px;
   border: none;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 600;
   box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
   transition: all 0.3s ease;
   z-index: 97;
   letter-spacing: 0.5px;
 ">
-🔈 Sound
+🔈
 </button>
+
+<!-- VOLUME SLIDER CONTROL -->
+<div style="
+  position: fixed;
+  bottom: 26px;
+  left: 70px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(102, 126, 234, 0.95);
+  padding: 4px 8px;
+  border-radius: 50px;
+  z-index: 97;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+">
+  <span style="color: white; font-size: 10px; font-weight: 600;">🔊</span>
+  <input type="range" id="volumeSlider" min="0" max="100" value="70" style="
+    width: 50px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  " />
+  <span id="volumeValue" style="color: white; font-size: 10px; font-weight: 600; min-width: 22px;">70%</span>
+</div>
 
 <!-- decorative animated background blobs -->
 <div class="bg-blobs" aria-hidden="true">
@@ -3152,6 +3204,20 @@ if (soundBtn) {
         music.play().catch(() => {});
       }
     }
+  });
+}
+
+// Volume slider control
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeValue = document.getElementById('volumeValue');
+
+if (volumeSlider) {
+  volumeSlider.addEventListener('input', (e) => {
+    const volume = e.target.value;
+    if (music) {
+      music.volume = volume / 100;
+    }
+    volumeValue.textContent = volume + '%';
   });
 }
 </script>
