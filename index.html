@@ -3296,11 +3296,23 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   window.addEventListener('load', () => {
     setTimeout(() => {
       const audio = getAudioElement();
-      audio.play().catch(err => {
-        console.log('Auto-play prevented by browser. User can manually play via control panel.');
-      });
+      // Try to play with user gesture
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Auto-play blocked by browser. Click the music button to start playing.');
+          updateVoiceStatus('🎵 Click play button to start music', false);
+        });
+      }
     }, 1500);
   });
+
+  // Also allow playing on first user interaction (click anywhere)
+  document.addEventListener('click', () => {
+    if (audioElement && audioElement.paused) {
+      audioElement.play().catch(err => console.log('Play error:', err));
+    }
+  }, { once: true });
 
   // Play Audio
   playAudioBtn.addEventListener('click', () => {
@@ -3429,6 +3441,21 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   if (audioElement) {
     audioElement.volume = 0.7;
   }
+
+  // Start music on first user interaction with notification
+  let musicStarted = false;
+  document.addEventListener('click', function startMusicOnClick() {
+    if (!musicStarted) {
+      const audio = getAudioElement();
+      audio.play().then(() => {
+        musicStarted = true;
+        updateVoiceStatus('🎵 Background music playing...', true);
+        document.removeEventListener('click', startMusicOnClick);
+      }).catch(err => {
+        console.log('Could not auto-start music:', err);
+      });
+    }
+  });
 
 </script>
 
