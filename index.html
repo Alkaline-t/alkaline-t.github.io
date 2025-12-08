@@ -3219,6 +3219,7 @@ function playWelcomeVoice() {
     }
     
     welcomeMessage.onstart = () => {
+      console.log('▶️ Voice message started');
       // Lower music volume when voice starts
       if (music) {
         music.volume = 0.2;
@@ -3236,7 +3237,7 @@ function playWelcomeVoice() {
     };
     
     welcomeMessage.onerror = (event) => {
-      console.log('Speech error:', event.error);
+      console.log('❌ Speech error:', event.error);
       // Fallback: unmute music if voice fails
       if (music) {
         music.muted = false; // Music is already playing, just unmute it
@@ -3244,7 +3245,18 @@ function playWelcomeVoice() {
       }
     };
     
-    window.speechSynthesis.speak(welcomeMessage);
+    // Try to speak - may fail on mobile without user interaction
+    try {
+      window.speechSynthesis.speak(welcomeMessage);
+      console.log('🔊 Voice speak() called');
+    } catch (error) {
+      console.log('⚠️ Voice speak error:', error);
+      // Still unmute music as fallback
+      if (music) {
+        music.muted = false;
+        music.volume = 0.7;
+      }
+    }
   } else {
     // Fallback: unmute music if speech synthesis not available
     console.log('❌ Speech synthesis not available, unmuting music');
@@ -3287,18 +3299,27 @@ window.addEventListener('load', () => {
 
 // Mobile-friendly: also trigger on first user interaction if needed
 function handleFirstInteraction() {
+  console.log('👆 First interaction detected, voicePlayed:', voicePlayed);
   if (!voicePlayed) {
+    console.log('🎤 Attempting to play voice on first interaction (mobile workaround)');
     playWelcomeVoice();
   }
 }
 
-// Add mobile touch support
+// Add mobile touch support - trigger voice on first interaction
 document.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
 document.addEventListener('click', handleFirstInteraction, { once: true });
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
-  console.log('🔊 unmuteMusic called, musicUnmuted:', musicUnmuted);
+  console.log('🔊 unmuteMusic called, voicePlayed:', voicePlayed, 'musicUnmuted:', musicUnmuted);
+  
+  // If voice hasn't played yet, don't unmute music (let voice play first)
+  if (!voicePlayed) {
+    console.log('⏳ Voice not played yet, waiting for voice to finish');
+    return;
+  }
+  
   if (!musicUnmuted && music) {
     console.log('🔊 Unmuting music and playing');
     music.muted = false;
