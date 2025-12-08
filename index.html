@@ -2214,8 +2214,6 @@
   </div>
   
   <button id="welcome-btn" 
-    onclick="playWelcomeVoice(); return false;"
-    ontouchstart="playWelcomeVoice(); return false;"
     style="
     padding: 14px 20px;
     border-radius: 50px;
@@ -2239,7 +2237,8 @@
     pointer-events: auto;
     -webkit-appearance: none;
     appearance: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+    z-index: 10000;
   " title="Click to listen to welcome voice message">
   Welcome
   </button>
@@ -3346,6 +3345,28 @@ function playWelcomeVoice() {
     console.log('❌ Exception playing welcome voice:', error);
   }
 }
+
+// Add click event listener to welcome button for better mobile support
+document.addEventListener('DOMContentLoaded', function() {
+  const welcomeBtn = document.getElementById('welcome-btn');
+  if (welcomeBtn) {
+    welcomeBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      playWelcomeVoice();
+      return false;
+    });
+    
+    welcomeBtn.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      playWelcomeVoice();
+      return false;
+    });
+    
+    console.log('✅ Welcome button event listeners attached');
+  }
+});
 
 // Ensure audio element exists and is properly configured
 if (music) {
