@@ -2150,7 +2150,7 @@
   bottom: 100px;
   left: 20px;
   z-index: 98;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 50px;
   border: none;
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -2163,7 +2163,13 @@
   letter-spacing: 0.5px;
   display: none;
   animation: pulse 2s infinite;
-" title="Play welcome voice message">
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+" title="Click to play welcome voice message">
 👆 Click Welcome
 </button>
 
@@ -3364,14 +3370,19 @@ setTimeout(() => {
   if (voiceBtn && !voicePlayed) {
     console.log('📢 Time to show voice button');
     voiceBtn.style.display = 'block';
-    // Add click handler
-    voiceBtn.addEventListener('click', (e) => {
+    
+    // Function to play voice when button is clicked/touched
+    const playVoiceOnClick = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      console.log('🎤 Voice button clicked - playing voice');
+      console.log('🎤 Voice button activated - playing voice');
       playWelcomeVoice();
       voiceBtn.style.display = 'none';
-    });
+    };
+    
+    // Add both click and touch handlers for mobile/desktop compatibility
+    voiceBtn.addEventListener('click', playVoiceOnClick);
+    voiceBtn.addEventListener('touchend', playVoiceOnClick, { passive: false });
   }
 }, 500);
 
