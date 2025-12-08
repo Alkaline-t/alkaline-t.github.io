@@ -3220,29 +3220,41 @@ function playWelcomeVoice() {
     
     welcomeMessage.onstart = () => {
       console.log('▶️ Voice message started');
-      // Lower music volume when voice starts
+      // Stop music while voice plays
       if (music) {
-        music.volume = 0.2;
+        console.log('🔇 Pausing music for voice');
+        music.pause();
       }
     };
     
     welcomeMessage.onend = () => {
-      // Unmute background music that's already playing
+      // Start background music after voice finishes
       if (music) {
-        console.log('⏹️ Voice message ended, unmuting music');
-        music.muted = false; // Unmute the already-playing music
-        music.volume = 0.7; // Ensure volume is set
-        console.log('✅ Music unmuted and playing');
+        console.log('⏹️ Voice message ended, starting music');
+        music.currentTime = 0; // Reset to start
+        music.muted = false;
+        music.volume = 0.7;
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log('✅ Music playing after voice');
+          }).catch((err) => {
+            console.log('❌ Music play error:', err);
+          });
+        }
       }
+      musicUnmuted = true; // Mark music as unmuted
     };
     
     welcomeMessage.onerror = (event) => {
       console.log('❌ Speech error:', event.error);
-      // Fallback: unmute music if voice fails
+      // Fallback: play music if voice fails
       if (music) {
-        music.muted = false; // Music is already playing, just unmute it
+        music.muted = false;
         music.volume = 0.7;
+        music.play().catch(() => {});
       }
+      musicUnmuted = true;
     };
     
     // Try to speak - may fail on mobile without user interaction
@@ -3343,31 +3355,11 @@ const unmuteMusic = () => {
 };
 
 // Support both touch and click events for mobile compatibility
-console.log('📱 Adding event listeners for touch, scroll, click');
-window.addEventListener('touchstart', () => {
-  console.log('👆 touchstart detected');
-  unmuteMusic();
-}, { once: true, passive: true });
-
-window.addEventListener('touchend', () => {
-  console.log('👆 touchend detected');
-  unmuteMusic();
-}, { once: true, passive: true });
-
-window.addEventListener('scroll', () => {
-  console.log('📜 scroll detected');
-  unmuteMusic();
-}, { once: true, passive: true });
-
-document.addEventListener("click", () => {
-  console.log('🖱️ click detected');
-  unmuteMusic();
-}, { once: true });
-
-document.addEventListener("keydown", () => {
-  console.log('⌨️ keydown detected');
-  unmuteMusic();
-}, { once: true });
+console.log('📱 Adding event listeners for first interaction');
+window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
+window.addEventListener('touchend', handleFirstInteraction, { once: true, passive: true });
+window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true });
+window.addEventListener('keydown', handleFirstInteraction, { once: true });
 
 // Sound button - toggle mute/unmute
 const soundBtn = document.getElementById("sound-btn");
