@@ -3257,12 +3257,13 @@ function playWelcomeVoice() {
 
 // Play voice message as soon as possible (works on mobile and desktop)
 function initVoiceAndMusic() {
-  console.log('⏱️ initVoiceAndMusic called, scheduling voice for 500ms delay');
+  console.log('⏱️ initVoiceAndMusic called, scheduling voice for 200ms delay');
   // Add small delay to ensure browser audio context is ready (important for GitHub Pages)
+  // Reduced to 200ms for faster mobile response
   setTimeout(() => {
-    console.log('⏱️ 500ms delay complete, calling playWelcomeVoice');
+    console.log('⏱️ 200ms delay complete, calling playWelcomeVoice');
     playWelcomeVoice();
-  }, 500);
+  }, 200);
 }
 
 // Execute on DOMContentLoaded - this is the earliest reliable point
@@ -3275,12 +3276,12 @@ if (document.readyState === 'loading') {
   initVoiceAndMusic();
 }
 
-// Backup: also play on window load
+// Backup: also play on window load with reduced delay
 window.addEventListener('load', () => {
   if (!voicePlayed) {
     setTimeout(() => {
       playWelcomeVoice();
-    }, 1000);
+    }, 300);
   }
 }, { once: true });
 
