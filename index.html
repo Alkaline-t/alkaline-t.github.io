@@ -3213,12 +3213,25 @@ let voicePlayed = false;
 
 // Simple wrapper function for button onclick
 function triggerWelcomeVoice() {
-  console.log('triggerWelcomeVoice called, voicePlayed:', voicePlayed);
+  console.log('🎯 triggerWelcomeVoice called');
+  console.log('🎯 voicePlayed:', voicePlayed);
+  console.log('🎯 speechSynthesis available:', 'speechSynthesis' in window);
+  
+  // Show visual feedback
+  alert('Voice button tapped! Playing welcome message...');
+  
   if (!voicePlayed) {
-    voicePlayed = true;
+    console.log('🎯 Calling playWelcomeVoice()');
     playWelcomeVoice();
+    
+    // Hide button
     const btn = document.getElementById('voice-btn');
-    if (btn) btn.style.display = 'none';
+    if (btn) {
+      console.log('🎯 Hiding button');
+      btn.style.display = 'none';
+    }
+  } else {
+    console.log('⚠️ Voice already played');
   }
 }
 
@@ -3241,13 +3254,19 @@ if (music) {
 
 // Voice welcome - play immediately when script loads
 function playWelcomeVoice() {
-  if (voicePlayed) return; // Prevent multiple plays
+  if (voicePlayed) {
+    console.log('⚠️ Voice already played');
+    return; // Prevent multiple plays
+  }
   voicePlayed = true;
   
-  console.log('🎤 Voice function called at:', new Date().toLocaleTimeString());
+  console.log('🎤 playWelcomeVoice() called at:', new Date().toLocaleTimeString());
+  console.log('🎤 speechSynthesis in window:', 'speechSynthesis' in window);
+  
   if ('speechSynthesis' in window) {
     // Cancel any pending speech
     window.speechSynthesis.cancel();
+    console.log('✅ speechSynthesis.cancel() called');
     
     // Load voices if not already loaded (important for mobile)
     window.speechSynthesis.getVoices();
@@ -3260,6 +3279,7 @@ function playWelcomeVoice() {
     
     // Set voice to male Indian English if available
     const voices = window.speechSynthesis.getVoices();
+    console.log('🎤 Available voices:', voices.length);
     if (voices.length > 0) {
       // Try to find an Indian English male voice
       const indianMaleVoice = voices.find(voice => 
@@ -3268,10 +3288,14 @@ function playWelcomeVoice() {
       );
       if (indianMaleVoice) {
         welcomeMessage.voice = indianMaleVoice;
+        console.log('✅ Using Indian English male voice:', indianMaleVoice.name);
       } else {
         // Fallback to any male voice
         const maleVoice = voices.find(voice => voice.name.includes('Male') || voice.name.includes('male'));
-        if (maleVoice) welcomeMessage.voice = maleVoice;
+        if (maleVoice) {
+          welcomeMessage.voice = maleVoice;
+          console.log('✅ Using male voice:', maleVoice.name);
+        }
       }
     }
     
