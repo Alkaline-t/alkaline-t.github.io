@@ -3211,14 +3211,33 @@ function playVoiceMessage() {
   }
 }
 
-// Auto-play voice message when page loads
-window.addEventListener('load', () => {
-  console.log('📄 Page loaded, playing voice message automatically');
-  setTimeout(() => {
-    playVoiceMessage();
-  }, 500); // 500ms delay to ensure audio context is ready
-});
+// Play voice on first user interaction (required for browser autoplay policies)
 let voicePlayed = false;
+
+function playVoiceOnFirstInteraction() {
+  if (!voicePlayed) {
+    voicePlayed = true;
+    console.log('👆 First interaction detected - playing voice');
+    playVoiceMessage();
+  }
+}
+
+// Add multiple event listeners for first interaction
+document.addEventListener('click', playVoiceOnFirstInteraction, { once: true });
+document.addEventListener('touchstart', playVoiceOnFirstInteraction, { once: true, passive: true });
+document.addEventListener('keydown', playVoiceOnFirstInteraction, { once: true });
+
+// Also try to play on page load as fallback
+window.addEventListener('load', () => {
+  if (!voicePlayed) {
+    console.log('📄 Page loaded, attempting voice playback');
+    // Small delay to ensure audio context is ready
+    setTimeout(() => {
+      playVoiceMessage();
+      voicePlayed = true;
+    }, 500);
+  }
+});
 
 // Voice system disabled
 
