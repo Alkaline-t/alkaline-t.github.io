@@ -2144,8 +2144,41 @@
   </button>
 </div>
 
-<!-- VOICE BUTTON - REMOVED -->
-<button id="voice-btn" style="display: none;"></button>
+<!-- VOICE MESSAGE BUTTON -->
+<button id="voice-btn" 
+  onclick="playVoiceMessage(); return false;"
+  ontouchstart="playVoiceMessage(); return false;"
+  style="
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  padding: 14px 18px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+  display: block;
+  animation: pulse 2s infinite;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  min-height: 48px;
+  min-width: 48px;
+  touch-action: manipulation;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+" title="Click to listen to welcome voice message">
+👆 Click Welcome
+</button>
 
 <style>
   @keyframes pulse {
@@ -3178,6 +3211,33 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 <script>
 const music = document.getElementById("bg-music");
 let musicUnmuted = false;
+
+// Function to play voice message from voice player.mp3
+function playVoiceMessage() {
+  console.log('🎯 playVoiceMessage called');
+  
+  // Create audio element for voice message
+  const voiceAudio = new Audio();
+  voiceAudio.src = 'audio/voice%20player.mp3';
+  voiceAudio.volume = 1;
+  voiceAudio.crossOrigin = 'anonymous';
+  
+  console.log('🎤 Playing voice message from:', voiceAudio.src);
+  
+  // Play the voice message
+  try {
+    const playPromise = voiceAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log('✅ Voice message playing');
+      }).catch((err) => {
+        console.log('❌ Voice play error:', err);
+      });
+    }
+  } catch (error) {
+    console.log('❌ Exception playing voice:', error);
+  }
+}
 
 // Ensure audio element exists and is properly configured
 if (music) {
