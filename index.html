@@ -3215,26 +3215,31 @@ let voicePlayed = false;
 
 // Simple wrapper function for button onclick
 function triggerWelcomeVoice() {
-  console.log('🎯 triggerWelcomeVoice called');
+  console.log('🎯 triggerWelcomeVoice called - button tapped!');
   
   if (!voicePlayed) {
     voicePlayed = true;
-    console.log('🎯 Playing voice message from audio/voice player.mp3');
+    console.log('🎯 Starting voice playback');
     
     // Hide button immediately
     const btn = document.getElementById('voice-btn');
     if (btn) {
       btn.style.display = 'none';
+      console.log('✅ Button hidden');
     }
     
     // Create audio element for voice message
     const voiceAudio = new Audio();
-    voiceAudio.src = 'audio/voice player.mp3';
+    // Use URL encoded path for filenames with spaces
+    voiceAudio.src = 'audio/voice%20player.mp3';
     voiceAudio.volume = 1;
     voiceAudio.crossOrigin = 'anonymous';
     
+    console.log('🎤 Voice audio src:', voiceAudio.src);
+    console.log('🎤 Voice audio created, attempting to play');
+    
     voiceAudio.onplay = () => {
-      console.log('▶️ Voice message started playing');
+      console.log('▶️ Voice message PLAYING');
       // Pause background music while voice plays
       if (music) {
         music.pause();
@@ -3243,7 +3248,7 @@ function triggerWelcomeVoice() {
     };
     
     voiceAudio.onended = () => {
-      console.log('⏹️ Voice message finished, starting background music');
+      console.log('⏹️ Voice message ENDED, starting background music');
       // Play background music after voice finishes
       if (music) {
         music.muted = false;
@@ -3252,7 +3257,7 @@ function triggerWelcomeVoice() {
         const playPromise = music.play();
         if (playPromise !== undefined) {
           playPromise.then(() => {
-            console.log('✅ Background music playing');
+            console.log('✅ Background music PLAYING');
             musicUnmuted = true;
           }).catch((err) => {
             console.log('❌ Music play error:', err);
@@ -3266,27 +3271,45 @@ function triggerWelcomeVoice() {
     };
     
     voiceAudio.onerror = () => {
-      console.log('❌ Voice audio error, playing music as fallback');
+      console.log('❌ Voice audio ERROR, attempting fallback');
       // Fallback: play music immediately if voice fails
       if (music) {
         music.muted = false;
         music.volume = 0.7;
         const playPromise = music.play();
         if (playPromise !== undefined) {
-          playPromise.catch(() => {});
+          playPromise.catch(() => console.log('Music fallback error'));
         } else {
-          music.play().catch(() => {});
+          music.play().catch(() => console.log('Music fallback error'));
         }
       }
       musicUnmuted = true;
     };
     
+    // Add timeout fallback - play music after 5 seconds if voice doesn't trigger
+    const fallbackTimeout = setTimeout(() => {
+      if (!musicUnmuted) {
+        console.log('⏰ Timeout: Voice not working, playing music fallback');
+        if (music) {
+          music.muted = false;
+          music.volume = 0.7;
+          music.play().catch(() => {});
+        }
+        musicUnmuted = true;
+      }
+    }, 5000);
+    
     // Play the voice message
     try {
+      console.log('🔊 Calling voiceAudio.play()');
       const playPromise = voiceAudio.play();
       if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.log('❌ Voice play error:', err);
+        playPromise.then(() => {
+          console.log('✅ Voice play promise resolved');
+          clearTimeout(fallbackTimeout);
+        }).catch((err) => {
+          console.log('❌ Voice play promise rejected:', err);
+          clearTimeout(fallbackTimeout);
           // Fallback: play music if voice play fails
           if (music) {
             music.muted = false;
@@ -3299,9 +3322,13 @@ function triggerWelcomeVoice() {
             }
           }
         });
+      } else {
+        console.log('⚠️ play() returned undefined (synchronous)');
+        clearTimeout(fallbackTimeout);
       }
     } catch (error) {
-      console.log('❌ Exception playing voice:', error);
+      console.log('❌ Exception in voiceAudio.play():', error);
+      clearTimeout(fallbackTimeout);
       // Fallback
       if (music) {
         music.muted = false;
@@ -3309,6 +3336,8 @@ function triggerWelcomeVoice() {
         music.play().catch(() => {});
       }
     }
+  } else {
+    console.log('⚠️ Voice already played');
   }
 }
 
