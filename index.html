@@ -1,4 +1,4 @@
-﻿<!doctype html>
+﻿﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -41,6 +41,20 @@
     overflow-x:hidden;
     overflow-y:scroll;
     position: relative;
+    min-height: 100vh;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(0, 132, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
   }
 
   * { transition: all 0.15s ease; will-change: auto; }
@@ -49,14 +63,16 @@
   /* HEADER */
   .vk-header{
     width:100%;
-    background: linear-gradient(90deg, #111 0%, #1a1a2e 50%, #111 100%);
+    background: linear-gradient(90deg, rgba(17, 17, 30, 0.95) 0%, rgba(26, 26, 46, 0.95) 50%, rgba(17, 17, 30, 0.95) 100%);
     color:#fff;
     position:fixed;
     top:0;
     left:0;
     z-index:100;
-    padding:12px 0;
-    box-shadow: 0 4px 20px rgba(0, 132, 255, 0.15);
+    padding:14px 0;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 132, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 132, 255, 0.1);
     animation: slideDown 0.6s ease-out;
   }
 
@@ -96,6 +112,18 @@
     position: relative;
     overflow: hidden;
   }
+  
+  .theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
 
   /* NAV LINK UNDERLINE ANIMATION */
   .vk-nav ul li a{position:relative}
@@ -103,9 +131,14 @@
   .vk-nav ul li a:hover::after{width:100%}
 
   .theme-toggle:hover{
-    transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+    transform: scale(1.15) rotate(10deg);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.7);
   }
+  
+  .theme-toggle:hover::before {
+    opacity: 1;
+  }
+
 
   .theme-toggle:active{
     transform: scale(0.95);
@@ -164,23 +197,34 @@
 
   /* DARK MODE STYLES */
   body.dark-mode{
-    background: #0a0e27;
+    background: linear-gradient(135deg, #0a0e27 0%, #0f1229 50%, #0a0e27 100%);
     color: var(--dark-text);
+  }
+  
+  body.dark-mode::before {
+    background: radial-gradient(circle at 20% 50%, rgba(0, 132, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.08) 0%, transparent 50%);
   }
 
   body.dark-mode .vk-header{
-    background: #1a1f3a;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    background: linear-gradient(90deg, rgba(26, 31, 58, 0.95) 0%, rgba(30, 35, 70, 0.95) 50%, rgba(26, 31, 58, 0.95) 100%);
+    box-shadow: 0 8px 32px rgba(0, 132, 255, 0.1);
+    border-bottom-color: rgba(0, 132, 255, 0.15);
   }
 
   body.dark-mode .card{
-    background: #1e2333;
+    background: linear-gradient(135deg, rgba(30, 35, 51, 0.95) 0%, rgba(35, 40, 65, 0.95) 100%);
     color: var(--dark-text);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 132, 255, 0.2);
+    border-color: rgba(0, 132, 255, 0.15);
+  }
+  
+  body.dark-mode .card:hover {
+    box-shadow: 0 30px 80px rgba(0, 132, 255, 0.15), 0 0 2px rgba(0, 132, 255, 0.3);
   }
 
   body.dark-mode .wrap{
-    background: linear-gradient(135deg, rgba(20,25,50,0.5) 0%, rgba(30,35,70,0.3) 100%);
+    background: linear-gradient(135deg, rgba(20, 25, 50, 0.3) 0%, rgba(30, 35, 70, 0.2) 100%);
   }
 
   body.dark-mode h2, body.dark-mode h3, body.dark-mode h4{
@@ -193,6 +237,60 @@
 
   body.dark-mode .vk-nav ul li a{
     color: #a0a8c0;
+  }
+
+  /* ENHANCED TEXT STYLES */
+  h1, h2, h3, h4, h5, h6 {
+    background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    color: #555;
+    line-height: 1.8;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  a:hover {
+    color: var(--accent-3);
+  }
+
+  /* BUTTON STYLES */
+  button {
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  /* ENHANCED SCROLLBAR */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 132, 255, 0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #0084ff, #00d4ff);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #0040ff, #0084ff);
   }
 
   body.dark-mode .vk-nav ul li a:hover{
@@ -259,12 +357,12 @@
   .grid{display:grid; width:100%; margin:0 auto; box-sizing:border-box;}
 
   .card{
-    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(250,250,255,0.88));
-    padding:24px;
-    border-radius:var(--radius);
-    box-shadow: 0 20px 60px rgba(0, 132, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 2px solid transparent;
+    background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,250,255,0.95) 100%);
+    padding:28px;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 132, 255, 0.08), 0 0 1px rgba(0, 132, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(0, 132, 255, 0.1);
     opacity:0;
     transform:translateY(60px);
     width:100%;
@@ -275,6 +373,13 @@
     z-index:10;
     animation: cardEnter 0.8s ease-out forwards;
     box-sizing:border-box;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .card:hover {
+    box-shadow: 0 30px 80px rgba(0, 132, 255, 0.15), 0 0 2px rgba(0, 132, 255, 0.3);
+    transform: translateY(-4px);
+    border-color: rgba(0, 132, 255, 0.2);
   }
 
   @keyframes cardEnter {
@@ -2080,6 +2185,143 @@
 
 <body>
 
+<!-- WELCOME INSTRUCTION POPUP -->
+<div id="welcome-popup" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  animation: popupFadeIn 0.3s ease-out;
+">
+  <div style="
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    padding: 40px 32px;
+    border-radius: 24px;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 132, 255, 0.3);
+    border: 2px solid rgba(0, 132, 255, 0.1);
+    text-align: center;
+    max-width: 420px;
+    animation: popupSlideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  ">
+    <h2 style="
+      font-size: 26px;
+      font-weight: 700;
+      color: #0084ff;
+      margin: 0 0 12px 0;
+      letter-spacing: -0.5px;
+    ">🎵 Welcome!</h2>
+    
+    <p style="
+      font-size: 15px;
+      color: #555;
+      margin: 0 0 28px 0;
+      line-height: 1.6;
+      font-weight: 500;
+    ">Volume up your device volume and click the "Welcome" Button first</p>
+    
+    <div style="
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      padding: 24px;
+      border-radius: 18px;
+      margin: 0 auto 28px;
+      max-width: 240px;
+      box-shadow: 0 12px 32px rgba(245, 87, 108, 0.35);
+    ">
+      <div style="
+        color: white;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        margin-bottom: 8px;
+      ">Click</div>
+      <div style="
+        color: white;
+        font-size: 32px;
+        line-height: 1;
+        margin-bottom: 12px;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      ">↓</div>
+      <button style="
+        padding: 14px 28px;
+        border-radius: 50px;
+        border: none;
+        background: white;
+        color: #f5576c;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      Welcome
+      </button>
+    </div>
+    
+    <p style="
+      font-size: 13px;
+      color: #999;
+      margin: 0;
+      font-weight: 500;
+    ">⏱️ This popup will close automatically</p>
+  </div>
+</div></div>
+
+<style>
+  @keyframes popupFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes popupFadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes popupSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .dark-mode #welcome-popup {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  
+  .dark-mode #welcome-popup > div {
+    background: linear-gradient(135deg, #1e2333 0%, #2a2f45 100%);
+  }
+  
+  .dark-mode #welcome-popup h2 {
+    color: #00d4ff;
+  }
+  
+  .dark-mode #welcome-popup p {
+    color: #a0a8c0;
+  }
+</style>
+
 <!-- ROTATING BACKGROUND LOGO - FIXED -->
 <img src="images/logo.png" class="rotate-bg">
 
@@ -2191,7 +2433,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 ">
   <div style="
     text-align: center;
@@ -2201,59 +2443,95 @@
       color: #f5576c;
       font-size: 13px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       white-space: nowrap;
-      margin-bottom: 4px;
-    ">Click</div>
+      margin-bottom: 6px;
+      text-shadow: 0 2px 8px rgba(245, 87, 108, 0.2);
+    ">👇 Click Me 👇</div>
     <div style="
       color: #f5576c;
-      font-size: 20px;
+      font-size: 28px;
       line-height: 1;
+      animation: arrowGlow 1.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 4px rgba(245, 87, 108, 0.4));
     ">↓</div>
   </div>
   
   <button id="welcome-btn" 
-    onclick="playWelcomeVoice(); return false;"
-    ontouchstart="playWelcomeVoice(); return false;"
     style="
-    padding: 14px 20px;
-    border-radius: 50px;
+    padding: 16px 32px;
+    border-radius: 60px;
     border: none;
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     color: white;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
-    box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
-    transition: all 0.2s ease;
+    box-shadow: 0 12px 40px rgba(245, 87, 108, 0.6), 0 0 20px rgba(245, 87, 108, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     letter-spacing: 0.5px;
     display: block;
     animation: welcomePulse 2s infinite;
     -webkit-user-select: none;
     user-select: none;
     -webkit-touch-callout: none;
-    min-height: 48px;
-    min-width: 48px;
+    min-height: 52px;
+    min-width: 120px;
     touch-action: manipulation;
     pointer-events: auto;
     -webkit-appearance: none;
     appearance: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+    z-index: 10000;
+    position: relative;
+    overflow: hidden;
+    font-family: inherit;
   " title="Click to listen to welcome voice message">
-  Welcome
+    <span style="position: relative; z-index: 2;">🎵 Welcome</span>
   </button>
+  
+  <div style="
+    text-align: center;
+    font-size: 12px;
+    color: #f5576c;
+    font-weight: 600;
+    animation: pulse 2s ease-in-out infinite;
+    opacity: 0.8;
+  ">Listen First!</div>
 </div>
 
 <style>
   @keyframes welcomePulse {
     0%, 100% { 
       transform: scale(1);
-      box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
+      box-shadow: 0 12px 40px rgba(245, 87, 108, 0.6), 0 0 20px rgba(245, 87, 108, 0.3);
     }
     50% { 
+      transform: scale(1.08);
+      box-shadow: 0 16px 50px rgba(245, 87, 108, 0.8), 0 0 30px rgba(245, 87, 108, 0.5);
+    }
+  }
+  
+  @keyframes arrowGlow {
+    0%, 100% {
+      filter: drop-shadow(0 0 4px rgba(245, 87, 108, 0.4));
+      transform: scale(1);
+    }
+    50% {
+      filter: drop-shadow(0 0 12px rgba(245, 87, 108, 0.8));
+      transform: scale(1.1);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
       transform: scale(1.05);
-      box-shadow: 0 12px 32px rgba(245, 87, 108, 0.7);
     }
   }
   
@@ -2263,29 +2541,63 @@
       opacity: 1;
     }
     50% { 
-      transform: translateY(6px);
-      opacity: 0.7;
+      transform: translateY(8px);
+      opacity: 0.8;
     }
+  }
+  
+  /* WELCOME BUTTON HOVER & ACTIVE STATES */
+  #welcome-btn:hover {
+    transform: scale(1.12) translateY(-2px);
+    box-shadow: 0 18px 60px rgba(245, 87, 108, 0.8), 0 0 40px rgba(245, 87, 108, 0.6);
+  }
+  
+  #welcome-btn:active {
+    transform: scale(1.05) translateY(0px);
+    box-shadow: 0 10px 35px rgba(245, 87, 108, 0.6), 0 0 20px rgba(245, 87, 108, 0.3);
+  }
+  
+  #welcome-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  #welcome-btn:hover::before {
+    left: 100%;
   }
   
   .dark-mode #welcome-btn {
     background: linear-gradient(135deg, #ff6b9d 0%, #ff4757 100%);
-    box-shadow: 0 8px 24px rgba(255, 71, 87, 0.4);
+    box-shadow: 0 12px 40px rgba(255, 71, 87, 0.5), 0 0 20px rgba(255, 71, 87, 0.3);
+  }
+  
+  .dark-mode #welcome-btn:hover {
+    box-shadow: 0 18px 60px rgba(255, 71, 87, 0.7), 0 0 40px rgba(255, 71, 87, 0.5);
   }
   
   /* Mobile screens */
   @media (max-width: 480px) {
     #welcome-btn {
-      padding: 12px 16px !important;
-      font-size: 12px !important;
+      padding: 14px 24px !important;
+      font-size: 14px !important;
+    }
+    
+    #welcome-btn-container {
+      bottom: 100px !important;
     }
   }
   
   /* Tablet screens */
   @media (min-width: 481px) and (max-width: 1024px) {
     #welcome-btn {
-      padding: 13px 18px !important;
-      font-size: 13px !important;
+      padding: 15px 28px !important;
+      font-size: 15px !important;
     }
   }
 </style>
@@ -2294,30 +2606,154 @@
 <div style="
   position: fixed;
   bottom: 26px;
-  left: 70px;
+  left: 80px;
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: rgba(102, 126, 234, 0.95);
-  padding: 4px 8px;
-  border-radius: 50px;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+  padding: 6px 10px;
+  border-radius: 60px;
   z-index: 97;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4), 0 0 1px rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 ">
-  <span style="color: white; font-size: 10px; font-weight: 600;">🔊</span>
-  <input type="range" id="volumeSlider" min="0" max="100" value="70" style="
-    width: 50px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-    outline: none;
+  <button id="music-toggle-btn" style="
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex-shrink: 0;
+    min-width: 32px;
+    min-height: 32px;
+  " title="Toggle music">🎵</button>
+  
+  <div style="
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-grow: 1;
+    min-width: 100px;
+  ">
+    <input type="range" id="volumeSlider" min="0" max="100" value="70" style="
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.3) 100%);
+      border-radius: 8px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      padding: 6px 0;
+    " />
+    <span id="volumeValue" style="
+      color: white; 
+      font-size: 10px; 
+      font-weight: 700;
+      min-width: 24px;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    ">70%</span>
+  </div>
+</div>
+
+<style>
+  /* Enhanced volume slider styling with larger touch targets */
+  #volumeSlider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
     cursor: pointer;
-  " />
-  <span id="volumeValue" style="color: white; font-size: 10px; font-weight: 600; min-width: 22px;">70%</span>
-</div>
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  #volumeSlider::-webkit-slider-thumb:hover {
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  }
+
+  #volumeSlider::-webkit-slider-thumb:active {
+    width: 18px;
+    height: 18px;
+  }
+
+  #volumeSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 4px 0;
+  }
+
+  #volumeSlider::-moz-range-thumb:hover {
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  }
+
+  #volumeSlider::-moz-range-thumb:active {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Music toggle button hover effects */
+  #music-toggle-btn:hover {
+    transform: scale(1.15) rotate(-10deg);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+  }
+
+  #music-toggle-btn:active {
+    transform: scale(1.08) rotate(-10deg);
+  }
+
+  #music-toggle-btn.playing {
+    animation: musicBeat 0.8s ease-in-out infinite;
+  }
+
+  @keyframes musicBeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.12);
+    }
+  }
+
+  /* Dark mode support */
+  body.dark-mode #music-toggle-btn {
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  }
+
+  body.dark-mode #music-toggle-btn:hover {
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 600px) {
+    #volumeSlider {
+      min-width: 60px !important;
+    }
+  }
+</style>
 
 <!-- decorative animated background blobs -->
 <div class="bg-blobs" aria-hidden="true">
@@ -2591,7 +3027,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
           </div>
           <div class="team-member">
             <div class="team-avatar">⚡</div>
-            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">ANKT</h3>
+            <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">ANKIT</h3>
             <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Hardware & Wiring</p>
             <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Circuit Designer, PCB Layout & Soldering</p>
           </div>
@@ -3333,6 +3769,24 @@ function playWelcomeVoice() {
   welcomeAudio.currentTime = 0;
   welcomeAudio.volume = 1;
   
+  // When welcome voice ends, start background music
+  welcomeAudio.addEventListener('ended', function() {
+    console.log('✅ Welcome voice finished, starting background music');
+    if (music) {
+      music.muted = false;
+      music.volume = 0.7;
+      const playPromise = music.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          console.log('🎵 Background music started automatically');
+          musicUnmuted = true;
+        }).catch((err) => {
+          console.log('⚠️ Background music play error:', err);
+        });
+      }
+    }
+  }, { once: true }); // Only listen once
+  
   try {
     const playPromise = welcomeAudio.play();
     if (playPromise !== undefined) {
@@ -3346,6 +3800,40 @@ function playWelcomeVoice() {
     console.log('❌ Exception playing welcome voice:', error);
   }
 }
+
+// Add click event listener to welcome button for better mobile support
+document.addEventListener('DOMContentLoaded', function() {
+  // Auto-close welcome popup after 6 seconds
+  const welcomePopup = document.getElementById('welcome-popup');
+  if (welcomePopup) {
+    setTimeout(() => {
+      welcomePopup.style.animation = 'popupFadeOut 0.3s ease-out forwards';
+      setTimeout(() => {
+        welcomePopup.style.display = 'none';
+        console.log('✅ Welcome popup closed');
+      }, 300);
+    }, 4000);
+  }
+  
+  const welcomeBtn = document.getElementById('welcome-btn');
+  if (welcomeBtn) {
+    welcomeBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      playWelcomeVoice();
+      return false;
+    });
+    
+    welcomeBtn.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      playWelcomeVoice();
+      return false;
+    });
+    
+    console.log('✅ Welcome button event listeners attached');
+  }
+});
 
 // Ensure audio element exists and is properly configured
 if (music) {
@@ -3400,34 +3888,71 @@ window.addEventListener('scroll', handleFirstInteraction, { once: true, passive:
 window.addEventListener('keydown', handleFirstInteraction, { once: true });
 
 // Sound button - toggle mute/unmute
-const soundBtn = document.getElementById("sound-btn");
-if (soundBtn) {
-  soundBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (music) {
-      music.muted = !music.muted;
-      if (!music.muted) {
-        music.play().catch(() => {});
-      }
-    }
-  });
-}
-
-// Volume slider control
+// Volume slider control with enhanced functionality
 const volumeSlider = document.getElementById('volumeSlider');
 const volumeValue = document.getElementById('volumeValue');
+const musicToggleBtn = document.getElementById('music-toggle-btn');
 
 if (volumeSlider) {
   volumeSlider.addEventListener('input', (e) => {
     const volume = e.target.value;
     if (music) {
       music.volume = volume / 100;
+      music.muted = false; // Unmute when adjusting volume
+      
+      // Update button state
+      if (musicToggleBtn) {
+        musicToggleBtn.classList.add('playing');
+      }
+      
+      // Play music if not already playing
+      if (music.paused) {
+        music.play().catch(() => {
+          console.log('⚠️ Could not play music on volume change');
+        });
+      }
     }
     volumeValue.textContent = volume + '%';
   });
+}
+
+// Music toggle button functionality
+if (musicToggleBtn) {
+  musicToggleBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (music) {
+      if (music.paused) {
+        // Resume music
+        music.play().then(() => {
+          console.log('✅ Music resumed');
+          musicToggleBtn.classList.add('playing');
+          musicToggleBtn.style.opacity = '1';
+        }).catch((err) => {
+          console.log('❌ Could not resume music:', err);
+        });
+      } else {
+        // Pause music
+        music.pause();
+        console.log('⏸️ Music paused');
+        musicToggleBtn.classList.remove('playing');
+        musicToggleBtn.style.opacity = '0.6';
+      }
+    }
+  });
+  
+  // Update button state based on music state
+  if (music) {
+    if (!music.paused) {
+      musicToggleBtn.classList.add('playing');
+    } else {
+      musicToggleBtn.classList.remove('playing');
+      musicToggleBtn.style.opacity = '0.6';
+    }
+  }
 }
 </script>
 
 </body>
 </html>
-
