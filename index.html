@@ -3217,9 +3217,6 @@ function triggerWelcomeVoice() {
   console.log('🎯 voicePlayed:', voicePlayed);
   console.log('🎯 speechSynthesis available:', 'speechSynthesis' in window);
   
-  // Show visual feedback
-  alert('Voice button tapped! Playing welcome message...');
-  
   if (!voicePlayed) {
     console.log('🎯 Calling playWelcomeVoice()');
     playWelcomeVoice();
@@ -3329,25 +3326,42 @@ function playWelcomeVoice() {
     
     welcomeMessage.onerror = (event) => {
       console.log('❌ Speech error:', event.error);
-      // Fallback: play music if voice fails
+      // Fallback: play music immediately if voice fails
+      console.log('🎵 Playing music fallback due to voice error');
       if (music) {
         music.muted = false;
         music.volume = 0.7;
-        music.play().catch(() => {});
+        music.play().catch(() => console.log('Music play failed'));
       }
       musicUnmuted = true;
     };
     
-    // Try to speak - may fail on mobile without user interaction
+    // Try to speak - add retry mechanism for mobile
     try {
+      console.log('🔊 Calling window.speechSynthesis.speak()');
       window.speechSynthesis.speak(welcomeMessage);
-      console.log('🔊 Voice speak() called');
+      console.log('✅ speak() called successfully');
+      
+      // Fallback timeout: if voice hasn't started after 3 seconds, play music
+      setTimeout(() => {
+        if (!musicUnmuted) {
+          console.log('⏰ Timeout: Voice didn\'t trigger music, playing music fallback');
+          if (music) {
+            music.muted = false;
+            music.volume = 0.7;
+            music.play().catch(() => {});
+          }
+          musicUnmuted = true;
+        }
+      }, 3000);
+      
     } catch (error) {
-      console.log('⚠️ Voice speak error:', error);
+      console.log('❌ Exception in speak():', error);
       // Still unmute music as fallback
       if (music) {
         music.muted = false;
         music.volume = 0.7;
+        music.play().catch(() => {});
       }
     }
   } else {
