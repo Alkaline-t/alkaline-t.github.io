@@ -2144,63 +2144,6 @@
   </button>
 </div>
 
-<!-- VOICE MESSAGE BUTTON -->
-<div id="voice-btn-container" style="
-  position: fixed;
-  bottom: 120px;
-  left: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-">
-  <label style="
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    animation: labelPulse 2s ease-in-out infinite;
-    text-shadow: 0 2px 8px rgba(245, 87, 108, 0.3);
-    filter: drop-shadow(0 2px 8px rgba(245, 87, 108, 0.3));
-  ">✨ Click ✨</label>
-  <button id="voice-btn" 
-    onclick="playVoiceMessage(); return false;"
-    ontouchstart="playVoiceMessage(); return false;"
-    style="
-    padding: 12px 16px;
-    border-radius: 50px;
-    border: none;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 700;
-    box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
-    transition: all 0.2s ease;
-    letter-spacing: 0.5px;
-    display: block;
-    animation: pulse 2s infinite;
-    -webkit-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
-    min-height: 48px;
-    min-width: 48px;
-    touch-action: manipulation;
-    pointer-events: auto;
-    -webkit-appearance: none;
-    appearance: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  " title="Click to listen to welcome voice message">
-  Welcome
-  </button>
-</div>
-
 <style>
   /* Mobile screens - extra small */
   @media (max-width: 480px) {
@@ -2233,20 +2176,117 @@
     50% { transform: scale(1.05); }
   }
   
-  @keyframes labelPulse {
-    0%, 100% { 
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-    50% { 
-      opacity: 0.8;
-      transform: scale(1.08) translateY(-2px);
-    }
-  }
-  
   .dark-mode #voice-btn {
     background: linear-gradient(135deg, #ff6b9d 0%, #ff4757 100%);
     box-shadow: 0 8px 24px rgba(255, 71, 87, 0.4);
+  }
+</style>
+
+<!-- WELCOME BUTTON -->
+<div id="welcome-btn-container" style="
+  position: fixed;
+  bottom: 120px;
+  left: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+">
+  <div style="
+    text-align: center;
+    animation: arrowBounce 1.5s ease-in-out infinite;
+  ">
+    <div style="
+      color: #f5576c;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-bottom: 4px;
+    ">Click</div>
+    <div style="
+      color: #f5576c;
+      font-size: 20px;
+      line-height: 1;
+    ">↓</div>
+  </div>
+  
+  <button id="welcome-btn" 
+    onclick="playWelcomeVoice(); return false;"
+    ontouchstart="playWelcomeVoice(); return false;"
+    style="
+    padding: 14px 20px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    display: block;
+    animation: welcomePulse 2s infinite;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    min-height: 48px;
+    min-width: 48px;
+    touch-action: manipulation;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  " title="Click to listen to welcome voice message">
+  Welcome
+  </button>
+</div>
+
+<style>
+  @keyframes welcomePulse {
+    0%, 100% { 
+      transform: scale(1);
+      box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
+    }
+    50% { 
+      transform: scale(1.05);
+      box-shadow: 0 12px 32px rgba(245, 87, 108, 0.7);
+    }
+  }
+  
+  @keyframes arrowBounce {
+    0%, 100% { 
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% { 
+      transform: translateY(6px);
+      opacity: 0.7;
+    }
+  }
+  
+  .dark-mode #welcome-btn {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff4757 100%);
+    box-shadow: 0 8px 24px rgba(255, 71, 87, 0.4);
+  }
+  
+  /* Mobile screens */
+  @media (max-width: 480px) {
+    #welcome-btn {
+      padding: 12px 16px !important;
+      font-size: 12px !important;
+    }
+  }
+  
+  /* Tablet screens */
+  @media (min-width: 481px) and (max-width: 1024px) {
+    #welcome-btn {
+      padding: 13px 18px !important;
+      font-size: 13px !important;
+    }
   }
 </style>
 
@@ -3265,54 +3305,45 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 </script>
 
 <audio id="bg-music" src="audio/Music.mp3" preload="metadata" loop muted crossorigin="anonymous"></audio>
-<audio id="voice-audio" src="audio/voice%20player.mp3" preload="auto" crossorigin="anonymous"></audio>
+<audio id="welcome-audio" src="audio/voice%20player.mp3" preload="auto" crossorigin="anonymous"></audio>
 
 <script>
 const music = document.getElementById("bg-music");
 let musicUnmuted = false;
 
-// Function to play voice message from voice player.mp3
-function playVoiceMessage() {
-  console.log('🎯 playVoiceMessage called');
+// Function to play welcome voice message
+function playWelcomeVoice() {
+  console.log('🎵 Playing welcome voice');
   
-  // Hide the button and label container
-  const voiceBtnContainer = document.getElementById('voice-btn-container');
-  if (voiceBtnContainer) {
-    voiceBtnContainer.style.display = 'none';
-    console.log('🔘 Welcome button and label hidden');
+  // Hide the welcome button container
+  const welcomeContainer = document.getElementById('welcome-btn-container');
+  if (welcomeContainer) {
+    welcomeContainer.style.display = 'none';
+    console.log('✅ Welcome button hidden');
   }
   
-  // Get the voice audio element from DOM
-  const voiceAudio = document.getElementById('voice-audio');
-  if (!voiceAudio) {
-    console.log('❌ Voice audio element not found');
+  // Get the welcome audio element
+  const welcomeAudio = document.getElementById('welcome-audio');
+  if (!welcomeAudio) {
+    console.log('❌ Welcome audio element not found');
     return;
   }
   
-  // Reset audio to start from beginning
-  voiceAudio.currentTime = 0;
-  voiceAudio.volume = 1;
+  // Reset and play the audio
+  welcomeAudio.currentTime = 0;
+  welcomeAudio.volume = 1;
   
-  console.log('🎤 Playing voice message from:', voiceAudio.src);
-  
-  // Play the voice message with proper error handling
   try {
-    const playPromise = voiceAudio.play();
+    const playPromise = welcomeAudio.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        console.log('✅ Voice message playing successfully');
+        console.log('✅ Welcome voice playing successfully');
       }).catch((err) => {
-        console.log('❌ Voice play error:', err.name, err.message);
-        // Attempt to play anyway for some browsers
-        voiceAudio.play().catch(() => {
-          console.log('❌ Could not play voice after retry');
-        });
+        console.log('❌ Welcome voice play error:', err.name);
       });
-    } else {
-      console.log('✅ Voice message playing (legacy browser)');
     }
   } catch (error) {
-    console.log('❌ Exception playing voice:', error);
+    console.log('❌ Exception playing welcome voice:', error);
   }
 }
 
