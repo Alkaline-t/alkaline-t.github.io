@@ -1,4 +1,4 @@
-# 🩺 AI Vitals Monitor: Your Personal Health Guardian
+# 🩺 AI Fitness Monitoring Device: Your Personal Health Guardian
 
 Introducing a **compact, intelligent health-monitoring system** engineered for modern portability and precision. Built around the **Arduino UNO** microcontroller, this device delivers **real-time, crucial physiological data**—Heart Rate, SpO₂, and Temperature—on a custom-designed LCD interface, complete with **smart alerts** and a stunning, responsive UI.
 
@@ -64,3 +64,4 @@ This repository includes a professional, front-end website to beautifully showca
 * **Component Breakdown:** Detailed explanations of the hardware used.
 * **Team & Mentorship:** Dedicated section for the project developers and advisors.
 * **Interactive Design Elements:** Features include a dynamic **Hero Slider**, custom **Animations**, and responsive **Pop-up** informational sections.
+
