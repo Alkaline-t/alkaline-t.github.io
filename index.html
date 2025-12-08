@@ -1,4 +1,4 @@
-﻿﻿<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -2350,42 +2350,6 @@
   </div>
 </header>
 
-<!-- FLOATING SOUND BUTTON WITH VOLUME CONTROL -->
-<div style="
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 97;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-">
-  <label style="
-    color: #667eea;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  ">Music</label>
-  <button id="sound-btn" style="
-    padding: 6px 10px;
-    border-radius: 50px;
-    border: none;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
-  ">
-  🔈
-  </button>
-</div>
-
 <style>
   /* Mobile screens - extra small */
   @media (max-width: 480px) {
@@ -3880,77 +3844,91 @@ const unmuteMusic = () => {
   }
 };
 
+// Define handleFirstInteraction function
+function handleFirstInteraction() {
+  unmuteMusic();
+}
+
 // Support both touch and click events for mobile compatibility
 console.log('📱 Adding event listeners for first interaction');
 window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
 window.addEventListener('touchend', handleFirstInteraction, { once: true, passive: true });
+window.addEventListener('click', handleFirstInteraction, { once: true, passive: true });
 window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true });
 window.addEventListener('keydown', handleFirstInteraction, { once: true });
 
-// Sound button - toggle mute/unmute
-// Volume slider control with enhanced functionality
+// Get all DOM elements for music controls
 const volumeSlider = document.getElementById('volumeSlider');
 const volumeValue = document.getElementById('volumeValue');
 const musicToggleBtn = document.getElementById('music-toggle-btn');
 
-if (volumeSlider) {
-  volumeSlider.addEventListener('input', (e) => {
-    const volume = e.target.value;
-    if (music) {
-      music.volume = volume / 100;
-      music.muted = false; // Unmute when adjusting volume
-      
-      // Update button state
-      if (musicToggleBtn) {
-        musicToggleBtn.classList.add('playing');
-      }
-      
-      // Play music if not already playing
-      if (music.paused) {
-        music.play().catch(() => {
-          console.log('⚠️ Could not play music on volume change');
-        });
-      }
-    }
-    volumeValue.textContent = volume + '%';
-  });
-}
+console.log('🎵 Music toggle button:', musicToggleBtn);
+console.log('🎵 Volume slider:', volumeSlider);
+console.log('🎵 Background music element:', music);
 
-// Music toggle button functionality
-if (musicToggleBtn) {
-  musicToggleBtn.addEventListener('click', (e) => {
+// Music toggle button functionality - handles pause/play
+if (musicToggleBtn && music) {
+  console.log('✅ Setting up music toggle button');
+  
+  musicToggleBtn.addEventListener('click', function(e) {
+    console.log('🎵 Music button clicked, paused state:', music.paused);
     e.preventDefault();
     e.stopPropagation();
     
-    if (music) {
-      if (music.paused) {
-        // Resume music
-        music.play().then(() => {
-          console.log('✅ Music resumed');
-          musicToggleBtn.classList.add('playing');
-          musicToggleBtn.style.opacity = '1';
-        }).catch((err) => {
-          console.log('❌ Could not resume music:', err);
-        });
-      } else {
-        // Pause music
-        music.pause();
-        console.log('⏸️ Music paused');
-        musicToggleBtn.classList.remove('playing');
-        musicToggleBtn.style.opacity = '0.6';
-      }
-    }
-  });
-  
-  // Update button state based on music state
-  if (music) {
-    if (!music.paused) {
-      musicToggleBtn.classList.add('playing');
+    if (music.paused) {
+      console.log('▶️ Resuming music...');
+      music.play().then(() => {
+        console.log('✅ Music resumed successfully');
+        musicToggleBtn.style.opacity = '1';
+      }).catch((err) => {
+        console.log('❌ Could not resume music:', err);
+      });
     } else {
-      musicToggleBtn.classList.remove('playing');
+      console.log('⏸️ Pausing music...');
+      music.pause();
+      console.log('✅ Music paused');
       musicToggleBtn.style.opacity = '0.6';
     }
+    
+    return false;
+  });
+  
+  // Set initial button state based on music playing status
+  if (music.paused) {
+    musicToggleBtn.style.opacity = '0.6';
+  } else {
+    musicToggleBtn.style.opacity = '1';
   }
+  console.log('✅ Initial button state set');
+} else {
+  console.log('⚠️ Music toggle setup failed - btn:', !!musicToggleBtn, 'music:', !!music);
+}
+
+// Volume slider control - adjust volume and show percentage
+if (volumeSlider && music) {
+  console.log('✅ Setting up volume slider');
+  
+  volumeSlider.addEventListener('input', (e) => {
+    const volume = e.target.value;
+    music.volume = volume / 100;
+    console.log('🔊 Volume set to:', volume + '%');
+    
+    // Auto-play if paused when adjusting volume
+    if (music.paused && volume > 0) {
+      music.play().catch((err) => {
+        console.log('⚠️ Could not play music on volume change:', err);
+      });
+      if (musicToggleBtn) {
+        musicToggleBtn.style.opacity = '1';
+      }
+    }
+    
+    if (volumeValue) {
+      volumeValue.textContent = volume + '%';
+    }
+  });
+} else {
+  console.log('⚠️ Volume slider setup failed - slider:', !!volumeSlider, 'music:', !!music);
 }
 </script>
 
