@@ -2172,6 +2172,11 @@
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
   }
+  
+  .dark-mode #voice-btn {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff4757 100%);
+    box-shadow: 0 8px 24px rgba(255, 71, 87, 0.4);
+  }
 </style>
 
 <!-- VOLUME SLIDER CONTROL -->
@@ -3311,13 +3316,13 @@ function playWelcomeVoice() {
 
 // Play voice message as soon as possible (works on mobile and desktop)
 function initVoiceAndMusic() {
-  console.log('⏱️ initVoiceAndMusic called, scheduling voice for 200ms delay');
-  // Add small delay to ensure browser audio context is ready (important for GitHub Pages)
-  // Reduced to 200ms for faster mobile response
-  setTimeout(() => {
-    console.log('⏱️ 200ms delay complete, calling playWelcomeVoice');
-    playWelcomeVoice();
-  }, 200);
+  console.log('⏱️ initVoiceAndMusic called');
+  // Show voice button immediately - don't try automatic playback
+  const voiceBtn = document.getElementById('voice-btn');
+  if (voiceBtn) {
+    console.log('📢 Showing voice button');
+    voiceBtn.style.display = 'block';
+  }
 }
 
 // Execute on DOMContentLoaded - this is the earliest reliable point
@@ -3330,12 +3335,14 @@ if (document.readyState === 'loading') {
   initVoiceAndMusic();
 }
 
-// Backup: also play on window load with reduced delay
+// Backup: show voice button on window load
 window.addEventListener('load', () => {
   if (!voicePlayed) {
-    setTimeout(() => {
-      playWelcomeVoice();
-    }, 300);
+    const voiceBtn = document.getElementById('voice-btn');
+    if (voiceBtn) {
+      console.log('📢 Window load: showing voice button');
+      voiceBtn.style.display = 'block';
+    }
   }
 }, { once: true });
 
@@ -3350,23 +3357,23 @@ function handleFirstInteraction() {
 
 // Add mobile touch support - trigger voice on first interaction
 document.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
-document.addEventListener('click', handleFirstInteraction, { once: true });
 
-// Show voice button after 2 seconds if voice hasn't played (fallback for mobile)
+// Show voice button immediately (no delay)
 setTimeout(() => {
-  if (!voicePlayed) {
-    const voiceBtn = document.getElementById('voice-btn');
-    if (voiceBtn) {
-      console.log('⏰ Voice not played after 2s, showing voice button');
-      voiceBtn.style.display = 'block';
-      voiceBtn.addEventListener('click', () => {
-        console.log('🎤 Voice button clicked');
-        playWelcomeVoice();
-        voiceBtn.style.display = 'none';
-      });
-    }
+  const voiceBtn = document.getElementById('voice-btn');
+  if (voiceBtn && !voicePlayed) {
+    console.log('📢 Time to show voice button');
+    voiceBtn.style.display = 'block';
+    // Add click handler
+    voiceBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('🎤 Voice button clicked - playing voice');
+      playWelcomeVoice();
+      voiceBtn.style.display = 'none';
+    });
   }
-}, 2000);
+}, 500);
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
