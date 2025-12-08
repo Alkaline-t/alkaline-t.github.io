@@ -1,19 +1,19 @@
 # Images directory
-images/
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.webp
-*.svg
+# images/
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.webp
+# *.svg
 
 # Audio files
-audio/
-*.mp3
-*.wav
-*.aac
-*.flac
-*.ogg
+# audio/
+# *.mp3
+# *.wav
+# *.aac
+# *.flac
+# *.ogg
 
 # Video files
 *.mp4
