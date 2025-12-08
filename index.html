@@ -3265,6 +3265,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 </script>
 
 <audio id="bg-music" src="audio/Music.mp3" preload="metadata" loop muted crossorigin="anonymous"></audio>
+<audio id="voice-audio" src="audio/voice%20player.mp3" preload="auto" crossorigin="anonymous"></audio>
 
 <script>
 const music = document.getElementById("bg-music");
@@ -3281,23 +3282,34 @@ function playVoiceMessage() {
     console.log('🔘 Welcome button and label hidden');
   }
   
-  // Create audio element for voice message
-  const voiceAudio = new Audio();
-  voiceAudio.src = 'audio/voice%20player.mp3';
+  // Get the voice audio element from DOM
+  const voiceAudio = document.getElementById('voice-audio');
+  if (!voiceAudio) {
+    console.log('❌ Voice audio element not found');
+    return;
+  }
+  
+  // Reset audio to start from beginning
+  voiceAudio.currentTime = 0;
   voiceAudio.volume = 1;
-  voiceAudio.crossOrigin = 'anonymous';
   
   console.log('🎤 Playing voice message from:', voiceAudio.src);
   
-  // Play the voice message
+  // Play the voice message with proper error handling
   try {
     const playPromise = voiceAudio.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        console.log('✅ Voice message playing');
+        console.log('✅ Voice message playing successfully');
       }).catch((err) => {
-        console.log('❌ Voice play error:', err);
+        console.log('❌ Voice play error:', err.name, err.message);
+        // Attempt to play anyway for some browsers
+        voiceAudio.play().catch(() => {
+          console.log('❌ Could not play voice after retry');
+        });
       });
+    } else {
+      console.log('✅ Voice message playing (legacy browser)');
     }
   } catch (error) {
     console.log('❌ Exception playing voice:', error);
