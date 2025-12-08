@@ -2144,6 +2144,36 @@
   </button>
 </div>
 
+<!-- VOICE WELCOME BUTTON (shows on mobile if voice doesn't play automatically) -->
+<button id="voice-btn" style="
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  z-index: 98;
+  padding: 10px 14px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.4);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  display: none;
+  animation: pulse 2s infinite;
+" title="Play welcome voice message">
+🎤 Welcome
+</button>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+</style>
+
 <!-- VOLUME SLIDER CONTROL -->
 <div style="
   position: fixed;
@@ -3321,6 +3351,22 @@ function handleFirstInteraction() {
 // Add mobile touch support - trigger voice on first interaction
 document.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
 document.addEventListener('click', handleFirstInteraction, { once: true });
+
+// Show voice button after 2 seconds if voice hasn't played (fallback for mobile)
+setTimeout(() => {
+  if (!voicePlayed) {
+    const voiceBtn = document.getElementById('voice-btn');
+    if (voiceBtn) {
+      console.log('⏰ Voice not played after 2s, showing voice button');
+      voiceBtn.style.display = 'block';
+      voiceBtn.addEventListener('click', () => {
+        console.log('🎤 Voice button clicked');
+        playWelcomeVoice();
+        voiceBtn.style.display = 'none';
+      });
+    }
+  }
+}, 2000);
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
