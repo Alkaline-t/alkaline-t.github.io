@@ -2145,7 +2145,9 @@
 </div>
 
 <!-- VOICE WELCOME BUTTON (shows on mobile if voice doesn't play automatically) -->
-<button id="voice-btn" style="
+<button id="voice-btn" 
+  onclick="if(!voicePlayed){voicePlayed=true; playWelcomeVoice(); document.getElementById('voice-btn').style.display='none';}"
+  style="
   position: fixed;
   top: 80px;
   right: 20px;
@@ -3371,42 +3373,10 @@ document.addEventListener('touchstart', handleFirstInteraction, { once: true, pa
 setTimeout(() => {
   const voiceBtn = document.getElementById('voice-btn');
   if (voiceBtn && !voicePlayed) {
-    console.log('📢 Time to show voice button');
+    console.log('📢 Showing voice button on mobile');
     voiceBtn.style.display = 'block';
-    console.log('📢 Button visibility:', voiceBtn.style.display);
-    console.log('📢 Button z-index:', window.getComputedStyle(voiceBtn).zIndex);
-    
-    // Function to play voice when button is clicked/touched
-    const playVoiceOnClick = (e) => {
-      console.log('👆 Button event triggered:', e.type);
-      e.preventDefault();
-      e.stopPropagation();
-      console.log('🎤 Voice button activated - playing voice');
-      playWelcomeVoice();
-      voiceBtn.style.display = 'none';
-    };
-    
-    // Add both click and touch handlers for mobile/desktop compatibility
-    voiceBtn.addEventListener('click', playVoiceOnClick);
-    voiceBtn.addEventListener('touchend', playVoiceOnClick, { passive: false });
-    voiceBtn.addEventListener('touchstart', (e) => {
-      console.log('👆 touchstart on button');
-      voiceBtn.style.transform = 'scale(0.95)';
-    });
   }
 }, 500);
-
-// Fallback: if user taps anywhere on the page and voice hasn't played yet
-document.addEventListener('touchend', () => {
-  if (!voicePlayed) {
-    console.log('📱 Mobile tap detected, voicePlayed:', voicePlayed);
-    const voiceBtn = document.getElementById('voice-btn');
-    if (voiceBtn && voiceBtn.style.display !== 'none') {
-      console.log('📱 Voice button is visible, waiting for button click');
-      return;
-    }
-  }
-}, { passive: true });
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
