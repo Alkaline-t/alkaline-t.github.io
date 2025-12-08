@@ -3733,16 +3733,23 @@ function playWelcomeVoice() {
   welcomeAudio.currentTime = 0;
   welcomeAudio.volume = 1;
   
-  // When welcome voice ends, start background music
+  // Lower background music volume when voice starts
+  if (music) {
+    music.volume = 0.15; // Reduce to 15% so voice is clearly heard
+    console.log('🔊 Background music volume lowered to 0.15');
+  }
+  
+  // When welcome voice ends, restore background music volume
   welcomeAudio.addEventListener('ended', function() {
-    console.log('✅ Welcome voice finished, starting background music');
+    console.log('✅ Welcome voice finished, restoring background music');
     if (music) {
       music.muted = false;
-      music.volume = 0.7;
+      music.volume = 0.7; // Restore to normal volume
+      console.log('🔊 Background music volume restored to 0.7');
       const playPromise = music.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          console.log('🎵 Background music started automatically');
+          console.log('🎵 Background music playing at normal volume');
           musicUnmuted = true;
         }).catch((err) => {
           console.log('⚠️ Background music play error:', err);
