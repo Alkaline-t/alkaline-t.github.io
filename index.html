@@ -2146,8 +2146,8 @@
 
 <!-- VOICE MESSAGE BUTTON -->
 <button id="voice-btn" 
-  ontouchstart="triggerWelcomeVoice(); return false;"
-  onclick="triggerWelcomeVoice(); return false;"
+  ontouchstart="playVoiceMessage(); return false;"
+  onclick="playVoiceMessage(); return false;"
   style="
   position: fixed;
   top: 80px;
@@ -2164,7 +2164,7 @@
   box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
   transition: all 0.2s ease;
   letter-spacing: 0.5px;
-  display: none;
+  display: block;
   animation: pulse 2s infinite;
   -webkit-user-select: none;
   user-select: none;
@@ -2176,7 +2176,7 @@
   -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
-" title="Tap to listen to welcome message">
+" title="Click to listen to welcome voice message">
 👆 Click Welcome
 </button>
 
@@ -3211,135 +3211,36 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 <script>
 const music = document.getElementById("bg-music");
 let musicUnmuted = false;
-let voicePlayed = false;
 
-// Simple wrapper function for button onclick
-function triggerWelcomeVoice() {
-  console.log('🎯 triggerWelcomeVoice called - button tapped!');
+// Function to play voice message from voice player.mp3
+function playVoiceMessage() {
+  console.log('🎯 playVoiceMessage called');
   
-  if (!voicePlayed) {
-    voicePlayed = true;
-    console.log('🎯 Starting voice playback');
-    
-    // Hide button immediately
-    const btn = document.getElementById('voice-btn');
-    if (btn) {
-      btn.style.display = 'none';
-      console.log('✅ Button hidden');
+  // Create audio element for voice message
+  const voiceAudio = new Audio();
+  voiceAudio.src = 'audio/voice%20player.mp3';
+  voiceAudio.volume = 1;
+  voiceAudio.crossOrigin = 'anonymous';
+  
+  console.log('🎤 Playing voice message from:', voiceAudio.src);
+  
+  // Play the voice message
+  try {
+    const playPromise = voiceAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log('✅ Voice message playing');
+      }).catch((err) => {
+        console.log('❌ Voice play error:', err);
+      });
     }
-    
-    // Create audio element for voice message
-    const voiceAudio = new Audio();
-    // Use URL encoded path for filenames with spaces
-    voiceAudio.src = 'audio/voice%20player.mp3';
-    voiceAudio.volume = 1;
-    voiceAudio.crossOrigin = 'anonymous';
-    
-    console.log('🎤 Voice audio src:', voiceAudio.src);
-    console.log('🎤 Voice audio created, attempting to play');
-    
-    voiceAudio.onplay = () => {
-      console.log('▶️ Voice message PLAYING');
-      // Pause background music while voice plays
-      if (music) {
-        music.pause();
-        console.log('🔇 Music paused for voice');
-      }
-    };
-    
-    voiceAudio.onended = () => {
-      console.log('⏹️ Voice message ENDED, starting background music');
-      // Play background music after voice finishes
-      if (music) {
-        music.muted = false;
-        music.volume = 0.7;
-        music.currentTime = 0;
-        const playPromise = music.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            console.log('✅ Background music PLAYING');
-            musicUnmuted = true;
-          }).catch((err) => {
-            console.log('❌ Music play error:', err);
-            musicUnmuted = true;
-          });
-        } else {
-          music.play();
-          musicUnmuted = true;
-        }
-      }
-    };
-    
-    voiceAudio.onerror = () => {
-      console.log('❌ Voice audio ERROR, attempting fallback');
-      // Fallback: play music immediately if voice fails
-      if (music) {
-        music.muted = false;
-        music.volume = 0.7;
-        const playPromise = music.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => console.log('Music fallback error'));
-        } else {
-          music.play().catch(() => console.log('Music fallback error'));
-        }
-      }
-      musicUnmuted = true;
-    };
-    
-    // Add timeout fallback - play music after 5 seconds if voice doesn't trigger
-    const fallbackTimeout = setTimeout(() => {
-      if (!musicUnmuted) {
-        console.log('⏰ Timeout: Voice not working, playing music fallback');
-        if (music) {
-          music.muted = false;
-          music.volume = 0.7;
-          music.play().catch(() => {});
-        }
-        musicUnmuted = true;
-      }
-    }, 5000);
-    
-    // Play the voice message
-    try {
-      console.log('🔊 Calling voiceAudio.play()');
-      const playPromise = voiceAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          console.log('✅ Voice play promise resolved');
-          clearTimeout(fallbackTimeout);
-        }).catch((err) => {
-          console.log('❌ Voice play promise rejected:', err);
-          clearTimeout(fallbackTimeout);
-          // Fallback: play music if voice play fails
-          if (music) {
-            music.muted = false;
-            music.volume = 0.7;
-            const musicPlayPromise = music.play();
-            if (musicPlayPromise !== undefined) {
-              musicPlayPromise.catch(() => {});
-            } else {
-              music.play().catch(() => {});
-            }
-          }
-        });
-      } else {
-        console.log('⚠️ play() returned undefined (synchronous)');
-        clearTimeout(fallbackTimeout);
-      }
-    } catch (error) {
-      console.log('❌ Exception in voiceAudio.play():', error);
-      clearTimeout(fallbackTimeout);
-      // Fallback
-      if (music) {
-        music.muted = false;
-        music.volume = 0.7;
-        music.play().catch(() => {});
-      }
-    }
-  } else {
-    console.log('⚠️ Voice already played');
+  } catch (error) {
+    console.log('❌ Exception playing voice:', error);
   }
 }
+let voicePlayed = false;
+
+// Voice system disabled
 
 // Ensure audio element exists and is properly configured
 if (music) {
@@ -3358,202 +3259,11 @@ if (music) {
   }
 }
 
-// Voice welcome - play immediately when script loads
-function playWelcomeVoice() {
-  if (voicePlayed) {
-    console.log('⚠️ Voice already played');
-    return; // Prevent multiple plays
-  }
-  voicePlayed = true;
-  
-  console.log('🎤 playWelcomeVoice() called at:', new Date().toLocaleTimeString());
-  console.log('🎤 speechSynthesis in window:', 'speechSynthesis' in window);
-  
-  if ('speechSynthesis' in window) {
-    // Cancel any pending speech
-    window.speechSynthesis.cancel();
-    console.log('✅ speechSynthesis.cancel() called');
-    
-    // Load voices if not already loaded (important for mobile)
-    window.speechSynthesis.getVoices();
-    
-    const welcomeMessage = new SpeechSynthesisUtterance("Welcome to AI Fitness Monitoring Device Web Page");
-    welcomeMessage.rate = 0.9;
-    welcomeMessage.pitch = 0.8; // Lower pitch for male voice
-    welcomeMessage.volume = 1;
-    welcomeMessage.lang = 'en-IN'; // Indian English
-    
-    // Set voice to male Indian English if available
-    const voices = window.speechSynthesis.getVoices();
-    console.log('🎤 Available voices:', voices.length);
-    if (voices.length > 0) {
-      // Try to find an Indian English male voice
-      const indianMaleVoice = voices.find(voice => 
-        (voice.lang.includes('en-IN') || voice.lang.includes('en_IN')) && 
-        (voice.name.includes('Male') || voice.name.includes('male'))
-      );
-      if (indianMaleVoice) {
-        welcomeMessage.voice = indianMaleVoice;
-        console.log('✅ Using Indian English male voice:', indianMaleVoice.name);
-      } else {
-        // Fallback to any male voice
-        const maleVoice = voices.find(voice => voice.name.includes('Male') || voice.name.includes('male'));
-        if (maleVoice) {
-          welcomeMessage.voice = maleVoice;
-          console.log('✅ Using male voice:', maleVoice.name);
-        }
-      }
-    }
-    
-    welcomeMessage.onstart = () => {
-      console.log('▶️ Voice message started');
-      // Stop music while voice plays
-      if (music) {
-        console.log('🔇 Pausing music for voice');
-        music.pause();
-      }
-    };
-    
-    welcomeMessage.onend = () => {
-      // Start background music after voice finishes
-      if (music) {
-        console.log('⏹️ Voice message ended, starting music');
-        music.currentTime = 0; // Reset to start
-        music.muted = false;
-        music.volume = 0.7;
-        const playPromise = music.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            console.log('✅ Music playing after voice');
-          }).catch((err) => {
-            console.log('❌ Music play error:', err);
-          });
-        }
-      }
-      musicUnmuted = true; // Mark music as unmuted
-    };
-    
-    welcomeMessage.onerror = (event) => {
-      console.log('❌ Speech error:', event.error);
-      // Fallback: play music immediately if voice fails
-      console.log('🎵 Playing music fallback due to voice error');
-      if (music) {
-        music.muted = false;
-        music.volume = 0.7;
-        music.play().catch(() => console.log('Music play failed'));
-      }
-      musicUnmuted = true;
-    };
-    
-    // Try to speak - add retry mechanism for mobile
-    try {
-      console.log('🔊 Calling window.speechSynthesis.speak()');
-      window.speechSynthesis.speak(welcomeMessage);
-      console.log('✅ speak() called successfully');
-      
-      // Fallback timeout: if voice hasn't started after 3 seconds, play music
-      setTimeout(() => {
-        if (!musicUnmuted) {
-          console.log('⏰ Timeout: Voice didn\'t trigger music, playing music fallback');
-          if (music) {
-            music.muted = false;
-            music.volume = 0.7;
-            music.play().catch(() => {});
-          }
-          musicUnmuted = true;
-        }
-      }, 3000);
-      
-    } catch (error) {
-      console.log('❌ Exception in speak():', error);
-      // Still unmute music as fallback
-      if (music) {
-        music.muted = false;
-        music.volume = 0.7;
-        music.play().catch(() => {});
-      }
-    }
-  } else {
-    // Fallback: unmute music if speech synthesis not available
-    console.log('❌ Speech synthesis not available, unmuting music');
-    if (music) {
-      music.muted = false; // Music is already playing, just unmute it
-      music.volume = 0.7;
-    }
-  }
-}
-
-// Play voice message as soon as possible (works on mobile and desktop)
-function initVoiceAndMusic() {
-  console.log('⏱️ initVoiceAndMusic called');
-  // Show voice button immediately - don't try automatic playback
-  const voiceBtn = document.getElementById('voice-btn');
-  if (voiceBtn) {
-    console.log('📢 Showing voice button');
-    voiceBtn.style.display = 'block';
-  }
-}
-
-// Execute on DOMContentLoaded - this is the earliest reliable point
-if (document.readyState === 'loading') {
-  console.log('📄 DOM is loading, adding DOMContentLoaded listener');
-  document.addEventListener('DOMContentLoaded', initVoiceAndMusic, { once: true });
-} else {
-  // If DOM is already loaded, play immediately
-  console.log('📄 DOM already loaded, calling initVoiceAndMusic');
-  initVoiceAndMusic();
-}
-
-// Backup: show voice button on window load
-window.addEventListener('load', () => {
-  if (!voicePlayed) {
-    const voiceBtn = document.getElementById('voice-btn');
-    if (voiceBtn) {
-      console.log('📢 Window load: showing voice button');
-      voiceBtn.style.display = 'block';
-    }
-  }
-}, { once: true });
-
-// Mobile-friendly: also trigger on first user interaction if needed
-function handleFirstInteraction() {
-  console.log('👆 First interaction detected, voicePlayed:', voicePlayed);
-  if (!voicePlayed) {
-    console.log('🎤 Attempting to play voice on first interaction (mobile workaround)');
-    playWelcomeVoice();
-  }
-}
-
-// Add mobile touch support - trigger voice on first interaction
-document.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
-
-// Show voice button immediately (no delay)
-setTimeout(() => {
-  const voiceBtn = document.getElementById('voice-btn');
-  if (voiceBtn && !voicePlayed) {
-    console.log('📢 Showing voice button on mobile');
-    voiceBtn.style.display = 'block';
-  }
-}, 500);
-
-// Fallback for mobile: allow tapping anywhere to trigger voice if button doesn't work
-let voiceTriggered = false;
-document.addEventListener('touchstart', () => {
-  if (!voicePlayed && !voiceTriggered && voiceBtn && voiceBtn.style.display === 'block') {
-    voiceTriggered = true;
-    console.log('📱 Touch detected with button visible - ready for button tap');
-  }
-}, { passive: true });
+// Voice system disabled - all voice features removed
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
-  console.log('🔊 unmuteMusic called, voicePlayed:', voicePlayed, 'musicUnmuted:', musicUnmuted);
-  
-  // If voice hasn't played yet, don't unmute music (let voice play first)
-  if (!voicePlayed) {
-    console.log('⏳ Voice not played yet, waiting for voice to finish');
-    return;
-  }
+  console.log('🔊 unmuteMusic called, musicUnmuted:', musicUnmuted);
   
   if (!musicUnmuted && music) {
     console.log('🔊 Unmuting music and playing');
