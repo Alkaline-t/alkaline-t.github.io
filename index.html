@@ -3332,6 +3332,24 @@ function playWelcomeVoice() {
   welcomeAudio.currentTime = 0;
   welcomeAudio.volume = 1;
   
+  // When welcome voice ends, start background music
+  welcomeAudio.addEventListener('ended', function() {
+    console.log('✅ Welcome voice finished, starting background music');
+    if (music) {
+      music.muted = false;
+      music.volume = 0.7;
+      const playPromise = music.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          console.log('🎵 Background music started automatically');
+          musicUnmuted = true;
+        }).catch((err) => {
+          console.log('⚠️ Background music play error:', err);
+        });
+      }
+    }
+  }, { once: true }); // Only listen once
+  
   try {
     const playPromise = welcomeAudio.play();
     if (playPromise !== undefined) {
