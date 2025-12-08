@@ -2144,13 +2144,8 @@
   </button>
 </div>
 
-<!-- VOICE MESSAGE BUTTON - REMOVED -->
-<button id="voice-btn" 
-  style="
-  display: none;
-"
->
-</button>
+<!-- VOICE BUTTON - REMOVED -->
+<button id="voice-btn" style="display: none;"></button>
 
 <style>
   @keyframes pulse {
@@ -3183,63 +3178,6 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 <script>
 const music = document.getElementById("bg-music");
 let musicUnmuted = false;
-
-// Function to play voice message from voice player.mp3
-function playVoiceMessage() {
-  console.log('🎯 playVoiceMessage called');
-  
-  // Create audio element for voice message
-  const voiceAudio = new Audio();
-  voiceAudio.src = 'audio/voice%20player.mp3';
-  voiceAudio.volume = 1;
-  voiceAudio.crossOrigin = 'anonymous';
-  
-  console.log('🎤 Playing voice message from:', voiceAudio.src);
-  
-  // Play the voice message
-  try {
-    const playPromise = voiceAudio.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        console.log('✅ Voice message playing');
-      }).catch((err) => {
-        console.log('❌ Voice play error:', err);
-      });
-    }
-  } catch (error) {
-    console.log('❌ Exception playing voice:', error);
-  }
-}
-
-// Play voice on first user interaction (required for browser autoplay policies)
-let voicePlayed = false;
-
-function playVoiceOnFirstInteraction() {
-  if (!voicePlayed) {
-    voicePlayed = true;
-    console.log('👆 First interaction detected - playing voice');
-    playVoiceMessage();
-  }
-}
-
-// Add multiple event listeners for first interaction
-document.addEventListener('click', playVoiceOnFirstInteraction, { once: true });
-document.addEventListener('touchstart', playVoiceOnFirstInteraction, { once: true, passive: true });
-document.addEventListener('keydown', playVoiceOnFirstInteraction, { once: true });
-
-// Also try to play on page load as fallback
-window.addEventListener('load', () => {
-  if (!voicePlayed) {
-    console.log('📄 Page loaded, attempting voice playback');
-    // Small delay to ensure audio context is ready
-    setTimeout(() => {
-      playVoiceMessage();
-      voicePlayed = true;
-    }, 500);
-  }
-});
-
-// Voice system disabled
 
 // Ensure audio element exists and is properly configured
 if (music) {
