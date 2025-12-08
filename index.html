@@ -2146,34 +2146,36 @@
 
 <!-- VOICE MESSAGE BUTTON -->
 <button id="voice-btn" 
-  onclick="triggerWelcomeVoice();"
+  ontouchstart="triggerWelcomeVoice(); return false;"
+  onclick="triggerWelcomeVoice(); return false;"
   style="
   position: fixed;
   top: 80px;
   right: 20px;
   z-index: 9999;
-  padding: 12px 16px;
+  padding: 14px 18px;
   border-radius: 50px;
   border: none;
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   color: white;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.4);
-  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(245, 87, 108, 0.5);
+  transition: all 0.2s ease;
   letter-spacing: 0.5px;
   display: none;
   animation: pulse 2s infinite;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 48px;
+  min-width: 48px;
   touch-action: manipulation;
   pointer-events: auto;
   -webkit-appearance: none;
   appearance: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 " title="Tap to listen to welcome message">
 👆 Click Welcome
 </button>
@@ -3217,23 +3219,26 @@ function triggerWelcomeVoice() {
   
   if (!voicePlayed) {
     voicePlayed = true;
-    console.log('🎯 Playing voice message');
+    console.log('🎯 Playing voice message from audio/voice player.mp3');
     
-    // Hide button
+    // Hide button immediately
     const btn = document.getElementById('voice-btn');
     if (btn) {
       btn.style.display = 'none';
     }
     
     // Create audio element for voice message
-    const voiceAudio = new Audio('audio/voice player.mp3');
+    const voiceAudio = new Audio();
+    voiceAudio.src = 'audio/voice player.mp3';
     voiceAudio.volume = 1;
+    voiceAudio.crossOrigin = 'anonymous';
     
     voiceAudio.onplay = () => {
-      console.log('▶️ Voice message started');
+      console.log('▶️ Voice message started playing');
       // Pause background music while voice plays
       if (music) {
         music.pause();
+        console.log('🔇 Music paused for voice');
       }
     };
     
@@ -3248,37 +3253,61 @@ function triggerWelcomeVoice() {
         if (playPromise !== undefined) {
           playPromise.then(() => {
             console.log('✅ Background music playing');
+            musicUnmuted = true;
           }).catch((err) => {
-            console.log('❌ Music error:', err);
+            console.log('❌ Music play error:', err);
+            musicUnmuted = true;
           });
+        } else {
+          music.play();
+          musicUnmuted = true;
         }
       }
-      musicUnmuted = true;
     };
     
-    voiceAudio.onerror = (err) => {
-      console.log('❌ Voice audio error:', err);
+    voiceAudio.onerror = () => {
+      console.log('❌ Voice audio error, playing music as fallback');
       // Fallback: play music immediately if voice fails
       if (music) {
         music.muted = false;
         music.volume = 0.7;
-        music.play().catch(() => {});
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        } else {
+          music.play().catch(() => {});
+        }
       }
       musicUnmuted = true;
     };
     
     // Play the voice message
-    const playPromise = voiceAudio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        console.log('❌ Voice play error:', err);
-        // Fallback: play music if voice play fails
-        if (music) {
-          music.muted = false;
-          music.volume = 0.7;
-          music.play().catch(() => {});
-        }
-      });
+    try {
+      const playPromise = voiceAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.log('❌ Voice play error:', err);
+          // Fallback: play music if voice play fails
+          if (music) {
+            music.muted = false;
+            music.volume = 0.7;
+            const musicPlayPromise = music.play();
+            if (musicPlayPromise !== undefined) {
+              musicPlayPromise.catch(() => {});
+            } else {
+              music.play().catch(() => {});
+            }
+          }
+        });
+      }
+    } catch (error) {
+      console.log('❌ Exception playing voice:', error);
+      // Fallback
+      if (music) {
+        music.muted = false;
+        music.volume = 0.7;
+        music.play().catch(() => {});
+      }
     }
   }
 }
