@@ -2144,7 +2144,7 @@
   </button>
 </div>
 
-<!-- VOICE WELCOME BUTTON (shows on mobile if voice doesn't play automatically) -->
+<!-- VOICE MESSAGE BUTTON -->
 <button id="voice-btn" 
   onclick="triggerWelcomeVoice();"
   style="
@@ -2174,7 +2174,7 @@
   pointer-events: auto;
   -webkit-appearance: none;
   appearance: none;
-" title="Click to play welcome voice message">
+" title="Tap to listen to welcome message">
 👆 Click Welcome
 </button>
 
@@ -3214,21 +3214,72 @@ let voicePlayed = false;
 // Simple wrapper function for button onclick
 function triggerWelcomeVoice() {
   console.log('🎯 triggerWelcomeVoice called');
-  console.log('🎯 voicePlayed:', voicePlayed);
-  console.log('🎯 speechSynthesis available:', 'speechSynthesis' in window);
   
   if (!voicePlayed) {
-    console.log('🎯 Calling playWelcomeVoice()');
-    playWelcomeVoice();
+    voicePlayed = true;
+    console.log('🎯 Playing voice message');
     
     // Hide button
     const btn = document.getElementById('voice-btn');
     if (btn) {
-      console.log('🎯 Hiding button');
       btn.style.display = 'none';
     }
-  } else {
-    console.log('⚠️ Voice already played');
+    
+    // Create audio element for voice message
+    const voiceAudio = new Audio('audio/voice player.mp3');
+    voiceAudio.volume = 1;
+    
+    voiceAudio.onplay = () => {
+      console.log('▶️ Voice message started');
+      // Pause background music while voice plays
+      if (music) {
+        music.pause();
+      }
+    };
+    
+    voiceAudio.onended = () => {
+      console.log('⏹️ Voice message finished, starting background music');
+      // Play background music after voice finishes
+      if (music) {
+        music.muted = false;
+        music.volume = 0.7;
+        music.currentTime = 0;
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log('✅ Background music playing');
+          }).catch((err) => {
+            console.log('❌ Music error:', err);
+          });
+        }
+      }
+      musicUnmuted = true;
+    };
+    
+    voiceAudio.onerror = (err) => {
+      console.log('❌ Voice audio error:', err);
+      // Fallback: play music immediately if voice fails
+      if (music) {
+        music.muted = false;
+        music.volume = 0.7;
+        music.play().catch(() => {});
+      }
+      musicUnmuted = true;
+    };
+    
+    // Play the voice message
+    const playPromise = voiceAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.log('❌ Voice play error:', err);
+        // Fallback: play music if voice play fails
+        if (music) {
+          music.muted = false;
+          music.volume = 0.7;
+          music.play().catch(() => {});
+        }
+      });
+    }
   }
 }
 
