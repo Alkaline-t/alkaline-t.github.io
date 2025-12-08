@@ -2146,7 +2146,7 @@
 
 <!-- VOICE WELCOME BUTTON (shows on mobile if voice doesn't play automatically) -->
 <button id="voice-btn" 
-  onclick="if(!voicePlayed){voicePlayed=true; playWelcomeVoice(); document.getElementById('voice-btn').style.display='none';}"
+  onclick="triggerWelcomeVoice();"
   style="
   position: fixed;
   top: 80px;
@@ -3211,6 +3211,17 @@ const music = document.getElementById("bg-music");
 let musicUnmuted = false;
 let voicePlayed = false;
 
+// Simple wrapper function for button onclick
+function triggerWelcomeVoice() {
+  console.log('triggerWelcomeVoice called, voicePlayed:', voicePlayed);
+  if (!voicePlayed) {
+    voicePlayed = true;
+    playWelcomeVoice();
+    const btn = document.getElementById('voice-btn');
+    if (btn) btn.style.display = 'none';
+  }
+}
+
 // Ensure audio element exists and is properly configured
 if (music) {
   music.preload = 'metadata';
@@ -3377,6 +3388,15 @@ setTimeout(() => {
     voiceBtn.style.display = 'block';
   }
 }, 500);
+
+// Fallback for mobile: allow tapping anywhere to trigger voice if button doesn't work
+let voiceTriggered = false;
+document.addEventListener('touchstart', () => {
+  if (!voicePlayed && !voiceTriggered && voiceBtn && voiceBtn.style.display === 'block') {
+    voiceTriggered = true;
+    console.log('📱 Touch detected with button visible - ready for button tap');
+  }
+}, { passive: true });
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
