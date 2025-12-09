@@ -2950,10 +2950,11 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <div class="card" style="margin: 80px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
         <h2 style="color: var(--accent); text-align: center; margin-bottom: 20px; font-size: 28px;">🎥 Live Demo</h2>
         <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: #000;">
-          <video style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" 
+          <video id="demoVideo"
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" 
                  controls 
                  preload="auto">
-            <source src="video/demo.mp4" type="video/mp4">
+            <source src="live demo.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -2990,28 +2991,50 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <div class="card" style="margin: 60px auto 80px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
         <h2 style="color: var(--accent); text-align: center; margin-bottom: 30px; font-size: 28px;">👥 Our Team</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px;">
-          <div class="team-member">
+          <div class="team-member" onclick="openTeamPopup('aarav')" style="cursor: pointer; transition: all 0.3s ease;">
             <div class="team-avatar">👨‍💻</div>
             <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">AARAV THAKUR</h3>
             <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Device Software & Coding</p>
             <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Website Developer, Idea Maker & QR Code Generator</p>
+            <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600;">Click to view details →</p>
           </div>
-          <div class="team-member">
+          <div class="team-member" onclick="openTeamPopup('ankit')" style="cursor: pointer; transition: all 0.3s ease;">
             <div class="team-avatar">⚡</div>
             <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">ANKIT</h3>
             <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Hardware & Wiring</p>
             <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Circuit Designer, PCB Layout & Soldering</p>
+            <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600;">Click to view details →</p>
           </div>
-          <div class="team-member">
+          <div class="team-member" onclick="openTeamPopup('rizwan')" style="cursor: pointer; transition: all 0.3s ease;">
             <div class="team-avatar">🎨</div>
             <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">MD RIZWAN</h3>
             <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Device & UI/UX Design</p>
             <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">3D Modeling, Case Design & Beautiful Aesthetics</p>
+            <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600;">Click to view details →</p>
           </div>
         </div>
         <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,132,255,0.1); color: var(--muted); font-size: 14px; font-style: italic;">
           "We built this from scrap, caffeine ☕, and passion for innovation! 🚀"
         </p>
+      </div>
+
+      <!-- TEAM MEMBER POPUP MODAL -->
+      <div id="teamPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center;">
+        <div style="background: var(--card-bg); border-radius: 16px; padding: 40px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative;">
+          <button onclick="closeTeamPopup()" style="position: absolute; top: 15px; right: 15px; background: rgba(0,132,255,0.2); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; color: var(--accent);">✕</button>
+          
+          <div id="teamPopupContent" style="text-align: center;">
+            <img id="teamMemberPhoto" src="" alt="Team Member" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid var(--accent);">
+            <h2 id="teamMemberName" style="color: var(--accent); margin-bottom: 5px; font-size: 22px;"></h2>
+            <p id="teamMemberRole" style="color: var(--accent); font-weight: 600; margin-bottom: 20px; font-size: 14px;"></p>
+            <p id="teamMemberBio" style="color: var(--muted); line-height: 1.6; font-size: 14px; margin-bottom: 20px;"></p>
+            <div id="teamMemberDetails" style="background: rgba(0,132,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: left;">
+            </div>
+            <button onclick="closeTeamPopup()" style="padding: 12px 30px; background: var(--gradient-1); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">
+              Close
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- DOWNLOAD SECTION -->
@@ -3943,6 +3966,145 @@ if (volumeSlider && music) {
   });
 } else {
   console.log('⚠️ Volume slider setup failed - slider:', !!volumeSlider, 'music:', !!music);
+}
+
+// Team Member Popup Functions
+const teamMemberData = {
+  aarav: {
+    name: 'AARAV THAKUR',
+    role: 'Device Software & Coding',
+    photo: 'images/aarav.jpg',
+    bio: 'Aarav is the team leader and software architect of our AI Fitness Monitoring Device. With expertise in embedded systems and IoT, he designed the device\'s intelligent signal processing algorithms and developed the entire web interface. He leads the team with innovative ideas and technical excellence.',
+    details: `
+      <h4 style="color: #ffd700; margin-bottom: 5px; font-size: 12px; font-weight: 700; letter-spacing: 1px;">👑 TEAM LEADER</h4>
+      <h4 style="color: #00d4ff; margin-bottom: 15px; font-size: 16px; font-weight: 700;">Key Contributions:</h4>
+      <ul style="margin: 0; padding-left: 20px; color: #e0e0e0; font-size: 14px; line-height: 1.8;">
+        <li>Team leadership & project management</li>
+        <li>Arduino firmware development</li>
+        <li>Signal processing algorithms</li>
+        <li>Website design & development</li>
+        <li>QR code generation system</li>
+        <li>Real-time data visualization</li>
+      </ul>
+    `
+  },
+  ankit: {
+    name: 'ANKIT',
+    role: 'Hardware & Wiring',
+    photo: 'images/ankit.jpg',
+    bio: 'Ankit is our electronics expert who designed and assembled the complete hardware circuit. He managed all sensor integration, PCB design, and soldering with precision to ensure optimal device performance.',
+    details: `
+      <h4 style="color: #00d4ff; margin-bottom: 15px; font-size: 16px; font-weight: 700;">Key Contributions:</h4>
+      <ul style="margin: 0; padding-left: 20px; color: #e0e0e0; font-size: 14px; line-height: 1.8;">
+        <li>Circuit design & optimization</li>
+        <li>PCB layout & routing</li>
+        <li>Sensor calibration</li>
+        <li>Power management system</li>
+        <li>Hardware troubleshooting</li>
+      </ul>
+    `
+  },
+  rizwan: {
+    name: 'MD RIZWAN',
+    role: 'Device & UI/UX Design',
+    photo: 'images/rizwan.jpg',
+    bio: 'Rizwan is our design lead who created the beautiful 3D model of the device and designed the elegant case. He also designed the entire user interface with a focus on usability and aesthetic appeal.',
+    details: `
+      <h4 style="color: #00d4ff; margin-bottom: 15px; font-size: 16px; font-weight: 700;">Key Contributions:</h4>
+      <ul style="margin: 0; padding-left: 20px; color: #e0e0e0; font-size: 14px; line-height: 1.8;">
+        <li>3D modeling & CAD design</li>
+        <li>Device case design</li>
+        <li>UI/UX design</li>
+        <li>Brand identity</li>
+        <li>Visual presentations</li>
+      </ul>
+    `
+  }
+};
+
+function openTeamPopup(memberId) {
+  const member = teamMemberData[memberId];
+  if (!member) return;
+  
+  document.getElementById('teamMemberPhoto').src = member.photo;
+  document.getElementById('teamMemberName').textContent = member.name;
+  document.getElementById('teamMemberRole').textContent = member.role;
+  document.getElementById('teamMemberBio').textContent = member.bio;
+  document.getElementById('teamMemberDetails').innerHTML = member.details;
+  
+  document.getElementById('teamPopup').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTeamPopup() {
+  document.getElementById('teamPopup').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+// Close popup when clicking outside of it
+document.getElementById('teamPopup').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeTeamPopup();
+  }
+});
+
+// Close popup with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeTeamPopup();
+  }
+});
+
+// Video and Background Music Control
+const demoVideo = document.getElementById('demoVideo');
+if (demoVideo && music) {
+  console.log('✅ Setting up video and music control');
+  
+  // Store original music volume
+  let originalMusicVolume = 0.7;
+  let isVideoPlaying = false;
+  
+  // When video starts playing
+  demoVideo.addEventListener('play', function() {
+    console.log('▶️ Video started - pausing background music');
+    isVideoPlaying = true;
+    if (music && !music.paused) {
+      originalMusicVolume = music.volume;
+      music.pause();
+      console.log('✅ Background music paused');
+    }
+  });
+  
+  // When video is paused
+  demoVideo.addEventListener('pause', function() {
+    // Only resume music if video was actually playing (not just loaded)
+    if (isVideoPlaying && demoVideo.currentTime > 0) {
+      console.log('⏸️ Video paused - resuming background music');
+      isVideoPlaying = false;
+      if (music && music.paused) {
+        music.volume = originalMusicVolume;
+        music.play().catch((err) => {
+          console.log('⚠️ Could not resume music:', err);
+        });
+        console.log('✅ Background music resumed');
+      }
+    }
+  });
+  
+  // When video ends
+  demoVideo.addEventListener('ended', function() {
+    console.log('✅ Video finished - resuming background music');
+    isVideoPlaying = false;
+    if (music && music.paused) {
+      music.volume = originalMusicVolume;
+      music.play().catch((err) => {
+        console.log('⚠️ Could not resume music:', err);
+      });
+      console.log('✅ Background music resumed after video');
+    }
+  });
+} else {
+  console.log('⚠️ Video or music element not found for control setup');
 }
 </script>
 
