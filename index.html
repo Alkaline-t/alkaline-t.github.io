@@ -2337,7 +2337,7 @@
         <li><a href="#functionsCard">Functions</a></li>
         <li><a href="#heroSection">How It Works</a></li>
         <li><a href="#mentors-section">Mentors</a></li>
-        <li><a href="#feedbackForm">Feedback</a></li>
+        <!-- Feedback link removed -->
       </ul>
     </nav>
 
@@ -3183,21 +3183,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
         </div>
       </div>
 
-      <!-- FEEDBACK FORM SECTION -->
-      <div class="card" style="margin: 60px auto 80px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
-        <h2 style="color: var(--accent); text-align: center; margin-bottom: 30px; font-size: 28px;">💬 Send Feedback</h2>
-        <form id="feedbackForm" onsubmit="submitFeedback(event)" style="display: flex; flex-direction: column; gap: 15px;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <input type="text" id="feedbackName" placeholder="Your Name" required style="padding: 12px; border: 2px solid rgba(0,132,255,0.2); border-radius: 8px; font-family: inherit; font-size: 14px; background: rgba(255,255,255,0.5); transition: all 0.3s ease;">
-            <input type="email" id="feedbackEmail" placeholder="Your Email" required style="padding: 12px; border: 2px solid rgba(0,132,255,0.2); border-radius: 8px; font-family: inherit; font-size: 14px; background: rgba(255,255,255,0.5); transition: all 0.3s ease;">
-          </div>
-          <textarea id="feedbackMessage" placeholder="Your Message..." rows="5" required style="padding: 12px; border: 2px solid rgba(0,132,255,0.2); border-radius: 8px; font-family: inherit; font-size: 14px; background: rgba(255,255,255,0.5); resize: vertical; transition: all 0.3s ease;"></textarea>
-          <button type="submit" style="padding: 14px 30px; background: var(--gradient-1); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 15px; transition: all 0.3s ease;">
-            📧 Send Feedback
-          </button>
-        </form>
-        <p id="feedbackStatus" style="text-align: center; margin-top: 15px; font-size: 14px; display: none;"></p>
-      </div>
+      <!-- Feedback section removed -->
 
     </div>
   </div>
@@ -3716,37 +3702,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
     // link.click();
   }
 
-  /* FEEDBACK FORM SUBMISSION */
-  function submitFeedback(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('feedbackName').value;
-    const email = document.getElementById('feedbackEmail').value;
-    const message = document.getElementById('feedbackMessage').value;
-    const statusDiv = document.getElementById('feedbackStatus');
-    
-    // Simulate sending to Google Sheets via FormSubmit.co or similar service
-    // For demo, we'll just show a success message
-    
-    // In production, use:
-    // fetch('https://formspree.io/f/YOUR_FORM_ID', {
-    //   method: 'POST',
-    //   body: new FormData(document.getElementById('feedbackForm')),
-    //   headers: { 'Accept': 'application/json' }
-    // })
-    
-    statusDiv.style.display = 'block';
-    statusDiv.className = 'success';
-    statusDiv.textContent = '✅ Thank you! Your feedback has been sent successfully!';
-    
-    // Reset form
-    document.getElementById('feedbackForm').reset();
-    
-    // Hide message after 5 seconds
-    setTimeout(() => {
-      statusDiv.style.display = 'none';
-    }, 5000);
-  }
+  /* Feedback submission handler removed along with the feedback form */
 
   /* LIVE CLOCK FUNCTIONALITY */
   function updateClock() {
