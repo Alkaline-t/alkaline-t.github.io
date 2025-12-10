@@ -4206,54 +4206,39 @@ document.addEventListener('keydown', function(e) {
 
 // YouTube Video and Background Music Control
 let originalMusicVolume = 0.7;
+let isVideoPlaying = false;
 
-// Load YouTube IFrame API
-const tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-const firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// Handle YouTube iframe interactions
+const demoVideo = document.getElementById('demoVideo');
+const backgroundMusic = document.getElementById('bg-music');
 
-let youtubePlayer;
-
-// YouTube API callback
-function onYouTubeIframeAPIReady() {
-  const videoElement = document.getElementById('demoVideo');
-  if (!videoElement) {
-    console.log('⚠️ Video element not found');
-    return;
-  }
-  
-  youtubePlayer = new YT.Player('demoVideo', {
-    events: {
-      'onStateChange': onPlayerStateChange
-    }
-  });
-  console.log('✅ YouTube player initialized');
-}
-
-function onPlayerStateChange(event) {
-  const music = document.getElementById('backgroundMusic');
-  
-  // State 1 = playing
-  if (event.data === YT.PlayerState.PLAYING) {
-    console.log('▶️ Video started - pausing background music');
-    if (music && !music.paused) {
-      originalMusicVolume = music.volume;
-      music.pause();
+if (demoVideo && backgroundMusic) {
+  // Pause music when user clicks play on YouTube video
+  demoVideo.addEventListener('mousedown', function() {
+    console.log('🎬 Video clicked - pausing background music');
+    if (backgroundMusic && !backgroundMusic.paused) {
+      originalMusicVolume = backgroundMusic.volume;
+      backgroundMusic.pause();
+      isVideoPlaying = true;
       console.log('✅ Background music paused');
     }
-  }
-  // State 0 = ended
-  else if (event.data === YT.PlayerState.ENDED) {
-    console.log('✅ Video finished - resuming background music');
-    if (music && music.paused) {
-      music.volume = originalMusicVolume;
-      music.play().catch((err) => {
-        console.log('⚠️ Could not resume music:', err);
-      });
-      console.log('✅ Background music resumed');
+  }, true);
+
+  // Resume music when user stops interacting with video
+  document.addEventListener('mouseup', function() {
+    if (isVideoPlaying) {
+      setTimeout(function() {
+        if (backgroundMusic && backgroundMusic.paused) {
+          backgroundMusic.volume = originalMusicVolume;
+          backgroundMusic.play().catch((err) => {
+            console.log('⚠️ Could not resume music:', err);
+          });
+          console.log('✅ Background music resumed');
+          isVideoPlaying = false;
+        }
+      }, 2000);
     }
-  }
+  });
 }
 </script>
 
