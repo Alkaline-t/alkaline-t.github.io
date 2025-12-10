@@ -4260,19 +4260,49 @@ if (form && toast) {
 }
 </script>
 
+<div id="toast" style="
+  display:none; 
+  position:fixed; 
+  bottom:20px; left:50%; 
+  transform:translateX(-50%);
+  background:#4CAF50; 
+  color:white; 
+  padding:12px 22px; 
+  border-radius:8px;
+  font-family:Arial;
+">
+  Thank you! Feedback sent 😊
+</div>
+
+<script>
+function showThanks() {
+  let toast = document.getElementById("toast");
+  toast.style.display = "block";
+  setTimeout(() => toast.style.display = "none", 3000);
+  return true;
+}
+</script>
+
 <!-- FEEDBACK SECTION -->
 <div class="feedback-box">
   <h2>Send Feedback</h2>
 
-  <form action="https://formspree.io/f/xdkqwpyj" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="_replyto" placeholder="Your Email" required>
-    <textarea name="message" rows="5" placeholder="Write your feedback..." required></textarea>
-    <button type="submit">Submit</button>
-  </form>
+<form action="https://script.google.com/macros/s/AKfycbzTestDXe192HGy3l3i6mEuygdvVVhhLabjkcwYnNF458yKjYvMMLlgQCvR9q0gsUHY/exec" method="post" onsubmit="return showThanks()">
+  
+  <input type="text" name="name" placeholder="Your Name" required>
+  
+  <input type="email" name="email" placeholder="Your Email" required>
+  
+  <input type="tel" name="phone" placeholder="Your Phone Number" required>
+  
+  <textarea name="message" placeholder="Your Message" required></textarea>
+  
+  <button type="submit">Send Feedback</button>
+
+</form>
 </div>
 
-<div id="toast">Thank you for your feedback! 🎉</div>
 
-</body>
-</html>
+
+
+
