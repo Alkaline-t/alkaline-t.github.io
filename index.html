@@ -2583,23 +2583,28 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
 ">
   <button id="music-toggle-btn" style="
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    color: #fff;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     flex-shrink: 0;
-    min-width: 32px;
-    min-height: 32px;
-  " title="Toggle music">🎵</button>
+    min-width: 42px;
+    min-height: 42px;
+    font-weight: bold;
+    position: relative;
+    filter: drop-shadow(0 0 6px rgba(102, 126, 234, 0.4));
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+  " title="Toggle music on/off">🎵</button>
   
   <div style="
     display: flex;
@@ -2619,6 +2624,8 @@
       cursor: pointer;
       box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
       padding: 6px 0;
+      accent-color: white;
+      transition: box-shadow 0.2s ease;
     " />
     <span id="volumeValue" style="
       color: white; 
@@ -2632,6 +2639,16 @@
 </div>
 
 <style>
+  /* Smooth volume slider with filled track */
+  #volumeSlider {
+    background: linear-gradient(to right, 
+      rgba(255, 255, 255, 0.5) 0%, 
+      rgba(255, 255, 255, 0.5) var(--slider-fill, 70%), 
+      rgba(255, 255, 255, 0.2) var(--slider-fill, 70%), 
+      rgba(255, 255, 255, 0.2) 100%) !important;
+    transition: background 0.05s ease-out;
+  }
+
   /* Enhanced volume slider styling with larger touch targets */
   #volumeSlider::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -2642,18 +2659,20 @@
     background: white;
     cursor: pointer;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   #volumeSlider::-webkit-slider-thumb:hover {
     width: 20px;
     height: 20px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 5px 16px rgba(255, 255, 255, 0.5), 0 4px 14px rgba(0, 0, 0, 0.4);
+    transform: scale(1.25);
   }
 
   #volumeSlider::-webkit-slider-thumb:active {
     width: 18px;
     height: 18px;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
   }
 
   #volumeSlider::-moz-range-thumb {
@@ -2664,51 +2683,114 @@
     cursor: pointer;
     border: none;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     padding: 4px 0;
   }
 
   #volumeSlider::-moz-range-thumb:hover {
     width: 20px;
     height: 20px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 5px 16px rgba(255, 255, 255, 0.5), 0 4px 14px rgba(0, 0, 0, 0.4);
+    transform: scale(1.25);
   }
 
   #volumeSlider::-moz-range-thumb:active {
     width: 18px;
     height: 18px;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
   }
 
-  /* Music toggle button hover effects */
+  #volumeSlider::-moz-range-track {
+    background: transparent;
+    border: none;
+  }
+
+  #volumeSlider::-moz-range-progress {
+    background: rgba(255, 255, 255, 0.5);
+    height: 4px;
+  }
+
+  /* Volume percentage display smooth animation */
+  #volumeValue {
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
+  }
+
+  /* Smooth focus state for keyboard navigation */
+  #volumeSlider:focus {
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 8px rgba(255, 255, 255, 0.3) !important;
+  }
+
+  /* Music toggle button hover effects with enhanced visibility */
   #music-toggle-btn:hover {
-    transform: scale(1.15) rotate(-10deg);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+    transform: scale(1.18) rotate(-10deg);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 15px rgba(102, 126, 234, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 1), 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   #music-toggle-btn:active {
-    transform: scale(1.08) rotate(-10deg);
+    transform: scale(1.1) rotate(-10deg);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.9), 0 2px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  #music-toggle-btn:focus {
+    outline: none;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 1), 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   #music-toggle-btn.playing {
-    animation: musicBeat 0.8s ease-in-out infinite;
+    animation: musicBeat 0.6s ease-in-out infinite;
+    background: linear-gradient(135deg, #00d4ff 0%, #667eea 50%, #764ba2 100%);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 6px 20px rgba(102, 126, 234, 0.6);
+    text-shadow: 0 0 12px rgba(0, 255, 200, 0.9), 0 0 8px rgba(0, 212, 255, 0.8);
+  }
+
+  #music-toggle-btn.muted {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff4757 100%);
+    box-shadow: 0 6px 20px rgba(255, 107, 149, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-shadow: 0 0 8px rgba(255, 200, 200, 0.8), 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  #music-toggle-btn.muted:hover {
+    box-shadow: 0 10px 30px rgba(255, 107, 149, 0.8), 0 0 15px rgba(255, 107, 149, 0.6);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 1), 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   @keyframes musicBeat {
     0%, 100% {
       transform: scale(1);
     }
+    25% {
+      transform: scale(1.15);
+    }
     50% {
+      transform: scale(1.08);
+    }
+    75% {
       transform: scale(1.12);
     }
   }
 
-  /* Dark mode support */
+  /* Dark mode support with enhanced visibility */
   body.dark-mode #music-toggle-btn {
-    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 6px 20px rgba(255, 107, 149, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 2px 4px rgba(0, 0, 0, 0.4);
   }
 
   body.dark-mode #music-toggle-btn:hover {
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+    box-shadow: 0 10px 30px rgba(255, 107, 149, 0.7), 0 0 15px rgba(255, 107, 149, 0.5);
+    text-shadow: 0 0 14px rgba(255, 255, 255, 1), 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  body.dark-mode #music-toggle-btn.playing {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 6px 20px rgba(102, 126, 234, 0.5);
+    text-shadow: 0 0 14px rgba(0, 255, 200, 0.8), 0 0 8px rgba(0, 212, 255, 0.7);
   }
 
   /* Mobile responsiveness */
@@ -3941,14 +4023,43 @@ if (musicToggleBtn && music) {
   console.log('⚠️ Music toggle setup failed - btn:', !!musicToggleBtn, 'music:', !!music);
 }
 
-// Volume slider control - adjust volume and show percentage
+// Volume slider control - adjust volume and show percentage with smooth updates
 if (volumeSlider && music) {
-  console.log('✅ Setting up volume slider');
+  console.log('✅ Setting up smooth volume slider');
   
-  volumeSlider.addEventListener('input', (e) => {
-    const volume = e.target.value;
-    music.volume = volume / 100;
-    console.log('🔊 Volume set to:', volume + '%');
+  let sliderTimeout;
+  let lastVolumeUpdate = 0;
+  
+  // Function to update volume smoothly
+  const updateVolume = (volume) => {
+    // Smooth easing function for volume changes
+    const currentVolume = music.volume;
+    const targetVolume = volume / 100;
+    const diff = Math.abs(targetVolume - currentVolume);
+    
+    // If difference is small, apply directly for responsiveness
+    if (diff < 0.02) {
+      music.volume = targetVolume;
+    } else {
+      // Apply easing for larger changes
+      const step = diff * 0.4; // 40% step towards target
+      music.volume = currentVolume + (targetVolume > currentVolume ? step : -step);
+    }
+    
+    // Update visual feedback
+    if (volumeValue) {
+      volumeValue.textContent = volume + '%';
+      // Add smooth animation to percentage
+      volumeValue.style.transform = 'scale(1.1)';
+      volumeValue.style.opacity = '1';
+      clearTimeout(sliderTimeout);
+      sliderTimeout = setTimeout(() => {
+        volumeValue.style.transform = 'scale(1)';
+      }, 100);
+    }
+    
+    // Update slider fill with CSS variable
+    volumeSlider.style.setProperty('--slider-fill', volume + '%');
     
     // Auto-play if paused when adjusting volume
     if (music.paused && volume > 0) {
@@ -3960,10 +4071,47 @@ if (volumeSlider && music) {
       }
     }
     
-    if (volumeValue) {
-      volumeValue.textContent = volume + '%';
+    // Pause if volume reaches 0
+    if (volume === '0') {
+      music.pause();
     }
-  });
+    
+    console.log('🔊 Volume set to:', volume + '%');
+  };
+  
+  // Throttled input handler for smooth performance
+  let isProcessing = false;
+  volumeSlider.addEventListener('input', (e) => {
+    const volume = e.target.value;
+    
+    if (!isProcessing) {
+      isProcessing = true;
+      requestAnimationFrame(() => {
+        updateVolume(volume);
+        isProcessing = false;
+      });
+    }
+  }, { passive: true });
+  
+  // Enhance responsiveness with mouse/touch events
+  volumeSlider.addEventListener('mousedown', () => {
+    volumeSlider.style.zIndex = '101';
+  }, { passive: true });
+  
+  volumeSlider.addEventListener('mouseup', () => {
+    volumeSlider.style.zIndex = '1';
+  }, { passive: true });
+  
+  volumeSlider.addEventListener('touchstart', () => {
+    volumeSlider.style.zIndex = '101';
+  }, { passive: true });
+  
+  volumeSlider.addEventListener('touchend', () => {
+    volumeSlider.style.zIndex = '1';
+  }, { passive: true });
+  
+  // Initialize slider fill
+  volumeSlider.style.setProperty('--slider-fill', '70%');
 } else {
   console.log('⚠️ Volume slider setup failed - slider:', !!volumeSlider, 'music:', !!music);
 }
