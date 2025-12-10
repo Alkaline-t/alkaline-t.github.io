@@ -3033,8 +3033,9 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
         <h2 style="color: var(--accent); text-align: center; margin-bottom: 20px; font-size: 28px;">🎥 Device Demo</h2>
         <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: #000;">
           <iframe 
+                  id="demoVideo"
                   style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;" 
-                  src="https://www.youtube.com/embed/3USwXY19tN0" 
+                  src="https://www.youtube.com/embed/3USwXY19tN0?enablejsapi=1" 
                   title="AI Fitness Monitoring Device Demo" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowfullscreen>
@@ -4203,7 +4204,57 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// YouTube video is now embedded, no local video control needed
+// YouTube Video and Background Music Control
+let originalMusicVolume = 0.7;
+
+// Load YouTube IFrame API
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+let youtubePlayer;
+
+// YouTube API callback
+function onYouTubeIframeAPIReady() {
+  const videoElement = document.getElementById('demoVideo');
+  if (!videoElement) {
+    console.log('⚠️ Video element not found');
+    return;
+  }
+  
+  youtubePlayer = new YT.Player('demoVideo', {
+    events: {
+      'onStateChange': onPlayerStateChange
+    }
+  });
+  console.log('✅ YouTube player initialized');
+}
+
+function onPlayerStateChange(event) {
+  const music = document.getElementById('backgroundMusic');
+  
+  // State 1 = playing
+  if (event.data === YT.PlayerState.PLAYING) {
+    console.log('▶️ Video started - pausing background music');
+    if (music && !music.paused) {
+      originalMusicVolume = music.volume;
+      music.pause();
+      console.log('✅ Background music paused');
+    }
+  }
+  // State 0 = ended
+  else if (event.data === YT.PlayerState.ENDED) {
+    console.log('✅ Video finished - resuming background music');
+    if (music && music.paused) {
+      music.volume = originalMusicVolume;
+      music.play().catch((err) => {
+        console.log('⚠️ Could not resume music:', err);
+      });
+      console.log('✅ Background music resumed');
+    }
+  }
+}
 </script>
 
 </body>
