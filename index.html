@@ -3326,29 +3326,26 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
           <div class="feedback-box">
             <h2>Send Feedback</h2>
 
-            <form action="https://script.google.com/macros/s/AKfycbzTestDXe192HGy3l3i6mEuygdvVVhhLabjkcwYnNF458yKjYvMMLlgQCvR9q0gsUHY/exec" method="post" onsubmit="return showThanks()">
-              <input type="text" name="name" placeholder="Your Name" required>
-              <input type="email" name="email" placeholder="Your Email" required>
-              <input type="tel" name="phone" placeholder="Your Phone Number" required>
-              <textarea name="message" placeholder="Your Message" required></textarea>
+ <form action="https://script.google.com/macros/s/AKfycbwv9WasgLeBC1VT5jlcG469PhHJFXdJO4RPievBSdVcSLS9T3ScxHdnEEe4Z4pJCmTf/exec" method="post" onsubmit="return showThanks()">
 
-              <div class="feedback-grid">
-                <div class="feedback-col">
-                  <label style="color:rgba(255,255,255,0.85); font-weight:600; margin-bottom:6px;">What you liked in the Device/Website</label>
-                  <textarea name="liked" placeholder="What did you like? (device, UI, features...)" aria-label="What you liked"></textarea>
-                </div>
-                <div class="feedback-col">
-                  <label style="color:rgba(255,255,255,0.85); font-weight:600; margin-bottom:6px;">What can we do more on our website</label>
-                  <textarea name="improvements" placeholder="Suggestions or features you'd like to see" aria-label="Suggestions"></textarea>
-                </div>
-              </div>
-              <button type="submit"><span class="icon">✉️</span><span>Send Feedback</span></button>
-            </form>
+  <input type="text" name="name" placeholder="Your Name" required>
+
+  <input type="email" name="email" placeholder="Your Email" required>
+
+  <input type="tel" name="phone" placeholder="Your Phone Number" required>
+
+  <textarea name="liked" placeholder="What you liked in the Device/Website" required></textarea>
+
+  <textarea name="improve" placeholder="What can we improve on our Website?" required></textarea>
+
+  <textarea name="message" placeholder="Your main feedback message" required></textarea>
+
+  <button type="submit">Send Feedback</button>
+</form>
           </div>
 
     </div>
-  </div>
-</div>
+  </div>              
 
 <footer>
   <div class="footer-inner">
@@ -3362,6 +3359,17 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
     <small>Monitoring Health • Advancing Wellness 🚀</small>
   </div>
 </footer>
+
+<!-- FEEDBACK THANK YOU POPUP -->
+<div id="feedbackThanks" class="popup">
+  <div class="popupContent" style="max-width:460px; text-align:center;">
+    <span class="closeBtn" onclick="closePopup('feedbackThanks')">×</span>
+    <div style="font-size:46px; margin:12px 0;">✅</div>
+    <h2 style="color:var(--accent); margin-bottom:6px;">Thank you!</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">Thanks for giving us your feedback — we appreciate it and will use it to improve.</p>
+    <button onclick="closePopup('feedbackThanks')" style="width:100%; padding:12px; border-radius:10px; border:none; background:linear-gradient(90deg,#00d4ff,#0084ff); color:white; font-weight:700;">Close</button>
+  </div>
+</div>
 
 <!-- FLOATING BUTTON -->
 <button id="floatBtn" onclick="openPopup('devicePopup')">ℹ️</button>
@@ -4374,17 +4382,34 @@ let isVideoPlaying = false;
     }
   }
 
-// Feedback Form Handler
-const form = document.querySelector("form");
-const toast = document.getElementById("toast");
+// Feedback Form Handler (AJAX + thank-you popup)
+const feedbackForm = document.getElementById('feedbackForm');
+const feedbackPopup = document.getElementById('feedbackThanks');
+const toast = document.getElementById('toast');
 
-if (form && toast) {
-  form.addEventListener("submit", function() {
-    toast.classList.add("show");
+if (feedbackForm) {
+  feedbackForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const url = feedbackForm.action;
+    const data = new FormData(feedbackForm);
 
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 3000);
+    // Show thank-you popup immediately
+    openPopup('feedbackThanks');
+    
+    // Reset form
+    feedbackForm.reset();
+    
+    // Auto-close popup after 4s
+    setTimeout(()=> closePopup('feedbackThanks'), 4000);
+
+    // Submit data to Google Apps Script in background (fire and forget)
+    fetch(url, { method: 'POST', body: data, mode: 'no-cors' })
+      .then(()=>{
+        console.log('✅ Feedback submitted successfully');
+      })
+      .catch(err => {
+        console.log('⚠️ Feedback submission error:', err);
+      });
   });
 }
 </script>
