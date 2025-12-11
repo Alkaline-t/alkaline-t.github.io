@@ -3488,26 +3488,19 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
           <div class="feedback-box" id="feedbackSection">
             <h2>Send Feedback</h2>
 
- <form id="feedbackForm" action="https://script.google.com/macros/s/AKfycbwv9WasgLeBC1VT5jlcG469PhHJFXdJO4RPievBSdVcSLS9T3ScxHdnEEe4Z4pJCmTf/exec" method="post" onsubmit="return showThanks()">
-
+ <form id="feedbackForm" method="POST" action="https://script.google.com/macros/s/AKfycbz84_LxNoz30dZkvaSGc34lyI_D-mlitNSixGvFv5amtnwrP7hu0VnG5lxkWT-Rz4XB/exec">
   <input type="text" name="name" placeholder="Your Name" required>
-
   <input type="email" name="email" placeholder="Your Email" required>
-
-  <input type="tel" name="phone" placeholder="Your Phone Number" required>
-
-  <textarea name="liked" placeholder="What you liked in the Device/Website" required></textarea>
-
-  <textarea name="improve" placeholder="What can we improve on our Website?" required></textarea>
-
-  <textarea name="message" placeholder="Your main feedback message" required></textarea>
-
+  <input type="tel" name="phone" placeholder="Your Phone">
+  <textarea name="liked" placeholder="What you liked"></textarea>
+  <textarea name="improve" placeholder="What can be improved"></textarea>
+  <textarea name="message" placeholder="Your message"></textarea>
   <button type="submit">Send Feedback</button>
 </form>
           </div>
 
     </div>
-  </div>              
+  </div>
 
 <footer>
   <div class="footer-inner">
