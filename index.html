@@ -2476,7 +2476,7 @@
         <li><a href="#functionsCard">Functions</a></li>
         <li><a href="#heroSection">How It Works</a></li>
         <li><a href="#mentors-section">Mentors</a></li>
-        <!-- Feedback link removed -->
+        <li><a href="#feedbackSection" onclick="scrollToFeedback(event)">📧 Feedback</a></li>
       </ul>
     </nav>
 
@@ -3323,7 +3323,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       </div>
 
           <!-- Feedback section -->
-          <div class="feedback-box">
+          <div class="feedback-box" id="feedbackSection">
             <h2>Send Feedback</h2>
 
  <form action="https://script.google.com/macros/s/AKfycbwv9WasgLeBC1VT5jlcG469PhHJFXdJO4RPievBSdVcSLS9T3ScxHdnEEe4Z4pJCmTf/exec" method="post" onsubmit="return showThanks()">
@@ -4382,7 +4382,16 @@ let isVideoPlaying = false;
     }
   }
 
-// Feedback Form Handler (AJAX + thank-you popup)
+  // Smooth scroll to feedback section from header nav
+  function scrollToFeedback(e){
+    e.preventDefault();
+    const feedbackSection = document.getElementById('feedbackSection');
+    if(feedbackSection){
+      feedbackSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // Feedback Form Handler (AJAX + thank-you popup)
 const feedbackForm = document.getElementById('feedbackForm');
 const feedbackPopup = document.getElementById('feedbackThanks');
 const toast = document.getElementById('toast');
