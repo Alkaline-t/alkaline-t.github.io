@@ -1838,14 +1838,14 @@
 
   /* ---------- FEEDBACK BOX ---------- */
   .feedback-box {
-    width: 420px;
-    max-width: 90%;
+    width: 720px;
+    max-width: 95%;
     margin: 60px auto;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(15px);
-    padding: 25px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(18px);
+    padding: 28px;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.36);
     animation: fadeIn 1s ease forwards;
   }
 
@@ -1885,6 +1885,30 @@
   .feedback-box input::placeholder,
   .feedback-box textarea::placeholder {
     color: rgba(255,255,255,0.7);
+  }
+
+  /* two-column grid for extended feedback fields */
+  .feedback-grid{
+    display:flex;
+    gap:14px;
+    margin: 8px 0 14px 0;
+  }
+
+  .feedback-grid .feedback-col{
+    flex:1 1 0;
+    min-width: 180px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .feedback-grid textarea{
+    min-height:120px;
+    resize:vertical;
+  }
+
+  @media(max-width:720px){
+    .feedback-box{ width: 95%; padding: 18px }
+    .feedback-grid{ flex-direction:column }
   }
 
   /* ---------- BUTTON ---------- */
@@ -3307,6 +3331,17 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
               <input type="email" name="email" placeholder="Your Email" required>
               <input type="tel" name="phone" placeholder="Your Phone Number" required>
               <textarea name="message" placeholder="Your Message" required></textarea>
+
+              <div class="feedback-grid">
+                <div class="feedback-col">
+                  <label style="color:rgba(255,255,255,0.85); font-weight:600; margin-bottom:6px;">What you liked in the Device/Website</label>
+                  <textarea name="liked" placeholder="What did you like? (device, UI, features...)" aria-label="What you liked"></textarea>
+                </div>
+                <div class="feedback-col">
+                  <label style="color:rgba(255,255,255,0.85); font-weight:600; margin-bottom:6px;">What can we do more on our website</label>
+                  <textarea name="improvements" placeholder="Suggestions or features you'd like to see" aria-label="Suggestions"></textarea>
+                </div>
+              </div>
               <button type="submit"><span class="icon">✉️</span><span>Send Feedback</span></button>
             </form>
           </div>
