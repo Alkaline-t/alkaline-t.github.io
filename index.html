@@ -1,4 +1,4 @@
-﻿<!doctype html>
+﻿﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -1261,14 +1261,15 @@
   footer{
     margin-top: 80px;
     padding: 50px 24px;
-    background: var(--gradient-2);
-    color: white;
+    /* darker footer for better contrast */
+    background: linear-gradient(135deg, #071029 0%, #0b1630 100%);
+    color: #e6f7ff;
     text-align: center;
     font-size: 16px;
     font-weight: 600;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 -12px 50px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 -12px 60px rgba(2,8,20,0.7);
   }
 
   footer::before{
@@ -1304,8 +1305,8 @@
 
   /* Dark mode footer */
   body.dark-mode footer{
-    background: linear-gradient(135deg, #1e2a5a 0%, #2d1b4e 50%, #4a2567 100%);
-    box-shadow: 0 -8px 32px rgba(102, 126, 234, 0.2);
+    background: linear-gradient(135deg,#020613 0%, #071228 100%);
+    box-shadow: 0 -16px 80px rgba(0,0,0,0.7);
   }
 
   body.dark-mode footer:hover{
@@ -1328,6 +1329,45 @@
       font-size: 13px;
     }
   }
+
+  /* Improved footer visuals */
+  footer .footer-inner{
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  footer .brand {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  footer .brand img{ height:28px }
+
+  footer .cta {
+    margin-top: 6px;
+    background: rgba(255,255,255,0.12);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight:700;
+    color: white;
+    box-shadow: inset 0 -2px 6px rgba(255,255,255,0.02);
+  }
+
+  /* Dark mode adjustments for footer inner parts */
+  body.dark-mode footer .cta{
+    background: rgba(255,255,255,0.06);
+    color: #e6f6ff;
+  }
+
+  footer small { opacity: 0.9; color: rgba(255,255,255,0.9); }
 
   /* ===== ENHANCED INTERACTIVE ELEMENTS ===== */
   /* Smooth scroll behavior */
@@ -1850,20 +1890,47 @@
   /* ---------- BUTTON ---------- */
   .feedback-box button {
     width: 100%;
-    padding: 12px;
-    background: linear-gradient(45deg, #ff0077, #ffaf00);
+    padding: 14px 18px;
+    background: linear-gradient(90deg, #ff7aa2 0%, #ffb86b 50%, #ffd66b 100%);
     border: none;
     font-size: 18px;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
     color: white;
-    transition: 0.3s ease;
-    font-weight: 600;
+    transition: transform 200ms cubic-bezier(.2,.9,.2,1), box-shadow 250ms ease, opacity 200ms ease;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 30px rgba(255, 140, 110, 0.18), inset 0 -2px 8px rgba(255,255,255,0.06);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  }
+
+  .feedback-box button .icon {
+    display:inline-block;
+    width:20px;height:20px;font-size:16px;line-height:20px;
+    transform:translateY(-1px);
   }
 
   .feedback-box button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 18px rgba(255,255,255,0.8);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 18px 40px rgba(255, 140, 110, 0.22);
+  }
+
+  .feedback-box button:active{
+    transform: translateY(-1px) scale(0.995);
+  }
+
+  /* Dark mode for feedback button */
+  body.dark-mode .feedback-box button{
+    background: linear-gradient(90deg,#6dd3ff 0%, #5a86ff 50%, #7b6bff 100%);
+    color: #061226;
+    box-shadow: 0 10px 30px rgba(30,40,80,0.32), inset 0 -2px 8px rgba(255,255,255,0.02);
+  }
+
+  body.dark-mode .feedback-box button:hover{
+    box-shadow: 0 22px 50px rgba(30,60,120,0.38);
   }
 
   /* ---------- TOAST ---------- */
@@ -3231,27 +3298,33 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
         </div>
       </div>
 
-      <!-- Feedback section removed -->
+          <!-- Feedback section -->
+          <div class="feedback-box">
+            <h2>Send Feedback</h2>
+
+            <form action="https://script.google.com/macros/s/AKfycbzTestDXe192HGy3l3i6mEuygdvVVhhLabjkcwYnNF458yKjYvMMLlgQCvR9q0gsUHY/exec" method="post" onsubmit="return showThanks()">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Your Email" required>
+              <input type="tel" name="phone" placeholder="Your Phone Number" required>
+              <textarea name="message" placeholder="Your Message" required></textarea>
+              <button type="submit"><span class="icon">✉️</span><span>Send Feedback</span></button>
+            </form>
+          </div>
 
     </div>
   </div>
 </div>
 
 <footer>
-  <div style="max-width: 900px; margin: 0 auto; position: relative; z-index: 1;">
-    <div style="margin-bottom: 12px;">
-      <p style="margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px;">
-        ❤️ AI Fitness Monitoring Device
-      </p>
+  <div class="footer-inner">
+    <div class="brand">
+      <img src="images/logo.png" alt="logo">
+      <span>AI Fitness Monitoring Device</span>
     </div>
-    <p style="margin: 8px 0; opacity: 0.95;">
-      © 2025 All Rights Reserved | Designed & Developed with ✨
-    </p>
 
-    </div>
-    <p style="margin: 12px 0 0 0; opacity: 0.85; font-size: 12px;">
-      Monitoring Health • Advancing Wellness 🚀
-    </p>
+    <div class="cta">© 2025 All Rights Reserved | Designed & Developed with ✨</div>
+
+    <small>Monitoring Health • Advancing Wellness 🚀</small>
   </div>
 </footer>
 
@@ -4212,38 +4285,59 @@ document.addEventListener('keydown', function(e) {
 let originalMusicVolume = 0.7;
 let isVideoPlaying = false;
 
-// Handle YouTube iframe interactions
-const demoVideo = document.getElementById('demoVideo');
-const backgroundMusic = document.getElementById('bg-music');
+  // Handle YouTube iframe interactions using YouTube IFrame API
+  const backgroundMusic = document.getElementById('bg-music');
+  let ytPlayer;
 
-if (demoVideo && backgroundMusic) {
-  // Pause music when user clicks play on YouTube video
-  demoVideo.addEventListener('mousedown', function() {
-    console.log('🎬 Video clicked - pausing background music');
-    if (backgroundMusic && !backgroundMusic.paused) {
-      originalMusicVolume = backgroundMusic.volume;
-      backgroundMusic.pause();
-      isVideoPlaying = true;
-      console.log('✅ Background music paused');
+  (function loadYouTubeAPI(){
+    if (window.YT && window.YT.Player) {
+      initYouTubePlayer();
+      return;
     }
-  }, true);
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScript = document.getElementsByTagName('script')[0];
+    firstScript.parentNode.insertBefore(tag, firstScript);
+  })();
 
-  // Resume music when user stops interacting with video
-  document.addEventListener('mouseup', function() {
-    if (isVideoPlaying) {
-      setTimeout(function() {
-        if (backgroundMusic && backgroundMusic.paused) {
-          backgroundMusic.volume = originalMusicVolume;
-          backgroundMusic.play().catch((err) => {
-            console.log('⚠️ Could not resume music:', err);
-          });
-          console.log('✅ Background music resumed');
-          isVideoPlaying = false;
+  function initYouTubePlayer(){
+    try{
+      ytPlayer = new YT.Player('demoVideo', {
+        events: {
+          'onStateChange': onPlayerStateChange
         }
-      }, 2000);
+      });
+    }catch(e){
+      console.log('YouTube Player init error', e);
     }
-  });
-}
+  }
+
+  // Called by the YouTube IFrame API when ready
+  window.onYouTubeIframeAPIReady = function(){
+    initYouTubePlayer();
+  };
+
+  function onPlayerStateChange(event){
+    if (!backgroundMusic) return;
+    const YTSTATE = window.YT && window.YT.PlayerState ? window.YT.PlayerState : null;
+    // PLAYING -> pause background music
+    if (YTSTATE && event.data === YTSTATE.PLAYING) {
+      if (!backgroundMusic.paused) {
+        try { backgroundMusic.pause(); } catch(e) { console.log('Pause error', e); }
+        console.log('🔇 Background music paused (video playing)');
+      }
+    }
+
+    // PAUSED or ENDED -> restart background music
+    if (YTSTATE && (event.data === YTSTATE.PAUSED || event.data === YTSTATE.ENDED)) {
+      // attempt to play background music (may require user gesture)
+      backgroundMusic.play().then(()=>{
+        console.log('🔊 Background music resumed after video pause/finish');
+      }).catch(err=>{
+        console.log('⚠️ Could not resume background music:', err);
+      });
+    }
+  }
 
 // Feedback Form Handler
 const form = document.querySelector("form");
@@ -4284,23 +4378,7 @@ function showThanks() {
 </script>
 
 <!-- FEEDBACK SECTION -->
-<div class="feedback-box">
-  <h2>Send Feedback</h2>
-
-<form action="https://script.google.com/macros/s/AKfycbzTestDXe192HGy3l3i6mEuygdvVVhhLabjkcwYnNF458yKjYvMMLlgQCvR9q0gsUHY/exec" method="post" onsubmit="return showThanks()">
-  
-  <input type="text" name="name" placeholder="Your Name" required>
-  
-  <input type="email" name="email" placeholder="Your Email" required>
-  
-  <input type="tel" name="phone" placeholder="Your Phone Number" required>
-  
-  <textarea name="message" placeholder="Your Message" required></textarea>
-  
-  <button type="submit">Send Feedback</button>
-
-</form>
-</div>
+<!-- feedback moved above the footer -->
 
 
 
