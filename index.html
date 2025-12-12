@@ -2049,21 +2049,19 @@
 
   /* ---------- FEEDBACK BOX ---------- */
   .feedback-box {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: auto;
+    border: 2px solid #4CAF50;
+    padding: 20px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+    position: relative;
+    overflow: hidden;
     width: 740px;
     max-width: 95%;
-    margin: 80px auto;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
-    backdrop-filter: blur(25px);
-    padding: 40px;
-    border-radius: 24px;
-    border: 2px solid rgba(0,132,255,0.25);
-    box-shadow: 
-      0 25px 80px rgba(0,132,255,0.18),
-      0 0 60px rgba(0,212,255,0.12),
-      inset 0 1px 2px rgba(255,255,255,0.9);
-    position: relative;
     animation: fadeIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    overflow: hidden;
   }
 
   .feedback-box::before {
@@ -2092,9 +2090,10 @@
     animation: float 8s ease-in-out infinite reverse;
   }
 
-  @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
+  @keyframes slideGradient {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 0%; }
+    100% { background-position: 0% 0%; }
   }
 
   .feedback-box h2 {
@@ -2126,39 +2125,24 @@
   .feedback-box input,
   .feedback-box textarea {
     width: 100%;
-    padding: 14px 16px;
-    margin: 12px 0;
-    border: 2px solid rgba(0,132,255,0.25);
-    border-radius: 12px;
-    font-size: 15px;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(248,252,255,0.95) 100%);
-    color: #111;
-    outline: none;
-    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
     box-sizing: border-box;
     font-family: inherit;
-    box-shadow: 0 4px 15px rgba(0,132,255,0.08);
-    position: relative;
-    z-index: 1;
   }
 
   .feedback-box input:focus,
   .feedback-box textarea:focus {
-    background: linear-gradient(135deg, #ffffff 0%, rgba(240,248,255,0.98) 100%);
-    border-color: #0084ff;
-    box-shadow: 0 8px 30px rgba(0,132,255,0.25), inset 0 1px 0 rgba(255,255,255,0.5);
-    transform: translateY(-2px);
+    border-color: #4CAF50;
+    outline: none;
   }
 
   .feedback-box input::placeholder,
   .feedback-box textarea::placeholder {
-    color: #bbb;
-  }
-
-  .feedback-box input:hover:not(:focus),
-  .feedback-box textarea:hover:not(:focus) {
-    border-color: rgba(0,132,255,0.35);
-    box-shadow: 0 6px 20px rgba(0,132,255,0.12);
+    color: #999;
   }
 
   /* two-column grid for extended feedback fields */
@@ -2268,66 +2252,21 @@
 
   /* ---------- BUTTON ---------- */
   .feedback-box button {
-    width: 100%;
-    padding: 16px 24px;
-    background: linear-gradient(135deg, #0084ff 0%, #00d4ff 50%, #667eea 100%);
-    border: none;
-    font-size: 16px;
-    font-weight: 700;
-    border-radius: 14px;
-    cursor: pointer;
+    background-color: #4CAF50;
     color: white;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    box-shadow: 
-      0 12px 40px rgba(0,132,255,0.3),
-      0 0 30px rgba(0,212,255,0.2),
-      inset 0 -3px 10px rgba(0,0,0,0.1),
-      inset 0 1px 0 rgba(255,255,255,0.3);
-    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    position: relative;
-    z-index: 1;
-    letter-spacing: 0.5px;
-    overflow: hidden;
-  }
-
-  .feedback-box button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.6s ease;
-  }
-
-  .feedback-box button:hover::before {
-    left: 100%;
-  }
-
-  .feedback-box button .icon {
-    display: inline-block;
-    font-size: 18px;
-    animation: bounce 0.6s ease-in-out infinite;
+    transition: all 0.3s ease;
   }
 
   .feedback-box button:hover {
-    transform: translateY(-4px);
-    box-shadow: 
-      0 18px 50px rgba(0,132,255,0.4),
-      0 0 50px rgba(0,212,255,0.3),
-      inset 0 1px 0 rgba(255,255,255,0.4);
-  }
-
-  .feedback-box button:active {
-    transform: translateY(-1px);
-    box-shadow: 
-      0 8px 25px rgba(0,132,255,0.25),
-      inset 0 -2px 8px rgba(0,0,0,0.15);
+    background-color: #45a049;
   }
 
   /* ---------- TOAST ---------- */
@@ -3743,17 +3682,40 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 
           <!-- Feedback section -->
           <div class="feedback-box" id="feedbackSection">
-            <h2>Send Feedback</h2>
-            <p style="text-align: center; color: var(--muted); margin-bottom: 20px; font-style: italic; font-size: 16px; line-height: 1.6;">
-              "Your thoughts shape our future. Help us create the perfect health monitoring experience for everyone. ✨"
+            <div style="text-align: center; margin-bottom: 20px;">
+              <img src="images/logo.png" alt="AI Fitness Logo" style="width: 120px;">
+            </div>
+            <h2 style="font-size: 16px; text-align: center; margin-bottom: 20px;">Send Feedback</h2>
+            <p style="font-size: 14px; color: #333; text-align: center; margin-bottom: 20px;">
+              "Your thoughts shape our future. Help us create the perfect health monitoring experience for everyone. ✨"<br><br>
+
+              <span style="
+                display: inline-block;
+                background: linear-gradient(90deg, #ffeb3b, #ff9800, #ffeb3b);
+                background-size: 200% 100%;
+                padding: 5px 10px;
+                border-radius: 8px;
+                font-weight: bold;
+                color: #d32f2f;
+                font-size: 16px;
+                animation: slideGradient 3s linear infinite;
+              ">
+                🎬📹 We will share the device demo video soon! Stay tuned! 🎬📹
+              </span>
             </p>
 
- <form id="feedbackForm" method="POST" action="https://script.google.com/macros/s/AKfycbyabpzO_OlKq89LwAsl5mZmLY6RQWoChKRx-g75dPHhtHzaxHH6esvzlba1eTeB5w3JcA/exec">
-  <input type="text" name="name" placeholder="Your Name" required>
-  <input type="email" name="email" placeholder="Your Email" required>
-  <textarea name="feedback" placeholder="Your Feedback" required></textarea>
-  <button type="submit">Send Feedback</button>
-</form>
+            <form id="feedbackForm" method="POST" action="https://script.google.com/macros/s/AKfycbyabpzO_OlKq89LwAsl5mZmLY6RQWoChKRx-g75dPHhtHzaxHH6esvzlba1eTeB5w3JcA/exec">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Your Email" required>
+              <textarea name="feedback" placeholder="Your Feedback" required></textarea>
+              <button type="submit">Send Feedback</button>
+            </form>
+
+            <p style="font-size: 14px; color: #555; text-align: center; margin-top: 20px;">
+              Regards,<br>
+              <strong>AI FITNESS MONITORING DEVICE TEAM</strong>
+              <img src="images/logo.png" alt="Logo" style="width: 40px; vertical-align: middle; margin-left: 10px;">
+            </p>
           </div>
 
     </div>
