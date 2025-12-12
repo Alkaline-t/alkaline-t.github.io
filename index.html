@@ -2090,10 +2090,13 @@
     animation: float 8s ease-in-out infinite reverse;
   }
 
-  @keyframes slideGradient {
-    0% { background-position: 0% 0%; }
-    50% { background-position: 100% 0%; }
-    100% { background-position: 0% 0%; }
+  .feedback-box > p.feedback-quote {
+    color: #333;
+  }
+
+  /* Dark mode for feedback quote */
+  body.dark-mode .feedback-box > p.feedback-quote {
+    color: #fff;
   }
 
   .feedback-box h2 {
@@ -3685,8 +3688,8 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
             <div style="text-align: center; margin-bottom: 20px;">
               <img src="images/logo.png" alt="AI Fitness Logo" style="width: 120px;">
             </div>
-            <h2 style="font-size: 16px; text-align: center; margin-bottom: 20px;">Send Feedback</h2>
-            <p style="font-size: 14px; color: #333; text-align: center; margin-bottom: 20px;">
+            <h2 style="font-size: 28px; text-align: center; margin-bottom: 20px;">Send Feedback</h2>
+            <p class="feedback-quote" style="font-size: 14px; text-align: center; margin-bottom: 20px;">
               "Your thoughts shape our future. Help us create the perfect health monitoring experience for everyone. ✨"<br><br>
 
               <span style="
@@ -3707,6 +3710,8 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
             <form id="feedbackForm" method="POST" action="https://script.google.com/macros/s/AKfycbyabpzO_OlKq89LwAsl5mZmLY6RQWoChKRx-g75dPHhtHzaxHH6esvzlba1eTeB5w3JcA/exec">
               <input type="text" name="name" placeholder="Your Name" required>
               <input type="email" name="email" placeholder="Your Email" required>
+              <input type="text" name="improvement" placeholder="What can we improve more?" required>
+              <input type="text" name="liked" placeholder="What you liked" required>
               <textarea name="feedback" placeholder="Your Feedback" required></textarea>
               <button type="submit">Send Feedback</button>
             </form>
