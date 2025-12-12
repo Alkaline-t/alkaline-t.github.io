@@ -42,6 +42,7 @@
     overflow-y:scroll;
     position: relative;
     min-height: 100vh;
+    overscroll-behavior: contain;
   }
   
   body::before {
@@ -331,7 +332,8 @@
   }
 
   @media(max-width:768px){
-    .vk-nav{position:absolute; top:58px; right:0; background:#111; width:100%; display:none; flex-direction:column; text-align:center;}
+    .vk-nav{position:absolute; top:58px; right:0; background:#111; width:100%; opacity:0; visibility:hidden; flex-direction:column; text-align:center; transition: opacity 0.3s ease, visibility 0.3s ease;}
+    .vk-nav.open{opacity:1; visibility:visible;}
     .vk-nav ul{flex-direction:column; gap:12px;}
     .vk-toggle{display:block; font-size:26px; cursor:pointer;}
     .theme-toggle{
@@ -3501,11 +3503,11 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <div class="card reveal" id="functionsCard">
         <h2>⚙️ Functions</h2>
         <ol style="color:var(--muted);">
-          <li>Heart Rate & SpO₂</li>
-          <li>Shows Temperature</li>
-          <li>Shows Live Current Time</li>
-          <li>Smart Beep Alerts</li>
-          <li>Shows Smart Messages</li>
+          <li style="transition: color 0.3s ease; cursor: pointer;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Heart Rate & SpO₂</li>
+          <li style="transition: color 0.3s ease; cursor: pointer;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Shows Temperature</li>
+          <li style="transition: color 0.3s ease; cursor: pointer;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Shows Live Current Time</li>
+          <li style="transition: color 0.3s ease; cursor: pointer;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Smart Beep Alerts</li>
+          <li style="transition: color 0.3s ease; cursor: pointer;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Shows Smart Messages</li>
         </ol>
       </div>
 
@@ -3889,7 +3891,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 <script>
   function toggleMenu(){
     const menu=document.querySelector('.vk-nav');
-    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    menu.classList.toggle('open');
   }
 
   /* 🌙 THEME TOGGLE FUNCTIONALITY */
