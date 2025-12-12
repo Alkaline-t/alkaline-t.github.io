@@ -513,6 +513,28 @@
     }
   }
 
+  /* LOADING SCREEN ANIMATIONS */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes loading-progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
   @keyframes shimmer {
     0% {
       background-position: -1000px 0;
@@ -1157,6 +1179,40 @@
     transform: scale(0.92);
   }
 
+  /* BACK TO TOP BUTTON */
+  #backToTopBtn {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-1);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+  }
+
+  #backToTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #backToTopBtn:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 132, 255, 0.5);
+  }
+
+  #backToTopBtn:active {
+    transform: scale(0.95);
+  }
+
   /* POPUP */
   .popup{
     display:none;
@@ -1369,6 +1425,43 @@
 
   footer small { opacity: 0.9; color: rgba(255,255,255,0.9); }
 
+  /* ENHANCED FOOTER CONTENT */
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin: 40px 0;
+    max-width: 1000px;
+  }
+
+  .footer-section h4 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .social-links a:hover {
+    color: var(--accent) !important;
+    transform: scale(1.2);
+  }
+
+  .footer-section ul li a:hover {
+    color: var(--accent) !important;
+  }
+
+  /* Dark mode footer enhancements */
+  body.dark-mode .footer-section h4 {
+    color: var(--accent-3);
+  }
+
+  body.dark-mode .social-links a:hover {
+    color: var(--accent-3) !important;
+  }
+
+  body.dark-mode .footer-section ul li a:hover {
+    color: var(--accent-3) !important;
+  }
+
   /* MOVING MAINTENANCE BANNER */
   .maintenance-banner {
     position: fixed;
@@ -1470,6 +1563,53 @@
   /* Advanced card shadow on hover */
   .card:hover {
     filter: drop-shadow(0 20px 60px rgba(0, 132, 255, 0.3));
+  }
+
+  /* TESTIMONIAL CARDS */
+  .testimonial-card {
+    position: relative;
+    overflow: hidden;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .testimonial-card:nth-child(2) {
+    animation-delay: 2s;
+  }
+
+  .testimonial-card:nth-child(3) {
+    animation-delay: 4s;
+  }
+
+  .testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 132, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .testimonial-card:hover::before {
+    left: 100%;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0, 132, 255, 0.2);
+  }
+
+  /* NEWSLETTER FORM */
+  .newsletter-form input:focus {
+    outline: none;
+    background: rgba(255,255,255,0.3) !important;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+  }
+
+  .newsletter-form button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
   }
 
   /* FLOATING ANIMATION FOR ELEMENTS */
@@ -2555,6 +2695,60 @@
 
 <body>
 
+<!-- LOADING SCREEN -->
+<div id="loading-screen" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+">
+  <div style="
+    text-align: center;
+    color: white;
+    animation: fadeInUp 1s ease;
+  ">
+    <div style="
+      font-size: 60px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    ">🏥</div>
+    <h1 style="
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    ">AI FITNESS</h1>
+    <p style="
+      font-size: 18px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    ">Monitoring Health • Advancing Wellness</p>
+    <div class="loading-bar" style="
+      width: 200px;
+      height: 4px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 0 auto;
+    ">
+      <div style="
+        height: 100%;
+        background: white;
+        border-radius: 2px;
+        animation: loading-progress 2s ease-in-out;
+      "></div>
+    </div>
+  </div>
+</div>
+
 <!-- WELCOME INSTRUCTION POPUP -->
 <div id="welcome-popup" style="
   position: fixed;
@@ -3573,6 +3767,36 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <span>AI Fitness Monitoring Device</span>
     </div>
 
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4 style="color: var(--accent); margin-bottom: 15px; font-size: 18px;">Follow Us</h4>
+        <div class="social-links">
+          <a href="#" style="color: var(--text); text-decoration: none; margin: 0 10px; font-size: 24px; transition: all 0.3s ease;">📘</a>
+          <a href="#" style="color: var(--text); text-decoration: none; margin: 0 10px; font-size: 24px; transition: all 0.3s ease;">🐦</a>
+          <a href="#" style="color: var(--text); text-decoration: none; margin: 0 10px; font-size: 24px; transition: all 0.3s ease;">📷</a>
+          <a href="#" style="color: var(--text); text-decoration: none; margin: 0 10px; font-size: 24px; transition: all 0.3s ease;">💼</a>
+          <a href="#" style="color: var(--text); text-decoration: none; margin: 0 10px; font-size: 24px; transition: all 0.3s ease;">▶️</a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h4 style="color: var(--accent); margin-bottom: 15px; font-size: 18px;">Quick Links</h4>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="margin-bottom: 8px;"><a href="#top-image-section" style="color: var(--muted); text-decoration: none; transition: color 0.3s ease;">Device Overview</a></li>
+          <li style="margin-bottom: 8px;"><a href="#functionsCard" style="color: var(--muted); text-decoration: none; transition: color 0.3s ease;">Features</a></li>
+          <li style="margin-bottom: 8px;"><a href="#mentors-section" style="color: var(--muted); text-decoration: none; transition: color 0.3s ease;">Our Team</a></li>
+          <li style="margin-bottom: 8px;"><a href="#feedbackSection" style="color: var(--muted); text-decoration: none; transition: color 0.3s ease;">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4 style="color: var(--accent); margin-bottom: 15px; font-size: 18px;">Contact Info</h4>
+        <p style="color: var(--muted); margin: 5px 0; font-size: 14px;">📧 support@aifitness.com</p>
+        <p style="color: var(--muted); margin: 5px 0; font-size: 14px;">📞 +1 (555) 123-4567</p>
+        <p style="color: var(--muted); margin: 5px 0; font-size: 14px;">📍 Health Tech Innovation Lab</p>
+      </div>
+    </div>
+
     <div class="cta">© 2025 All Rights Reserved | Designed & Developed with ✨</div>
 
     <small>Monitoring Health • Advancing Wellness 🚀</small>
@@ -3599,6 +3823,9 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 
 <!-- FLOATING BUTTON -->
 <button id="floatBtn" onclick="openPopup('devicePopup')">ℹ️</button>
+
+<!-- BACK TO TOP BUTTON -->
+<button id="backToTopBtn" onclick="scrollToTop()" style="position: fixed; bottom: 100px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--gradient-1); border: none; color: white; font-size: 20px; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 100; box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);">⬆️</button>
 
 <!-- DEVICE POPUP -->
 <div id="devicePopup" class="popup">
@@ -4233,6 +4460,18 @@ function playWelcomeVoice() {
 
 // Add click event listener to welcome button for better mobile support
 document.addEventListener('DOMContentLoaded', function() {
+  // Hide loading screen after page loads
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    setTimeout(() => {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        console.log('✅ Loading screen hidden');
+      }, 500);
+    }, 2500); // Show loading screen for 2.5 seconds
+  }
+
   // Auto-close welcome popup after 6 seconds
   const welcomePopup = document.getElementById('welcome-popup');
   if (welcomePopup) {
@@ -4617,6 +4856,24 @@ let isVideoPlaying = false;
       feedbackSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
+  // Back to top functionality
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  // Show/hide back to top button based on scroll position
+  window.addEventListener('scroll', function() {
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (window.pageYOffset > 300) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
+  });
 
   // Feedback Form Handler (AJAX + thank-you popup)
 const feedbackForm = document.getElementById('feedbackForm');
