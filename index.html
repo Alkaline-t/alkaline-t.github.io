@@ -1369,6 +1369,75 @@
 
   footer small { opacity: 0.9; color: rgba(255,255,255,0.9); }
 
+  /* MOVING MAINTENANCE BANNER */
+  .maintenance-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+    background-size: 400% 400%;
+    animation: gradient-shift 8s ease infinite;
+    color: white;
+    padding: 12px 0;
+    z-index: 1000;
+    overflow: hidden;
+    box-shadow: 0 -4px 20px rgba(255, 107, 107, 0.4), 0 -2px 10px rgba(0, 0, 0, 0.2);
+    border-top: 3px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(2px);
+  }
+
+  .maintenance-text {
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    animation: scroll-left 25s linear infinite, pulse-glow 2s ease-in-out infinite alternate;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(255,255,255,0.3);
+    text-transform: uppercase;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes pulse-glow {
+    0% { text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(255,255,255,0.3); }
+    100% { text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.6), 0 0 30px rgba(255,107,107,0.4); }
+  }
+
+  /* Dark mode maintenance banner */
+  body.dark-mode .maintenance-banner {
+    background: linear-gradient(45deg, #2d3436, #636e72, #a29bfe, #fd79a8, #00b894);
+    background-size: 400% 400%;
+    border-top: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 -4px 20px rgba(45, 52, 54, 0.6), 0 -2px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  body.dark-mode .maintenance-text {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 10px rgba(255,255,255,0.2);
+  }
+
+  body.dark-mode .maintenance-text {
+    animation: scroll-left 25s linear infinite, pulse-glow-dark 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow-dark {
+    0% { text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 10px rgba(255,255,255,0.2); }
+    100% { text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 20px rgba(255,255,255,0.4), 0 0 30px rgba(162, 155, 254, 0.3); }
+  }
+
   /* ===== ENHANCED INTERACTIVE ELEMENTS ===== */
   /* Smooth scroll behavior */
   html {
@@ -3332,8 +3401,8 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <!-- VIDEO DEMO SECTION -->
       <div class="card" style="margin: 80px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
         <h2 style="color: var(--accent); text-align: center; margin-bottom: 20px; font-size: 28px;">🎥 Device Demo</h2>
-        <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600; text-align: center; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);">
-          <div style="padding: 20px; background: rgba(255,255,255,0.1); border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);">
+          <div style="color: white; font-size: 28px; font-weight: 700; text-align: center; width: 100%;">
             🎥 Demo video of device will come soon by today night.
           </div>
         </div>
@@ -3506,6 +3575,13 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
     <small>Monitoring Health • Advancing Wellness 🚀</small>
   </div>
 </footer>
+
+<!-- MOVING MAINTENANCE BANNER -->
+<div class="maintenance-banner">
+  <div class="maintenance-text">
+    ⚠️ 🔧 Website under maintenance -  For now you can see the current content.⚠️ 🔧 Website under maintenance - For now you can see the current content. ⚠️ 🔧 Website under maintenance - For now you can see the current content. ⚠️
+  </div>
+</div>
 
 <!-- FEEDBACK THANK YOU POPUP -->
 <div id="feedbackThanks" class="popup">
