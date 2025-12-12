@@ -3332,15 +3332,10 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <!-- VIDEO DEMO SECTION -->
       <div class="card" style="margin: 80px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
         <h2 style="color: var(--accent); text-align: center; margin-bottom: 20px; font-size: 28px;">🎥 Device Demo</h2>
-        <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: #000;">
-          <iframe 
-                  id="demoVideo"
-                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;" 
-                  src="" 
-                  title="AI Fitness Monitoring Device Demo" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowfullscreen>
-          </iframe>
+        <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 600; text-align: center; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);">
+          <div style="padding: 20px; background: rgba(255,255,255,0.1); border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+            🎥 Demo video of device will come soon by today night.
+          </div>
         </div>
         <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px;">
           Watch the device in action — Measuring heart rate, SpO₂, and temperature in real-time
@@ -4480,59 +4475,60 @@ document.addEventListener('keydown', function(e) {
 let originalMusicVolume = 0.7;
 let isVideoPlaying = false;
 
-  // Handle YouTube iframe interactions using YouTube IFrame API
+  // YouTube Video and Background Music Control - Disabled (no video currently)
   const backgroundMusic = document.getElementById('bg-music');
   let ytPlayer;
 
-  (function loadYouTubeAPI(){
-    if (window.YT && window.YT.Player) {
-      initYouTubePlayer();
-      return;
-    }
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScript = document.getElementsByTagName('script')[0];
-    firstScript.parentNode.insertBefore(tag, firstScript);
-  })();
+  // YouTube API disabled - no video currently
+  // (function loadYouTubeAPI(){
+  //   if (window.YT && window.YT.Player) {
+  //     initYouTubePlayer();
+  //     return;
+  //   }
+  //   const tag = document.createElement('script');
+  //   tag.src = 'https://www.youtube.com/iframe_api';
+  //   const firstScript = document.getElementsByTagName('script')[0];
+  //   firstScript.parentNode.insertBefore(tag, firstScript);
+  // })();
 
-  function initYouTubePlayer(){
-    try{
-      ytPlayer = new YT.Player('demoVideo', {
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }catch(e){
-      console.log('YouTube Player init error', e);
-    }
-  }
+  // function initYouTubePlayer(){
+  //   try{
+  //     ytPlayer = new YT.Player('demoVideo', {
+  //       events: {
+  //         'onStateChange': onPlayerStateChange
+  //       }
+  //     });
+  //   }catch(e){
+  //     console.log('YouTube Player init error', e);
+  //   }
+  // }
 
-  // Called by the YouTube IFrame API when ready
-  window.onYouTubeIframeAPIReady = function(){
-    initYouTubePlayer();
-  };
+  // Called by the YouTube IFrame API when ready - disabled
+  // window.onYouTubeIframeAPIReady = function(){
+  //   initYouTubePlayer();
+  // };
 
-  function onPlayerStateChange(event){
-    if (!backgroundMusic) return;
-    const YTSTATE = window.YT && window.YT.PlayerState ? window.YT.PlayerState : null;
-    // PLAYING -> pause background music
-    if (YTSTATE && event.data === YTSTATE.PLAYING) {
-      if (!backgroundMusic.paused) {
-        try { backgroundMusic.pause(); } catch(e) { console.log('Pause error', e); }
-        console.log('🔇 Background music paused (video playing)');
-      }
-    }
+  // function onPlayerStateChange(event){
+  //   if (!backgroundMusic) return;
+  //   const YTSTATE = window.YT && window.YT.PlayerState ? window.YT.PlayerState : null;
+  //   // PLAYING -> pause background music
+  //   if (YTSTATE && event.data === YTSTATE.PLAYING) {
+  //     if (!backgroundMusic.paused) {
+  //       try { backgroundMusic.pause(); } catch(e) { console.log('Pause error', e); }
+  //       console.log('🔇 Background music paused (video playing)');
+  //     }
+  //   }
 
-    // PAUSED or ENDED -> restart background music
-    if (YTSTATE && (event.data === YTSTATE.PAUSED || event.data === YTSTATE.ENDED)) {
-      // attempt to play background music (may require user gesture)
-      backgroundMusic.play().then(()=>{
-        console.log('🔊 Background music resumed after video pause/finish');
-      }).catch(err=>{
-        console.log('⚠️ Could not resume background music:', err);
-      });
-    }
-  }
+  //   // PAUSED or ENDED -> restart background music
+  //   if (YTSTATE && (event.data === YTSTATE.PAUSED || event.data === YTSTATE.ENDED)) {
+  //     // attempt to play background music (may require user gesture)
+  //     backgroundMusic.play().then(()=>{
+  //       console.log('🔊 Background music resumed after video pause/finish');
+  //     }).catch(err=>{
+  //       console.log('⚠️ Could not resume background music:', err);
+  //     });
+  //   }
+  // }
 
   // Smooth scroll to feedback section from header nav
   function scrollToFeedback(e){
