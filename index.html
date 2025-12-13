@@ -1319,16 +1319,19 @@
   footer{
     margin-top: 80px;
     padding: 50px 24px;
-    /* darker footer for better contrast */
-    background: linear-gradient(135deg, #071029 0%, #0b1630 100%);
-    color: #e6f7ff;
+    /* light footer for better visibility */
+    background: linear-gradient(135deg, rgba(240,249,255,0.9) 0%, rgba(244,250,255,0.9) 50%, rgba(232,248,255,0.9) 100%);
+    color: #071029;
     text-align: center;
     font-size: 16px;
     font-weight: 600;
     position: relative;
     overflow: hidden;
     box-shadow: 0 -12px 60px rgba(2,8,20,0.7);
+    border-top: 3px solid var(--accent);
+    backdrop-filter: blur(10px);
   }
+
 
   footer::before{
     content: '';
@@ -1364,6 +1367,7 @@
   /* Dark mode footer */
   body.dark-mode footer{
     background: linear-gradient(135deg,#020613 0%, #071228 100%);
+    color: #e6f7ff;
     box-shadow: 0 -16px 80px rgba(0,0,0,0.7);
   }
 
@@ -1424,6 +1428,8 @@
     background: rgba(255,255,255,0.06);
     color: #e6f6ff;
   }
+
+  body.dark-mode footer small { color: rgba(255,255,255,0.9); }
 
   footer small { opacity: 0.9; color: rgba(255,255,255,0.9); }
 
