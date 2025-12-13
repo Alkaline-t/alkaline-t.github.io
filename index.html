@@ -232,6 +232,10 @@
     color: #00d4ff;
   }
 
+  body.dark-mode .top-image-title{
+    color: #fff;
+  }
+
   body.dark-mode ol, body.dark-mode li{
     color: #b0b8d4;
   }
@@ -586,17 +590,12 @@
   .top-image-title{
     font-size: 38px;
     font-weight: 800;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    color: #000;
     margin: 0 0 30px 0;
     letter-spacing: 1.8px;
     text-transform: uppercase;
-    animation: fadeInDown 0.8s ease-out, gradientShift 4s ease infinite, shimmerText 3s ease-in-out infinite;
+    animation: fadeInDown 0.8s ease-out;
     font-family: 'Inter', 'Plus Jakarta Sans', system-ui;
-    background-size: 200% 200%;
   }
 
   @keyframes shimmerText {
@@ -3862,7 +3861,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
     }
 
     // Load saved theme
-    const savedTheme = localStorage.getItem('myTheme') || 'light';
+    const savedTheme = localStorage.getItem('myTheme') || 'dark';
     if (savedTheme === 'dark') {
       body.classList.add('dark-mode');
       themeToggle.classList.add('dark-mode');
