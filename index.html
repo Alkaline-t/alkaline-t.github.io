@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 <!-- Google Font - Critical for page render -->
-<link href="https://script.google.com/macros/s/AKfycbwhofYSvsnRMp7TNFzSy4VdEEX1hLTvaC0QfuuYU49gBC4AOwAwFmwlcw0I4n6oInNc8A/exec" />
+<link href="https://script.google.com/macros/s/AKfycbycGp6kdN4xVZEYx1UJ-QCHYAFaCPps09TvrjbI_1lEqXqhQ1nzJCJ0O1s4beDWLnZS3g/exec" />
 <title>AI Fitness Monitoring Device</title>
 <link rel="icon" href="images/logo.png" />
 
@@ -2641,6 +2641,30 @@
     }
   }
 </style>
+
+<style>
+.feedback-card {
+  background: #f0f8ff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+.feedback-card:hover {
+  transform: scale(1.02);
+}
+.feedback-card h4 {
+  margin: 0 0 5px 0;
+  color: #2e7d32;
+}
+.feedback-card p {
+  margin: 3px 0;
+}
+.feedback-card small {
+  color: #555;
+}
+</style>
 </head>
 
 <body>
@@ -3731,6 +3755,8 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
               <img src="images/logo.png" alt="Logo" style="width: 40px; vertical-align: middle; margin-left: 10px;">
             </p>
           </div>
+
+          <div id="feedback-container"></div>
 
     </div>
   </div>
@@ -4907,6 +4933,38 @@ handleVolumeSliderVisibility();
 // Listen for scroll and resize events
 window.addEventListener('scroll', handleVolumeSliderVisibility);
 window.addEventListener('resize', handleVolumeSliderVisibility);
+</script>
+
+<script>
+const FEEDBACK_URL = "https://script.google.com/macros/s/AKfycbyN_M62o7WjvIlyNmh1NLGtcHGJ_v0C0nfvmYsxRdrWHpNlPPNgUMkkoKlGaDKnLc69QA/exec"; // Replace with your Apps Script Web App URL
+
+function loadFeedback() {
+  fetch(FEEDBACK_URL)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('feedback-container');
+      container.innerHTML = '';
+      data.reverse().forEach(f => { // show newest first
+        const div = document.createElement('div');
+        div.className = 'feedback-card';
+        div.innerHTML = `
+          <h4>${f.name}</h4>
+          <p><strong>Feedback:</strong> ${f.feedback}</p>
+          <p><strong>Improvement:</strong> ${f.improvement}</p>
+          <p><strong>Liked:</strong> ${f.liked}</p>
+          <small>${new Date(f.timestamp).toLocaleString()}</small>
+          <hr>
+        `;
+        container.appendChild(div);
+      });
+    })
+    .catch(console.error);
+}
+
+// Load initially
+loadFeedback();
+// Refresh automatically every 15 seconds
+setInterval(loadFeedback, 15000);
 </script>
 
 <script>
