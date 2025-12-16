@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 <!-- Google Font - Critical for page render -->
-<link href="https://script.google.com/macros/s/AKfycbycGp6kdN4xVZEYx1UJ-QCHYAFaCPps09TvrjbI_1lEqXqhQ1nzJCJ0O1s4beDWLnZS3g/exec" />
+<link href="https://script.google.com/macros/s/AKfycbyBD_bb32UjwSBvF9M_VXKGtov9MAQN38eSCxYXFl2itqKtPUFxavr20nhiEvXjuYHP8g/exec" />
 <title>AI Fitness Monitoring Device</title>
 <link rel="icon" href="images/logo.png" />
 
@@ -433,6 +433,8 @@
     transform:translate(-50%, -50%);
     width:500px;
     height:500px;
+    border-radius:50%;
+    overflow:hidden;
     opacity:0.25;
     z-index:5;
     animation:spin 28s linear infinite;
@@ -440,9 +442,15 @@
     filter: blur(1px) drop-shadow(0 0 30px rgba(0, 212, 255, 0.3));
   }
 
+  .rotate-bg img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
   @keyframes spin{
-    from{ transform:translate(-50%, -50%) rotate(0deg); }
-    to{ transform:translate(-50%, -50%) rotate(360deg); }
+    from{ transform:translate(-50%, -50%) translateX(200px) rotate(0deg); }
+    to{ transform:translate(-50%, -50%) translateX(200px) rotate(360deg); }
   }
 
   /* BACKGROUND BLOBS */
@@ -2639,7 +2647,6 @@
       padding: 10px 14px;
       font-size: 14px;
     }
-  }
 </style>
 
 <style>
@@ -2647,7 +2654,7 @@
   background: #f0f8ff;
   padding: 15px;
   margin: 10px 0;
-  border-radius: 10px;
+  border-radius: 25px;
   box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
   transition: transform 0.2s;
 }
@@ -2663,6 +2670,105 @@
 }
 .feedback-card small {
   color: #555;
+}
+#feedback-container {
+  max-width: 600px;
+  margin: 20px auto;
+  display: none;
+}
+body.dark-mode .feedback-card {
+  background: #1a1a2e;
+  color: #e6f7ff;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+}
+body.dark-mode .feedback-card h4 {
+  color: #00d4ff;
+}
+body.dark-mode .feedback-card small {
+  color: #aaa;
+}
+.feedback-toggle-btn {
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 40px;
+  box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+}
+.feedback-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 132, 255, 0.4);
+}
+.feedback-toggle-btn:active {
+  transform: translateY(0);
+}
+body.dark-mode .feedback-toggle-btn {
+  background: linear-gradient(135deg, #00d4ff 0%, #667eea 100%);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+body.dark-mode .feedback-toggle-btn:hover {
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+}
+.refresh-btn {
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+  box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.refresh-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+.refresh-btn:hover::before {
+  left: 100%;
+}
+.refresh-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 132, 255, 0.5);
+}
+.refresh-btn:active {
+  transform: translateY(-1px) scale(1.02);
+}
+.refresh-btn.loading {
+  animation: spin 1s linear infinite;
+}
+.refresh-btn.loading::after {
+  content: ' Loading...';
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+body.dark-mode .refresh-btn {
+  background: linear-gradient(135deg, #00d4ff 0%, #667eea 100%);
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+body.dark-mode .refresh-btn:hover {
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
 }
 </style>
 </head>
@@ -2861,7 +2967,7 @@
 </style>
 
 <!-- ROTATING BACKGROUND LOGO - FIXED -->
-<img src="images/logo.png" class="rotate-bg">
+<div class="rotate-bg"><img src="images/logo.png"></div>
 
 <header class="vk-header">
   <div class="vk-container">
@@ -3570,9 +3676,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <div class="card" style="margin: 80px auto 60px auto; max-width: 900px; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
         <h2 style="color: var(--accent); text-align: center; margin-bottom: 20px; font-size: 28px;">🎥 Device Demo</h2>
         <div style="position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);">
-          <div style="color: white; font-size: 28px; font-weight: 700; text-align: center; width: 100%;">
-            🎥 Demo video of the device will be uploaded soon.
-          </div>
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zE7WM5-5lgs" title="Device Demo Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;"></iframe>
         </div>
         <p style="text-align: center; font-size: 14px; color: var(--muted); margin-top: 12px;">
           Watch the device in action — Measuring heart rate, SpO₂, and temperature in real-time
@@ -3736,16 +3840,16 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
                 font-size: 16px;
                 animation: slideGradient 3s linear infinite;
               ">
-                🎬📹 We will upload the device demo video soon! Stay tuned! 🎬📹
+                <a href="https://youtu.be/zE7WM5-5lgs" target="_blank" style="color: inherit; text-decoration: none;">🎬📹 Watch Device Demo Video! 🎬📹</a>
               </span>
             </p>
 
-            <form id="feedbackForm" method="POST" action="https://script.google.com/macros/s/AKfycbyN_M62o7WjvIlyNmh1NLGtcHGJ_v0C0nfvmYsxRdrWHpNlPPNgUMkkoKlGaDKnLc69QA/exec">
+            <form id="feedbackForm" method="POST" action="https://script.google.com/macros/s/AKfycbwJoNGGHfT7V_vjjcBpfAYMPwa6mZP8Fzl8WPiLNWgws0m7s0B4OV-BO6HUZM1uf5uemw/exec">
               <input type="text" name="name" placeholder="Your Name" required>
               <input type="email" name="email" placeholder="Your Email" required>
               <input type="text" name="improvement" placeholder="What can be improved?" required>
               <input type="text" name="liked" placeholder="What you liked" required>
-              <textarea name="feedback" placeholder="Your Feedback" required></textarea>
+              <textarea name="feedback" placeholder="Your main Feedback" required></textarea>
               <button type="submit">Send Feedback</button>
             </form>
 
@@ -3755,6 +3859,8 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
               <img src="images/logo.png" alt="Logo" style="width: 40px; vertical-align: middle; margin-left: 10px;">
             </p>
           </div>
+
+          <button onclick="toggleFeedback()" class="feedback-toggle-btn">People Feedback</button> <button onclick="loadFeedback()" class="refresh-btn" title="Refresh Feedback" id="refreshBtn" style="display:none;">🔄</button>
 
           <div id="feedback-container"></div>
 
@@ -4877,13 +4983,18 @@ if (feedbackForm) {
     // Auto-close popup after 4s
     setTimeout(()=> closePopup('feedbackThanks'), 4000);
 
-    // Submit data to Google Apps Script in background (fire and forget)
-    fetch(url, { method: 'POST', body: data, mode: 'no-cors' })
-      .then(()=>{
-        console.log('✅ Feedback submitted successfully');
+    // Submit data to Google Apps Script in background
+    fetch(url, { method: 'POST', body: data })
+      .then(res => res.text())
+      .then(response => {
+        console.log('✅ Feedback submitted successfully:', response);
+        // Wait a bit for the data to be saved, then refresh feedback list
+        setTimeout(() => loadFeedback(), 2000);
       })
       .catch(err => {
         console.log('⚠️ Feedback submission error:', err);
+        // Still try to refresh in case it worked
+        setTimeout(() => loadFeedback(), 2000);
       });
   });
 }
@@ -4936,12 +5047,32 @@ window.addEventListener('resize', handleVolumeSliderVisibility);
 </script>
 
 <script>
-const FEEDBACK_URL = "https://script.google.com/macros/s/AKfycbyN_M62o7WjvIlyNmh1NLGtcHGJ_v0C0nfvmYsxRdrWHpNlPPNgUMkkoKlGaDKnLc69QA/exec"; // Replace with your Apps Script Web App URL
+const FEEDBACK_URL = "https://script.google.com/macros/s/AKfycbwJoNGGHfT7V_vjjcBpfAYMPwa6mZP8Fzl8WPiLNWgws0m7s0B4OV-BO6HUZM1uf5uemw/exec"; // Replace with your Apps Script Web App URL
+
+function toggleFeedback() {
+  const container = document.getElementById('feedback-container');
+  const refreshBtn = document.getElementById('refreshBtn');
+  if (container.style.display === 'none' || container.style.display === '') {
+    container.style.display = 'block';
+    refreshBtn.style.display = 'inline-block';
+    loadFeedback(); // Load feedback when showing
+  } else {
+    container.style.display = 'none';
+    refreshBtn.style.display = 'none';
+  }
+}
 
 function loadFeedback() {
+  const refreshBtn = document.getElementById('refreshBtn');
+  refreshBtn.classList.add('loading');
+  console.log('Loading feedback...');
   fetch(FEEDBACK_URL)
-    .then(res => res.json())
+    .then(res => {
+      console.log('Fetch response:', res);
+      return res.json();
+    })
     .then(data => {
+      console.log('Fetched data:', data);
       const container = document.getElementById('feedback-container');
       container.innerHTML = '';
       data.reverse().forEach(f => { // show newest first
@@ -4957,14 +5088,13 @@ function loadFeedback() {
         `;
         container.appendChild(div);
       });
+      refreshBtn.classList.remove('loading');
     })
-    .catch(console.error);
+    .catch(err => {
+      console.error('Error loading feedback:', err);
+      refreshBtn.classList.remove('loading');
+    });
 }
-
-// Load initially
-loadFeedback();
-// Refresh automatically every 15 seconds
-setInterval(loadFeedback, 15000);
 </script>
 
 <script>
