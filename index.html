@@ -5195,7 +5195,7 @@ if (feedbackForm) {
     <button class="chatbot-close" id="chatbot-close">×</button>
   </div>
   <div class="chatbot-messages" id="chatbot-messages">
-    <div class="message bot">Hi there! 👋 I'm your friendly AI assistant for the AI Fitness Monitoring Device. I'm here to answer all your questions and help you learn more about our amazing health tech. What would you like to know? 😊</div>
+    <div class="message bot">Hi there! 👋 I'm your friendly AI assistant for the AI Fitness Monitoring Device. I'm here to answer all your questions about our amazing health tech. What would you like to know? 😊</div>
   </div>
   <div class="chatbot-input">
     <input type="text" id="chatbot-input" placeholder="Type your message...">
@@ -5281,6 +5281,10 @@ document.addEventListener('DOMContentLoaded', function() {
       <button onclick="sendQuickMessage('price')">Price</button>
       <button onclick="sendQuickMessage('demo')">Demo</button>
       <button onclick="sendQuickMessage('contact')">Contact</button>
+      <button onclick="sendQuickMessage('ai')">AI</button>
+      <button onclick="sendQuickMessage('fitness')">Fitness</button>
+      <button onclick="sendQuickMessage('sleep')">Sleep</button>
+      <button onclick="clearChat()">Clear Chat</button>
     `;
     chatbotMessages.appendChild(repliesDiv);
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
@@ -5305,7 +5309,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle "ok" responses
     if (msg === 'ok' || msg === 'okay' || msg === 'k') {
-      return "Great! 😊 Is there anything else I can help you with about the AI Fitness Monitoring Device?";
+      return "Great! 😊 Is there anything else you'd like to know about the AI Fitness Monitoring Device?";
     }
 
     // Detect names (single word, capitalized, or common names)
@@ -5317,7 +5321,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Greetings
     if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
-      return "Hi there! 😊 Welcome to the AI Fitness Monitoring Device website. I'm your friendly AI assistant, here to help you discover how our device can improve your health monitoring. What can I help you with today?";
+      return "Hi there! 😊 Welcome to the AI Fitness Monitoring Device website. I'm your friendly AI assistant, here to tell you about how our device can improve your health monitoring. What would you like to know today?";
     }
 
     // Pricing and purchasing
@@ -5378,7 +5382,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return "🎥 Check out our interactive demo video in the Device Demo section! It shows real-time monitoring in action.";
     }
     else if (msg.includes('testimonial') || msg.includes('review') || msg.includes('user')) {
-      return "⭐ Our users love it! 4.8/5 star rating with 10,000+ reviews. 'Life-changing for my fitness journey!' - Sarah M. 'Accurate and easy to use' - Dr. Johnson.";
+      return "⭐ Our users love it! 4.8/5 star rating with 10,000+ reviews. 'Life-changing for my fitness journey!' - Sarah M. 'Accurate and easy to use' - Ms Deepali Dhankar.";
     }
 
     // Support and help - REMOVED help responses
@@ -5402,7 +5406,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return "👥 We're a passionate team of health tech innovators and AI experts based in Silicon Valley. Our mission is to make advanced health monitoring accessible and easy for everyone. We're so glad you're interested! 🌟";
     }
     else if (msg.includes('thank') || msg.includes('thanks')) {
-      return "You're so welcome! 😊 It was my pleasure helping you learn about the AI Fitness Monitoring Device. Feel free to ask anything else!";
+      return "You're so welcome! 😊 It was my pleasure telling you about the AI Fitness Monitoring Device. Feel free to ask anything else!";
     }
     else if (msg.includes('bye') || msg.includes('goodbye')) {
       return "Goodbye! 👋 Take care and stay healthy! Remember, your health is your wealth. Come back anytime! 💪";
@@ -5427,7 +5431,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Default response
     else {
-      return "🤔 Hmm, I'm not quite sure about that one. But I'd love to help! Try asking about our features, pricing, how it works, or contact information. I'm here to make your experience awesome! ✨";
+      return "🤔 Hmm, I'm not quite sure about that one. But I'd love to tell you more! Try asking about our features, pricing, how it works, or contact information. I'm here to make your experience awesome! ✨";
     }
   }
 });
