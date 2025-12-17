@@ -3586,22 +3586,42 @@ body.dark-mode .refresh-btn:hover {
   position: fixed;
   bottom: 100px;
   right: 20px;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 50%;
   color: white;
-  font-size: 24px;
+  font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 132, 255, 0.4);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
   z-index: 999;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px;
 }
 
 .chatbot-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 25px rgba(0, 132, 255, 0.6);
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+}
+
+.chatbot-logo {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chatbot-text {
+  font-weight: 500;
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.2;
 }
 
 .chatbot-close {
@@ -5296,7 +5316,10 @@ if (feedbackForm) {
 </script>
 
 <!-- AI Chatbot HTML -->
-<button class="chatbot-toggle" id="chatbot-toggle">🤖</button>
+<button class="chatbot-toggle" id="chatbot-toggle">
+  <img src="images/logo.png" alt="Device Logo" class="chatbot-logo">
+  <span class="chatbot-text">Chat with AI</span>
+</button>
 <div class="chatbot-container" id="chatbot-container">
   <div class="chatbot-header">
     <span>AI Assistant</span>
