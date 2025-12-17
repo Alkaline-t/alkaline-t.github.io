@@ -3445,6 +3445,191 @@ body.dark-mode .refresh-btn:hover {
       min-width: 60px !important;
     }
   }
+
+/* AI Chatbot Styles */
+.chatbot-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 550px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+  border: 1px solid rgba(0, 132, 255, 0.2);
+  overflow: hidden;
+}
+
+.chatbot-header {
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  color: white;
+  padding: 15px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbot-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.message.user {
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  color: white;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.message.bot {
+  background: white;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chatbot-input {
+  padding: 15px;
+  background: white;
+  border-top: 1px solid #eee;
+}
+
+.chatbot-input input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  outline: none;
+  font-size: 14px;
+}
+
+.chatbot-input input:focus {
+  border-color: #0084ff;
+  box-shadow: 0 0 0 2px rgba(0, 132, 255, 0.2);
+}
+
+.chatbot-toggle {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 132, 255, 0.4);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.chatbot-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(0, 132, 255, 0.6);
+}
+
+.chatbot-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+}
+
+body.dark-mode .chatbot-container {
+  background: rgba(30, 30, 30, 0.95);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+body.dark-mode .chatbot-messages {
+  background: #2a2a2a;
+}
+
+body.dark-mode .message.bot {
+  background: #3a3a3a;
+  color: #eee;
+}
+
+body.dark-mode .chatbot-input {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark-mode .chatbot-input input {
+  background: #3a3a3a;
+  border-color: #555;
+  color: #eee;
+}
+
+body.dark-mode .chatbot-input input:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.3);
+}
+
+.message.typing {
+  font-style: italic;
+  color: #666;
+}
+
+.quick-replies {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.quick-replies button {
+  background: #0084ff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.3s;
+}
+
+.quick-replies button:hover {
+  background: #0066cc;
+}
+
+body.dark-mode .quick-replies button {
+  background: #00d4ff;
+}
+
+body.dark-mode .quick-replies button:hover {
+  background: #0099cc;
+}
+
+/* Mobile responsiveness for chatbot */
+@media (max-width: 600px) {
+  .chatbot-container {
+    width: 90vw;
+    height: 80vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 </style>
 
 <!-- decorative animated background blobs -->
@@ -5002,6 +5187,252 @@ if (feedbackForm) {
 }
 </script>
 
+<!-- AI Chatbot HTML -->
+<button class="chatbot-toggle" id="chatbot-toggle">🤖</button>
+<div class="chatbot-container" id="chatbot-container">
+  <div class="chatbot-header">
+    <span>AI Assistant</span>
+    <button class="chatbot-close" id="chatbot-close">×</button>
+  </div>
+  <div class="chatbot-messages" id="chatbot-messages">
+    <div class="message bot">Hi there! 👋 I'm your friendly AI assistant for the AI Fitness Monitoring Device. I'm here to answer all your questions and help you learn more about our amazing health tech. What would you like to know? 😊</div>
+  </div>
+  <div class="chatbot-input">
+    <input type="text" id="chatbot-input" placeholder="Type your message...">
+  </div>
+</div>
+
+<script>
+// AI Chatbot JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+  const chatbotToggle = document.getElementById('chatbot-toggle');
+  const chatbotContainer = document.getElementById('chatbot-container');
+  const chatbotClose = document.getElementById('chatbot-close');
+  const chatbotMessages = document.getElementById('chatbot-messages');
+  const chatbotInput = document.getElementById('chatbot-input');
+
+  // Toggle chatbot
+  chatbotToggle.addEventListener('click', function() {
+    chatbotContainer.style.display = chatbotContainer.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  // Close chatbot
+  chatbotClose.addEventListener('click', function() {
+    chatbotContainer.style.display = 'none';
+  });
+
+  // Send message on Enter
+  chatbotInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  });
+
+  function sendMessage() {
+    const message = chatbotInput.value.trim();
+    if (message === '') return;
+
+    // Add user message
+    addMessage(message, 'user');
+    chatbotInput.value = '';
+
+    // Add typing indicator
+    addTypingIndicator();
+
+    // Get bot response
+    const response = getBotResponse(message);
+    setTimeout(() => {
+      removeTypingIndicator();
+      addMessage(response, 'bot');
+      addQuickReplies();
+    }, 1000);
+  }
+
+  function addMessage(text, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    messageDiv.textContent = text;
+    chatbotMessages.appendChild(messageDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  }
+
+  function addTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot typing';
+    typingDiv.innerHTML = '<span>Typing...</span>';
+    chatbotMessages.appendChild(typingDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const typing = document.querySelector('.typing');
+    if (typing) typing.remove();
+  }
+
+  function addQuickReplies() {
+    // Remove existing quick replies
+    const existing = document.querySelector('.quick-replies');
+    if (existing) existing.remove();
+
+    const repliesDiv = document.createElement('div');
+    repliesDiv.className = 'quick-replies';
+    repliesDiv.innerHTML = `
+      <button onclick="sendQuickMessage('features')">Features</button>
+      <button onclick="sendQuickMessage('price')">Price</button>
+      <button onclick="sendQuickMessage('demo')">Demo</button>
+      <button onclick="sendQuickMessage('contact')">Contact</button>
+    `;
+    chatbotMessages.appendChild(repliesDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  }
+
+  function sendQuickMessage(msg) {
+    addMessage(msg, 'user');
+    addTypingIndicator();
+    const response = getBotResponse(msg);
+    setTimeout(() => {
+      removeTypingIndicator();
+      addMessage(response, 'bot');
+      addQuickReplies();
+    }, 1000);
+  }
+
+  window.sendQuickMessage = sendQuickMessage;
+
+  function getBotResponse(message) {
+    const msg = message.toLowerCase();
+    const originalMsg = message.trim();
+
+    // Handle "ok" responses
+    if (msg === 'ok' || msg === 'okay' || msg === 'k') {
+      return "Great! 😊 Is there anything else I can help you with about the AI Fitness Monitoring Device?";
+    }
+
+    // Detect names (single word, capitalized, or common names)
+    const commonNames = ['alice', 'bob', 'charlie', 'david', 'emma', 'frank', 'grace', 'henry', 'isabella', 'jack', 'kate', 'liam', 'maria', 'noah', 'olivia', 'peter', 'quinn', 'rachel', 'sam', 'taylor', 'uma', 'victor', 'wendy', 'xavier', 'yara', 'zach'];
+    const words = originalMsg.split(' ');
+    if (words.length === 1 && (originalMsg.charAt(0) === originalMsg.charAt(0).toUpperCase() || commonNames.includes(msg))) {
+      return `Nice to meet you, ${originalMsg}! 👋 I'm excited to tell you about our AI Fitness Monitoring Device. What would you like to know?`;
+    }
+
+    // Greetings
+    if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
+      return "Hi there! 😊 Welcome to the AI Fitness Monitoring Device website. I'm your friendly AI assistant, here to help you discover how our device can improve your health monitoring. What can I help you with today?";
+    }
+
+    // Pricing and purchasing
+    else if (msg.includes('price') || msg.includes('cost') || msg.includes('expensive') || msg.includes('cheap')) {
+      return "💰 The AI Fitness Monitoring Device is competitively priced at 2550 Rupees only. This includes the device, charging cable, user manual, and 1-year warranty. We also offer financing options and bundle deals with our mobile app subscription.";
+    }
+    else if (msg.includes('buy') || msg.includes('purchase') || msg.includes('order') || msg.includes('where to buy')) {
+      return "🛒 You can purchase directly from our website, or find us at major electronics retailers. For bulk orders (10+ units), contact our sales team at sales@aifitnessdevice.com for special pricing.";
+    }
+    else if (msg.includes('shipping') || msg.includes('delivery')) {
+      return "🚚 We offer free shipping on orders over $150. Standard delivery takes 3-5 business days, with expedited options available. International shipping is available to most countries.";
+    }
+
+    // Features and specifications
+    else if (msg.includes('features') || msg.includes('what can it do') || msg.includes('capabilities')) {
+      return "✨ Key features include:\n• Real-time heart rate monitoring\n• Blood oxygen (SpO₂) measurement\n• Body temperature sensing\n• AI-powered health analytics\n• Bluetooth connectivity to mobile app\n• Waterproof design (IP67)\n• 7-day battery life\n• Sleep tracking\n• Exercise performance metrics";
+    }
+    else if (msg.includes('heart rate') || msg.includes('pulse')) {
+      return "❤️ Our device uses advanced optical sensors to monitor your heart rate continuously throughout the day and night. It provides accurate readings with medical-grade precision and alerts you to irregularities.";
+    }
+    else if (msg.includes('oxygen') || msg.includes('spo2') || msg.includes('blood oxygen')) {
+      return "🩸 The SpO₂ sensor measures your blood oxygen saturation levels. It's particularly useful for monitoring respiratory health, altitude sickness prevention, and sleep apnea detection.";
+    }
+    else if (msg.includes('temperature') || msg.includes('fever')) {
+      return "🌡️ Continuous temperature monitoring helps detect fevers early. The device can alert you and your healthcare provider if your temperature indicates illness.";
+    }
+    else if (msg.includes('battery') || msg.includes('charging')) {
+      return "🔋 The device has a 7-day battery life with normal use. It charges via USB-C in just 2 hours. The app notifies you when battery is low.";
+    }
+    else if (msg.includes('waterproof') || msg.includes('water')) {
+      return "💧 Rated IP67 waterproof, you can wear it while swimming, showering, or in heavy rain. Just avoid hot tubs or saunas above 60°C.";
+    }
+
+    // How it works
+    else if (msg.includes('how') && msg.includes('work')) {
+      return "🔬 The device uses medical-grade sensors to collect biometric data. AI algorithms analyze patterns and send real-time alerts to your smartphone via Bluetooth. The companion app provides detailed insights and historical data.";
+    }
+    else if (msg.includes('app') || msg.includes('mobile')) {
+      return "📱 Our free mobile app (iOS/Android) syncs with the device to provide:\n• Real-time health dashboard\n• Historical data charts\n• Custom alerts and goals\n• Emergency contact integration\n• Data export for doctors";
+    }
+    else if (msg.includes('bluetooth') || msg.includes('connect')) {
+      return "📡 Bluetooth 5.0 ensures stable, low-power connection up to 10 meters. Auto-pairing with your phone for seamless data sync.";
+    }
+
+    // Health and safety
+    else if (msg.includes('accuracy') || msg.includes('reliable')) {
+      return "🎯 Clinically tested with 98% accuracy for heart rate and 97% for SpO₂. FDA-registered medical device with CE certification.";
+    }
+    else if (msg.includes('safe') || msg.includes('radiation') || msg.includes('harmful')) {
+      return "🛡️ Completely safe! Uses low-power optical sensors only. No radiation, no harmful emissions. Suitable for all ages (children 6+ with parental supervision).";
+    }
+    else if (msg.includes('medical') || msg.includes('doctor')) {
+      return "⚕️ Not a replacement for medical devices, but excellent for preventive monitoring. Data can be shared with healthcare providers. Consult your doctor for medical concerns.";
+    }
+
+    // Demo and media
+    else if (msg.includes('demo') || msg.includes('video') || msg.includes('see it')) {
+      return "🎥 Check out our interactive demo video in the Device Demo section! It shows real-time monitoring in action.";
+    }
+    else if (msg.includes('testimonial') || msg.includes('review') || msg.includes('user')) {
+      return "⭐ Our users love it! 4.8/5 star rating with 10,000+ reviews. 'Life-changing for my fitness journey!' - Sarah M. 'Accurate and easy to use' - Dr. Johnson.";
+    }
+
+    // Support and help - REMOVED help responses
+    else if (msg.includes('warranty') || msg.includes('guarantee')) {
+      return "🔒 1-year manufacturer warranty covers defects and malfunctions. Extended warranty available. 30-day money-back guarantee if not satisfied.";
+    }
+    else if (msg.includes('return') || msg.includes('refund')) {
+      return "↩️ 30-day return policy. Returns are free, and you'll receive a full refund. Keep the device in original packaging with all accessories.";
+    }
+
+    // Feedback and contact
+    else if (msg.includes('feedback') || msg.includes('suggestion')) {
+      return "💬 Your feedback is valuable! Use the Send Feedback form to share your thoughts. We read every message and use it to improve our products.";
+    }
+    else if (msg.includes('contact') || msg.includes('reach')) {
+      return "📞 Contact us:\n• General: info@aifitnessdevice.com\n• Sales: sales@aifitnessdevice.com\n• Support: support@aifitnessdevice.com\n• Press: press@aifitnessdevice.com";
+    }
+
+    // Fun and miscellaneous
+    else if (msg.includes('team') || msg.includes('company') || msg.includes('about')) {
+      return "👥 We're a passionate team of health tech innovators and AI experts based in Silicon Valley. Our mission is to make advanced health monitoring accessible and easy for everyone. We're so glad you're interested! 🌟";
+    }
+    else if (msg.includes('thank') || msg.includes('thanks')) {
+      return "You're so welcome! 😊 It was my pleasure helping you learn about the AI Fitness Monitoring Device. Feel free to ask anything else!";
+    }
+    else if (msg.includes('bye') || msg.includes('goodbye')) {
+      return "Goodbye! 👋 Take care and stay healthy! Remember, your health is your wealth. Come back anytime! 💪";
+    }
+
+    // New features
+    else if (msg.includes('ai') || msg.includes('artificial intelligence')) {
+      return "🤖 Our device uses advanced AI algorithms to analyze your health data in real-time. The AI learns your patterns and provides personalized insights to optimize your fitness and health goals.";
+    }
+    else if (msg.includes('fitness') || msg.includes('exercise')) {
+      return "💪 Perfect for all fitness levels! Track workouts, monitor recovery, and get AI-powered recommendations for better performance. Whether you're a beginner or pro athlete, our device adapts to you.";
+    }
+    else if (msg.includes('data') || msg.includes('privacy')) {
+      return "🔒 Your data is encrypted and stored securely. We never sell your information. You control what data is shared, and can delete it anytime. GDPR and HIPAA compliant.";
+    }
+    else if (msg.includes('sleep')) {
+      return "😴 Advanced sleep tracking monitors your sleep stages, quality, and patterns. Get insights on how to improve your rest for better health and performance.";
+    }
+    else if (msg.includes('recovery') || msg.includes('rest')) {
+      return "⚡ Track your recovery with heart rate variability and other metrics. Know when you're ready for your next workout or need more rest.";
+    }
+
+    // Default response
+    else {
+      return "🤔 Hmm, I'm not quite sure about that one. But I'd love to help! Try asking about our features, pricing, how it works, or contact information. I'm here to make your experience awesome! ✨";
+    }
+  }
+});
+</script>
+
 <div id="toast" style="
   display:none; 
   position:fixed; 
@@ -5129,8 +5560,11 @@ function onPlayerStateChange(event) {
 }
 </script>
 
+
+
 <script>
 
+<script>
 
 
 
