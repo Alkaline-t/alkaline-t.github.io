@@ -4062,6 +4062,45 @@ body.dark-mode .quick-replies button:hover {
     transform: translate(-50%, -50%);
   }
 }
+
+/* Moving Warning Line */
+.warning-line {
+  background: linear-gradient(90deg, #ff0000, #cc0000, #ff0000);
+  background-size: 200% 100%;
+  animation: moveWarning 3s linear infinite;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 40px auto 20px auto;
+  max-width: 900px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.warning-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shineWarning 2s infinite;
+}
+
+@keyframes moveWarning {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes shineWarning {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
 </style>
 
 <!-- decorative animated background blobs -->
@@ -4081,6 +4120,11 @@ body.dark-mode .quick-replies button:hover {
 <div class="wrap">
   <div class="grid">
     <div class="col-7">
+
+      <!-- MOVING WARNING LINE -->
+      <div class="warning-line">
+        NOTE:-This device is not used for real medical treatment checkups it tell only approximate health measure!!
+      </div>
 
       <!-- HERO SECTION (moved here) -->
       <section class="hero-section" id="heroSection">
@@ -4206,6 +4250,11 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
           <li style="transition: color 0.3s ease; cursor: pointer;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Smart Beep Alerts</li>
           <li style="transition: color 0.3s ease; cursor: pointer;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Shows Smart Messages</li>
         </ol>
+      </div>
+
+      <!-- MOVING WARNING LINE -->
+      <div class="warning-line">
+        This device is not used for real medical treatment checkups it tell only approximate health measure!!
       </div>
 
       <!-- DEVICE IMAGES FROM DIFFERENT ANGLES SECTION -->
