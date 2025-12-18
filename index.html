@@ -4027,12 +4027,26 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
         <div style="background: var(--card-bg); border-radius: 16px; padding: 40px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative;">
           <button onclick="closeTeamPopup()" style="position: absolute; top: 15px; right: 15px; background: rgba(0,132,255,0.2); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 24px; display: flex; align-items: center; justify-content: center; color: var(--accent);">✕</button>
           
-          <div id="teamPopupContent" style="text-align: center;">
-            <img id="teamMemberPhoto" src="" alt="Team Member" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid var(--accent);">
-            <h2 id="teamMemberName" style="color: var(--accent); margin-bottom: 5px; font-size: 22px;"></h2>
-            <p id="teamMemberRole" style="color: var(--accent); font-weight: 600; margin-bottom: 20px; font-size: 14px;"></p>
-            <p id="teamMemberBio" style="color: var(--muted); line-height: 1.6; font-size: 14px; margin-bottom: 20px;"></p>
-            <div id="teamMemberDetails" style="background: rgba(0,132,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: left;">
+          <div id="teamPopupContent" style="text-align: center; color: var(--text-primary);">
+            <div style="width: 180px; height: 180px; margin: 0 auto 25px; border-radius: 50%; padding: 8px; background: linear-gradient(135deg, rgba(0,132,255,0.2), rgba(0,212,255,0.2));">
+              <div style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 4px solid var(--card-bg);">
+                <img id="teamMemberPhoto" src="" alt="Team Member" style="width: 100%; height: 100%; object-fit: cover; display: block; background: var(--card-bg);">
+              </div>
+            </div>
+            <h2 id="teamMemberName" style="color: var(--accent); margin-bottom: 12px; font-size: 24px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.1);"></h2>
+            <div style="background: var(--card-bg); padding: 18px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+              <p id="teamMemberRole" style="color: var(--accent); font-weight: 600; margin: 0 0 8px 0; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;"></p>
+              <p id="teamMemberDescription" style="color: var(--text-primary); margin: 0; font-size: 14px; line-height: 1.6; font-weight: 500;"></p>
+            </div>
+            <div style="background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+              <p id="teamMemberDetails" style="color: var(--text-primary); line-height: 1.7; margin: 0 0 20px 0; font-size: 15px; font-weight: 400;"></p>
+              <h4 style="color: var(--accent); margin: 25px 0 12px 0; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; position: relative; display: inline-block; padding-bottom: 5px;">
+                <span style="position: relative; z-index: 1; padding: 0 10px; background: var(--card-bg);">Key Contributions</span>
+                <span style="position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent);"></span>
+              </h4>
+              <ul id="teamMemberContributions" style="padding-left: 22px; margin: 0; text-align: left; color: var(--text-primary);">
+                <!-- Contributions will be added here by JavaScript -->
+              </ul>
             </div>
             <button onclick="closeTeamPopup()" style="padding: 12px 30px; background: var(--gradient-1); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">
               Close
@@ -4046,27 +4060,56 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
         <div class="popupContent" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
           <span class="closeBtn" onclick="closePopup('teamSectionPopup')">×</span>
           <h2 style="color: var(--accent); text-align: center; margin-bottom: 30px; font-size: 28px;">👥 Our Team</h2>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px;">
-            <div class="team-member" onclick="openTeamPopup('aarav')" style="cursor: pointer; transition: all 0.3s ease;">
-              <div class="team-avatar">👨‍💻</div>
-              <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">AARAV THAKUR</h3>
-              <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Device Software & Coding</p>
-              <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Website Developer, Idea Maker & QR Code Generator</p>
-              <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600;">Click to view details →</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; padding: 0 20px;">
+            <style>
+              .team-member {
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+              }
+              .team-member:hover {
+                transform: translateY(-5px) scale(1.02) !important;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+                background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(240,249,255,0.25) 100%) !important;
+              }
+              .team-member:hover p:last-child {
+                opacity: 1 !important;
+              }
+              .team-member:active {
+                transform: translateY(0) scale(0.99) !important;
+              }
+              /* Dark mode styles */
+              body.dark-mode .team-member {
+                background: linear-gradient(135deg, rgba(30, 35, 51, 0.2) 0%, rgba(35, 40, 65, 0.25) 100%) !important;
+              }
+              body.dark-mode .team-member:hover {
+                background: linear-gradient(135deg, rgba(30, 35, 51, 0.3) 0%, rgba(35, 40, 65, 0.35) 100%) !important;
+              }
+            </style>
+            <div class="team-member" onclick="openTeamPopup('aarav')" style="cursor: pointer; transition: all 0.3s ease; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(240,249,255,0.1) 100%);">
+              <div style="width: 100px; height: 100px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid rgba(0, 132, 255, 0.2);">
+                <img src="images/profile3.jpg" alt="Aarav Thakur" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <h3 style="margin: 12px 0 6px; color: var(--accent); font-size: 16px; text-align: center;">AARAV THAKUR</h3>
+              <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px; text-align: center;">Device Software & Coding</p>
+              <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px; text-align: center;">Website Developer, Idea Maker & QR Code Generator</p>
+              <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s ease;">Click to view details →</p>
             </div>
-            <div class="team-member" onclick="openTeamPopup('ankit')" style="cursor: pointer; transition: all 0.3s ease;">
-              <div class="team-avatar">⚡</div>
-              <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">ANKIT</h3>
-              <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Hardware & Wiring</p>
-              <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">Circuit Designer, PCB Layout & Soldering</p>
-              <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600;">Click to view details →</p>
+            <div class="team-member" onclick="openTeamPopup('ankit')" style="cursor: pointer; transition: all 0.3s ease; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(240,249,255,0.1) 100%);">
+              <div style="width: 100px; height: 100px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid rgba(0, 132, 255, 0.2);">
+                <img src="images/profile.jpg" alt="Ankit" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <h3 style="margin: 12px 0 6px; color: var(--accent); font-size: 16px; text-align: center;">ANKIT</h3>
+              <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px; text-align: center;">Hardware & Wiring</p>
+              <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px; text-align: center;">Circuit Designer, PCB Layout & Soldering</p>
+              <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s ease;">Click to view details →</p>
             </div>
-            <div class="team-member" onclick="openTeamPopup('rizwan')" style="cursor: pointer; transition: all 0.3s ease;">
-              <div class="team-avatar">🎨</div>
-              <h3 style="margin: 12px 0 6px; color: var(--text); font-size: 16px;">MD RIZWAN</h3>
-              <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px;">Device & UI/UX Design</p>
-              <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">3D Modeling, Case Design & Beautiful Aesthetics</p>
-              <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600;">Click to view details →</p>
+            <div class="team-member" onclick="openTeamPopup('rizwan')" style="cursor: pointer; transition: all 0.3s ease; padding: 20px; border-radius: 12px; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(240,249,255,0.1) 100%);">
+              <div style="width: 100px; height: 100px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid rgba(0, 132, 255, 0.2);">
+                <img src="images/profile2.jpg" alt="MD Rizwan" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <h3 style="margin: 12px 0 6px; color: var(--accent); font-size: 16px; text-align: center;">MD RIZWAN</h3>
+              <p style="margin: 0; color: var(--accent); font-weight: 600; font-size: 13px; text-align: center;">Device & UI/UX Design</p>
+              <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px; text-align: center;">3D Modeling, Case Design & Beautiful Aesthetics</p>
+              <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s ease;">Click to view details →</p>
             </div>
           </div>
           <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,132,255,0.1); color: var(--muted); font-size: 14px; font-style: italic;">
@@ -4075,8 +4118,90 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
         </div>
       </div>
 
+      <!-- OUR TEAM SECTION -->
+      <div class="card" style="margin: 60px auto 40px auto; max-width: 900px; text-align: center; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
+        <style>
+          .mentor-card {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,255,0.98) 100%) !important;
+            border: 1px solid rgba(0, 132, 255, 0.1) !important;
+          }
+          .mentor-card:hover {
+            transform: translateY(-5px) scale(1.02) !important;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+            border-color: rgba(0, 132, 255, 0.3) !important;
+          }
+          .mentor-card:hover .mentor-image-wrapper {
+            transform: scale(1.05) !important;
+            border-color: rgba(0, 132, 255, 0.3) !important;
+          }
+          .mentor-card:hover .mentor-image {
+            transform: scale(1.1) !important;
+          }
+          .mentor-card:hover p:last-child {
+            opacity: 1 !important;
+          }
+          .mentor-card:active {
+            transform: translateY(0) scale(0.99) !important;
+          }
+          
+          /* Dark mode styles */
+          body.dark-mode .mentor-card {
+            background: linear-gradient(135deg, rgba(30, 35, 51, 0.95) 0%, rgba(35, 40, 65, 0.95) 100%) !important;
+            border: 1px solid rgba(0, 132, 255, 0.2) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+          }
+          body.dark-mode .mentor-card:hover {
+            border-color: rgba(0, 132, 255, 0.4) !important;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4) !important;
+          }
+          body.dark-mode .mentor-name,
+          body.dark-mode .mentor-role {
+            color: var(--accent-3) !important;
+          }
+          body.dark-mode .mentor-position {
+            color: #b0b8d4 !important;
+          }
+        </style>
+        <h2 style="color: var(--accent); margin-bottom: 30px; font-size: 28px;">👥 Our Team</h2>
+        <div class="mentors-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; padding: 0 20px; margin: 0 auto;">
+          <div class="mentor-card" onclick="openTeamPopup('aarav')" style="border-radius: 16px; padding: 25px; cursor: pointer; transform: scale(1);">
+            <div class="mentor-image-wrapper" style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 4px solid rgba(0, 132, 255, 0.15); transition: transform 0.3s ease, border-color 0.3s ease;">
+              <img src="images/profile3.jpg" alt="Aarav Thakur" class="mentor-image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+            </div>
+            <h3 class="mentor-name" style="color: var(--accent); margin: 0 0 5px; font-size: 18px; transition: color 0.3s ease;">AARAV THAKUR</h3>
+            <p class="mentor-role" style="color: var(--accent); font-weight: 600; margin: 0 0 10px; font-size: 14px; transition: color 0.3s ease;">Device Software & Coding</p>
+            <p class="mentor-position" style="color: var(--muted); font-size: 13px; margin: 0; transition: color 0.3s ease;">Website Developer, Idea Maker & QR Code Generator</p>
+            <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s ease;">Click to view details →</p>
+          </div>
+
+          <div class="mentor-card" onclick="openTeamPopup('ankit')" style="border-radius: 16px; padding: 25px; cursor: pointer; transform: scale(1);">
+            <div class="mentor-image-wrapper" style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 4px solid rgba(0, 132, 255, 0.15); transition: transform 0.3s ease, border-color 0.3s ease;">
+              <img src="images/profile.jpg" alt="Ankit" class="mentor-image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+            </div>
+            <h3 class="mentor-name" style="color: var(--accent); margin: 0 0 5px; font-size: 18px; transition: color 0.3s ease;">ANKIT</h3>
+            <p class="mentor-role" style="color: var(--accent); font-weight: 600; margin: 0 0 10px; font-size: 14px; transition: color 0.3s ease;">Hardware & Wiring</p>
+            <p class="mentor-position" style="color: var(--muted); font-size: 13px; margin: 0; transition: color 0.3s ease;">Circuit Designer, PCB Layout & Soldering</p>
+            <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s ease;">Click to view details →</p>
+          </div>
+
+          <div class="mentor-card" onclick="openTeamPopup('rizwan')" style="border-radius: 16px; padding: 25px; cursor: pointer; transform: scale(1);">
+            <div class="mentor-image-wrapper" style="width: 150px; height: 150px; margin: 0 auto 20px; border-radius: 50%; overflow: hidden; border: 4px solid rgba(0, 132, 255, 0.15); transition: transform 0.3s ease, border-color 0.3s ease;">
+              <img src="images/profile2.jpg" alt="MD Rizwan" class="mentor-image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+            </div>
+            <h3 class="mentor-name" style="color: var(--accent); margin: 0 0 5px; font-size: 18px; transition: color 0.3s ease;">MD RIZWAN</h3>
+            <p class="mentor-role" style="color: var(--accent); font-weight: 600; margin: 0 0 10px; font-size: 14px; transition: color 0.3s ease;">Device & UI/UX Design</p>
+            <p class="mentor-position" style="color: var(--muted); font-size: 13px; margin: 0; transition: color 0.3s ease;">3D Modeling, Case Design & Beautiful Aesthetics</p>
+            <p style="margin-top: 10px; color: var(--accent); font-size: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s ease;">Click to view details →</p>
+          </div>
+        </div>
+        <p style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,132,255,0.1); color: var(--muted); font-size: 14px; font-style: italic;">
+          "We built this from scrap, caffeine ☕, and passion for innovation! 🚀"
+        </p>
+      </div>
+
       <!-- DOWNLOAD SECTION -->
-      <div class="card" style="margin: 60px auto 60px auto; max-width: 900px; text-align: center; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
+      <div class="card" style="margin: 40px auto 60px auto; max-width: 900px; text-align: center; z-index: 15; position: relative; opacity: 1 !important; transform: translateY(0) !important;">
         <h2 style="color: var(--accent); margin-bottom: 20px; font-size: 28px;">📥 Download Project Files</h2>
         <p style="margin-bottom: 25px; color: var(--muted); font-size: 15px;">Get access to our complete project documentation and circuit diagrams</p>
         <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
@@ -4199,17 +4324,44 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
           <li style="margin-bottom: 8px;"><a href="#feedbackSection" style="color: var(--muted); text-decoration: none; transition: color 0.3s ease;">Contact Us</a></li>
         </ul>
       </div>
+      
+      <div class="footer-section">
+        <h4 style="color: var(--accent); margin-bottom: 15px; font-size: 18px;">Our Team</h4>
+        <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+          <div onclick="openTeamPopup('aarav')" style="cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; max-width: 250px; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.background='rgba(255,255,255,0.15)';" onmouseout="this.style.transform=''; this.style.background='rgba(255,255,255,0.1)';">
+            <img src="images/profile3.jpg" alt="Aarav Thakur" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0, 132, 255, 0.2);">
+            <div style="text-align: left;">
+              <div style="font-weight: 600; color: var(--accent);">Aarav Thakur</div>
+              <div style="font-size: 12px; color: var(--muted);">Software & Coding</div>
+            </div>
+          </div>
+          <div onclick="openTeamPopup('ankit')" style="cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; max-width: 250px; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.background='rgba(255,255,255,0.15)';" onmouseout="this.style.transform=''; this.style.background='rgba(255,255,255,0.1)';">
+            <img src="images/profile.jpg" alt="Ankit" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0, 132, 255, 0.2);">
+            <div style="text-align: left;">
+              <div style="font-weight: 600; color: var(--accent);">Ankit</div>
+              <div style="font-size: 12px; color: var(--muted);">Hardware & Wiring</div>
+            </div>
+          </div>
+          <div onclick="openTeamPopup('rizwan')" style="cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; max-width: 250px; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.background='rgba(255,255,255,0.15)';" onmouseout="this.style.transform=''; this.style.background='rgba(255,255,255,0.1)';">
+            <img src="images/profile2.jpg" alt="MD Rizwan" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(0, 132, 255, 0.2);">
+            <div style="text-align: left;">
+              <div style="font-weight: 600; color: var(--accent);">MD Rizwan</div>
+              <div style="font-size: 12px; color: var(--muted);">UI/UX Design</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="cta">© 2025 All Rights Reserved | Designed & Developed with ✨</div>
+    <div class="cta"> 2025 All Rights Reserved | Designed & Developed with </div>
 
-    <small>Monitoring Health • Advancing Wellness 🚀</small>
+    <small>Monitoring Health • Advancing Wellness </small>
   </div>
 </footer>
 
 <!-- MOVING MAINTENANCE BANNER -->
 <div class="maintenance-banner">
   <div class="maintenance-text">
-    ⚠️ 🔧 Website under maintenance -  For now you can see the current content.⚠️ 🔧 Website under maintenance - For now you can see the current content. ⚠️ 🔧 Website under maintenance - For now you can see the current content. ⚠️
+    
   </div>
 </div>
 
@@ -4295,7 +4447,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
     menu.classList.toggle('open');
   }
 
-  /* 🌙 THEME TOGGLE FUNCTIONALITY */
+  /* THEME TOGGLE FUNCTIONALITY */
   
   // Wait for DOM to be ready
   function initThemeToggle() {
@@ -4325,7 +4477,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       // Save preference
       localStorage.setItem('myTheme', isDarkMode ? 'dark' : 'light');
       
-      console.log('✅ Theme changed to:', isDarkMode ? 'DARK' : 'LIGHT');
+      console.log(' Theme changed to:', isDarkMode ? 'DARK' : 'LIGHT');
     });
   }
 
@@ -4419,8 +4571,6 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 
     prev && prev.addEventListener('click', ()=> go(idx-1));
     next && next.addEventListener('click', ()=> go(idx+1));
-
-    render();
 
     // Navigate to "How to use the Device" slide when anchor is accessed
     window.addEventListener('hashchange', ()=>{
@@ -4713,7 +4863,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       'code.zip': 'Source_Code.zip'
     };
     
-    alert(`📥 Downloading: ${fileNames[filename]}\n\nNote: In a live version, this would download the actual file from your server.`);
+    alert(` Downloading: ${fileNames[filename]}\n\nNote: In a live version, this would download the actual file from your server.`);
     
     // Actual implementation would be:
     // const link = document.createElement('a');
@@ -4739,7 +4889,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     
-    document.getElementById('liveClock').textContent = `🕒 ${hours}:${minutes}:${seconds}`;
+    document.getElementById('liveClock').textContent = ` ${hours}:${minutes}:${seconds}`;
   }
 
   // Update clock every second
@@ -4802,19 +4952,19 @@ let musicUnmuted = false;
 
 // Function to play welcome voice message
 function playWelcomeVoice() {
-  console.log('🎵 Playing welcome voice');
+  console.log(' Playing welcome voice');
   
   // Hide the welcome button container
   const welcomeContainer = document.getElementById('welcome-btn-container');
   if (welcomeContainer) {
     welcomeContainer.style.display = 'none';
-    console.log('✅ Welcome button hidden');
+    console.log(' Welcome button hidden');
   }
   
   // Get the welcome audio element
   const welcomeAudio = document.getElementById('welcome-audio');
   if (!welcomeAudio) {
-    console.log('❌ Welcome audio element not found');
+    console.log(' Welcome audio element not found');
     return;
   }
   
@@ -4825,23 +4975,23 @@ function playWelcomeVoice() {
   // Lower background music volume when voice starts
   if (music) {
     music.volume = 0.15; // Reduce to 15% so voice is clearly heard
-    console.log('🔊 Background music volume lowered to 0.15');
+    console.log(' Background music volume lowered to 0.15');
   }
   
   // When welcome voice ends, restore background music volume
   welcomeAudio.addEventListener('ended', function() {
-    console.log('✅ Welcome voice finished, restoring background music');
+    console.log(' Welcome voice finished, restoring background music');
     if (music) {
       music.muted = false;
       music.volume = 0.7; // Restore to normal volume
-      console.log('🔊 Background music volume restored to 0.7');
+      console.log(' Background music volume restored to 0.7');
       const playPromise = music.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          console.log('🎵 Background music playing at normal volume');
+          console.log(' Background music playing at normal volume');
           musicUnmuted = true;
         }).catch((err) => {
-          console.log('⚠️ Background music play error:', err);
+          console.log(' Background music play error:', err);
         });
       }
     }
@@ -4851,13 +5001,13 @@ function playWelcomeVoice() {
     const playPromise = welcomeAudio.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        console.log('✅ Welcome voice playing successfully');
+        console.log(' Welcome voice playing successfully');
       }).catch((err) => {
-        console.log('❌ Welcome voice play error:', err.name);
+        console.log(' Welcome voice play error:', err.name);
       });
     }
   } catch (error) {
-    console.log('❌ Exception playing welcome voice:', error);
+    console.log(' Exception playing welcome voice:', error);
   }
 }
 
@@ -4870,7 +5020,7 @@ document.addEventListener('DOMContentLoaded', function() {
       loadingScreen.style.opacity = '0';
       setTimeout(() => {
         loadingScreen.style.display = 'none';
-        console.log('✅ Loading screen hidden');
+        console.log(' Loading screen hidden');
       }, 500);
     }, 2500); // Show loading screen for 2.5 seconds
   }
@@ -4882,7 +5032,7 @@ document.addEventListener('DOMContentLoaded', function() {
       welcomePopup.style.animation = 'popupFadeOut 0.3s ease-out forwards';
       setTimeout(() => {
         welcomePopup.style.display = 'none';
-        console.log('✅ Welcome popup closed');
+        console.log(' Welcome popup closed');
       }, 300);
     }, 4000);
   }
@@ -4903,7 +5053,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return false;
     });
     
-    console.log('✅ Welcome button event listeners attached');
+    console.log(' Welcome button event listeners attached');
   }
 });
 
@@ -4917,9 +5067,9 @@ if (music) {
   const playPromise = music.play();
   if (playPromise !== undefined) {
     playPromise.then(() => {
-      console.log('🎵 Background music pre-loading started (muted)');
+      console.log(' Background music pre-loading started (muted)');
     }).catch((err) => {
-      console.log('⚠️ Music preload error:', err);
+      console.log(' Music preload error:', err);
     });
   }
 }
@@ -4928,18 +5078,18 @@ if (music) {
 
 // Unmute on first interaction (only once) - Mobile friendly
 const unmuteMusic = () => {
-  console.log('🔊 unmuteMusic called, musicUnmuted:', musicUnmuted);
+  console.log(' unmuteMusic called, musicUnmuted:', musicUnmuted);
   
   if (!musicUnmuted && music) {
-    console.log('🔊 Unmuting music and playing');
+    console.log(' Unmuting music and playing');
     music.muted = false;
     music.volume = 0.7;
     const playPromise = music.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        console.log('✅ Music playing successfully');
+        console.log(' Background music playing successfully');
       }).catch((err) => {
-        console.log('❌ Mobile audio play error:', err);
+        console.log(' Mobile audio play error:', err);
         // Retry after delay
         setTimeout(() => {
           music.play().catch(() => {});
@@ -4948,7 +5098,7 @@ const unmuteMusic = () => {
     }
     musicUnmuted = true;
   } else {
-    console.log('⚠️ Music already unmuted or music element not found');
+    console.log(' Music already unmuted or music element not found');
   }
 };
 
@@ -4958,43 +5108,42 @@ function handleFirstInteraction() {
 }
 
 // Support both touch and click events for mobile compatibility
-console.log('📱 Adding event listeners for first interaction');
+console.log(' Adding event listeners for first interaction');
 window.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
 window.addEventListener('touchend', handleFirstInteraction, { once: true, passive: true });
 window.addEventListener('click', handleFirstInteraction, { once: true, passive: true });
-window.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true });
-window.addEventListener('keydown', handleFirstInteraction, { once: true });
+window.addEventListener('scroll', handleFirstInteraction, { once: true });
 
 // Get all DOM elements for music controls
 const volumeSlider = document.getElementById('volumeSlider');
 const volumeValue = document.getElementById('volumeValue');
 const musicToggleBtn = document.getElementById('music-toggle-btn');
 
-console.log('🎵 Music toggle button:', musicToggleBtn);
-console.log('🎵 Volume slider:', volumeSlider);
-console.log('🎵 Background music element:', music);
+console.log(' Music toggle button:', musicToggleBtn);
+console.log(' Volume slider:', volumeSlider);
+console.log(' Background music element:', music);
 
 // Music toggle button functionality - handles pause/play
 if (musicToggleBtn && music) {
-  console.log('✅ Setting up music toggle button');
+  console.log(' Setting up music toggle button');
   
   musicToggleBtn.addEventListener('click', function(e) {
-    console.log('🎵 Music button clicked, paused state:', music.paused);
+    console.log(' Music button clicked, paused state:', music.paused);
     e.preventDefault();
     e.stopPropagation();
     
     if (music.paused) {
-      console.log('▶️ Resuming music...');
+      console.log(' Resuming music...');
       music.play().then(() => {
-        console.log('✅ Music resumed successfully');
+        console.log(' Background music resumed successfully');
         musicToggleBtn.style.opacity = '1';
       }).catch((err) => {
-        console.log('❌ Could not resume music:', err);
+        console.log(' Could not resume music:', err);
       });
     } else {
-      console.log('⏸️ Pausing music...');
+      console.log(' Pausing music...');
       music.pause();
-      console.log('✅ Music paused');
+      console.log(' Background music paused');
       musicToggleBtn.style.opacity = '0.6';
     }
     
@@ -5007,14 +5156,14 @@ if (musicToggleBtn && music) {
   } else {
     musicToggleBtn.style.opacity = '1';
   }
-  console.log('✅ Initial button state set');
+  console.log(' Initial button state set');
 } else {
-  console.log('⚠️ Music toggle setup failed - btn:', !!musicToggleBtn, 'music:', !!music);
+  console.log(' Music toggle setup failed - btn:', !!musicToggleBtn, 'music:', !!music);
 }
 
 // Volume slider control - adjust volume and show percentage with smooth updates
 if (volumeSlider && music) {
-  console.log('✅ Setting up smooth volume slider');
+  console.log(' Setting up smooth volume slider');
   
   let sliderTimeout;
   let lastVolumeUpdate = 0;
@@ -5053,7 +5202,7 @@ if (volumeSlider && music) {
     // Auto-play if paused when adjusting volume
     if (music.paused && volume > 0) {
       music.play().catch((err) => {
-        console.log('⚠️ Could not play music on volume change:', err);
+        console.log(' Could not play music on volume change:', err);
       });
       if (musicToggleBtn) {
         musicToggleBtn.style.opacity = '1';
@@ -5065,7 +5214,7 @@ if (volumeSlider && music) {
       music.pause();
     }
     
-    console.log('🔊 Volume set to:', volume + '%');
+    console.log(' Volume set to:', volume + '%');
   };
   
   // Throttled input handler for smooth performance
@@ -5102,60 +5251,53 @@ if (volumeSlider && music) {
   // Initialize slider fill
   volumeSlider.style.setProperty('--slider-fill', '70%');
 } else {
-  console.log('⚠️ Volume slider setup failed - slider:', !!volumeSlider, 'music:', !!music);
+  console.log(' Volume slider setup failed - slider:', !!volumeSlider, 'music:', !!music);
 }
 
 // Team Member Popup Functions
 const teamMemberData = {
   aarav: {
     name: 'AARAV THAKUR',
-    role: 'Device Software & Coding',
-    photo: 'images/aarav.jpg',
-    bio: 'Aarav is the team leader and software architect of our AI Fitness Monitoring Device. With expertise in embedded systems and IoT, he designed the device\'s intelligent signal processing algorithms and developed the entire web interface. He leads the team with innovative ideas and technical excellence.',
-    details: `
-      <h4 style="color: #ffd700; margin-bottom: 5px; font-size: 12px; font-weight: 700; letter-spacing: 1px;">👑 TEAM LEADER</h4>
-      <h4 style="color: #00d4ff; margin-bottom: 15px; font-size: 16px; font-weight: 700;">Key Contributions:</h4>
-      <ul style="margin: 0; padding-left: 20px; color: #e0e0e0; font-size: 14px; line-height: 1.8;">
-        <li>Team leadership & project management</li>
-        <li>Arduino firmware development</li>
-        <li>Signal processing algorithms</li>
-        <li>Website design & development</li>
-        <li>QR code generation system</li>
-        <li>Real-time data visualization</li>
-      </ul>
-    `
+    role: '👑 TEAM LEADER',
+    photo: 'images/profile3.jpg',
+    description: 'Software Architect & Team Lead',
+    details: 'Aarav is the team leader and software architect of our AI Fitness Monitoring Device. With expertise in embedded systems and IoT, he designed the device\'s intelligent signal processing algorithms and developed the entire web interface. He leads the team with innovative ideas and technical excellence.',
+    contributions: [
+      'Team leadership & project management',
+      'Arduino firmware development',
+      'Signal processing algorithms',
+      'Website design & development',
+      'QR code generation system',
+      'Real-time data visualization'
+    ]
   },
   ankit: {
     name: 'ANKIT',
-    role: 'Hardware & Wiring',
-    photo: 'images/ankit.jpg',
-    bio: 'Ankit is our electronics expert who designed and assembled the complete hardware circuit. He managed all sensor integration, PCB design, and soldering with precision to ensure optimal device performance.',
-    details: `
-      <h4 style="color: #00d4ff; margin-bottom: 15px; font-size: 16px; font-weight: 700;">Key Contributions:</h4>
-      <ul style="margin: 0; padding-left: 20px; color: #e0e0e0; font-size: 14px; line-height: 1.8;">
-        <li>Circuit design & optimization</li>
-        <li>PCB layout & routing</li>
-        <li>Sensor calibration</li>
-        <li>Power management system</li>
-        <li>Hardware troubleshooting</li>
-      </ul>
-    `
+    role: 'HARDWARE SPECIALIST',
+    photo: 'images/profile.jpg',
+    description: 'Electronics & Circuit Design',
+    details: 'Ankit is our electronics expert who designed and assembled the complete hardware circuit. He managed all sensor integration, PCB design, and soldering with precision to ensure optimal device performance.',
+    contributions: [
+      'Circuit design & optimization',
+      'PCB layout & routing',
+      'Sensor calibration',
+      'Power management system',
+      'Hardware troubleshooting'
+    ]
   },
   rizwan: {
     name: 'MD RIZWAN',
-    role: 'Device & UI/UX Design',
-    photo: 'images/rizwan.jpg',
-    bio: 'Rizwan is our design lead who created the beautiful 3D model of the device and designed the elegant case. He also designed the entire user interface with a focus on usability and aesthetic appeal.',
-    details: `
-      <h4 style="color: #00d4ff; margin-bottom: 15px; font-size: 16px; font-weight: 700;">Key Contributions:</h4>
-      <ul style="margin: 0; padding-left: 20px; color: #e0e0e0; font-size: 14px; line-height: 1.8;">
-        <li>3D modeling & CAD design</li>
-        <li>Device case design</li>
-        <li>UI/UX design</li>
-        <li>Brand identity</li>
-        <li>Visual presentations</li>
-      </ul>
-    `
+    role: 'DESIGN LEAD',
+    photo: 'images/profile2.jpg',
+    description: '3D Modeling & UI/UX Design',
+    details: 'Rizwan is our design lead who created the beautiful 3D model of the device and designed the elegant case. He also designed the entire user interface with a focus on usability and aesthetic appeal.',
+    contributions: [
+      '3D modeling & CAD design',
+      'Device case design',
+      'UI/UX design',
+      'Brand identity',
+      'Visual presentations'
+    ]
   }
 };
 
@@ -5163,14 +5305,62 @@ function openTeamPopup(memberId) {
   const member = teamMemberData[memberId];
   if (!member) return;
   
-  document.getElementById('teamMemberPhoto').src = member.photo;
-  document.getElementById('teamMemberName').textContent = member.name;
-  document.getElementById('teamMemberRole').textContent = member.role;
-  document.getElementById('teamMemberBio').textContent = member.bio;
-  document.getElementById('teamMemberDetails').innerHTML = member.details;
+  // Update the popup content with member data
+  const photo = document.getElementById('teamMemberPhoto');
+  const name = document.getElementById('teamMemberName');
+  const role = document.getElementById('teamMemberRole');
+  const description = document.getElementById('teamMemberDescription');
+  const details = document.getElementById('teamMemberDetails');
+  const contributions = document.getElementById('teamMemberContributions');
   
-  document.getElementById('teamPopup').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  if (photo) photo.src = member.photo || '';
+  if (name) name.textContent = member.name || '';
+  if (role) role.textContent = member.role || '';
+  if (description) description.textContent = member.description || '';
+  if (details) details.textContent = member.details || '';
+  
+  // Update contributions list with high contrast colors for both themes
+  if (contributions && member.contributions) {
+    contributions.innerHTML = member.contributions
+      .map(item => `
+        <li style="
+          margin-bottom: 12px;
+          padding-left: 24px;
+          text-align: left;
+          font-size: 14px;
+          color: #2d3748; /* Dark gray that works in light mode */
+          position: relative;
+          list-style-type: none;
+        ">
+          <span style="
+            position: absolute;
+            left: 0;
+            color: #2563eb; /* Blue accent color */
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 1.3;
+            top: -1px;
+          ">•</span>
+          <span style="
+            color: inherit;
+            line-height: 1.5;
+            display: inline-block;
+            vertical-align: top;
+            width: calc(100% - 10px);
+          ">${item}</span>
+        </li>`)
+      .join('');
+    
+    // Apply dark mode styles if needed
+    if (document.body.classList.contains('dark-mode')) {
+      contributions.style.color = '#e2e8f0'; /* Light text for dark mode */
+    } else {
+      contributions.style.color = '#2d3748'; /* Dark text for light mode */
+    }
+  }
+  
+  // Show the popup
+  openPopup('teamPopup');
 }
 
 function closeTeamPopup() {
