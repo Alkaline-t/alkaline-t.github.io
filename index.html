@@ -6250,7 +6250,7 @@ function onPlayerStateChange(event) {
     
     if (!welcomeVideo) return;
 
-    // Force autoplay with sound immediately when page loads
+    // Try autoplay with sound immediately when page loads
     function startVideo() {
       welcomeVideo.muted = false;
       welcomeVideo.volume = 1.0;
@@ -6321,17 +6321,51 @@ function onPlayerStateChange(event) {
     window.addEventListener('touchstart', unlockVideoAudioOnce, { once: true, passive: true });
     window.addEventListener('click', unlockVideoAudioOnce, { once: true, passive: true });
   })();
+
+// Device Demo Video Sound Control
+document.addEventListener('DOMContentLoaded', function() {
+  const deviceDemoVideo = document.getElementById('deviceDemoVideo');
+  const welcomeVideo = document.getElementById('welcomeVideo');
+  
+  if (deviceDemoVideo && welcomeVideo) {
+    // Store welcome video state
+    let welcomeVideoWasPlaying = false;
+    
+    // When demo video starts playing
+    deviceDemoVideo.addEventListener('play', function() {
+      console.log('Demo video started - pausing welcome video sound');
+      
+      // Check if welcome video was playing
+      welcomeVideoWasPlaying = !welcomeVideo.paused;
+      
+      // Mute welcome video to avoid audio conflict
+      welcomeVideo.muted = true;
+    });
+    
+    // When demo video is paused
+    deviceDemoVideo.addEventListener('pause', function() {
+      console.log('Demo video paused - resuming welcome video sound');
+      
+      // Unmute welcome video if it was playing before
+      if (welcomeVideoWasPlaying && !welcomeVideo.paused) {
+        welcomeVideo.muted = false;
+      }
+    });
+    
+    // When demo video ends
+    deviceDemoVideo.addEventListener('ended', function() {
+      console.log('Demo video ended - resuming welcome video sound');
+      
+      // Unmute welcome video if it was playing before
+      if (welcomeVideoWasPlaying && !welcomeVideo.paused) {
+        welcomeVideo.muted = false;
+      }
+    });
+    
+    console.log('Demo video sound control initialized');
+  }
+});
 </script>
 
 </body>
-</html>
-
-
-
-
-
-
-
-
-
-
+</html>  
