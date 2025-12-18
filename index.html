@@ -3465,7 +3465,16 @@ body.dark-mode .refresh-btn:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #000;
+    background: 
+      radial-gradient(ellipse at top left, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%),
+      linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #667eea 100%);
+    background-size: 400% 400%, 200% 200%, 100% 100%, 400% 400%;
+    animation: 
+      gradientShift 15s ease infinite,
+      pulseGlow 4s ease-in-out infinite alternate,
+      rotateGradient 20s linear infinite;
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -3473,13 +3482,103 @@ body.dark-mode .refresh-btn:hover {
     align-items: center;
     opacity: 1;
     transition: opacity 0.5s ease;
+    overflow: hidden;
+  }
+  
+  .video-welcome::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 60%);
+    pointer-events: none;
+    animation: floatLights 6s ease-in-out infinite;
+  }
+  
+  .video-welcome::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      conic-gradient(from 0deg at 50% 50%, 
+        transparent 0deg, 
+        rgba(255, 255, 255, 0.03) 60deg, 
+        transparent 120deg,
+        rgba(120, 119, 198, 0.03) 180deg,
+        transparent 240deg,
+        rgba(255, 119, 198, 0.03) 300deg,
+        transparent 360deg);
+    animation: rotateLight 30s linear infinite;
+    pointer-events: none;
   }
   
   .video-welcome video {
     max-width: 90%;
     max-height: 80vh;
-    border-radius: 12px;
-    box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+    border-radius: 20px;
+    box-shadow: 
+      0 20px 60px rgba(0,0,0,0.4),
+      0 0 120px rgba(102, 126, 234, 0.3),
+      0 0 200px rgba(240, 147, 251, 0.2),
+      inset 0 0 30px rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    transform: scale(1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .video-welcome video:hover {
+    transform: scale(1.02);
+    box-shadow: 
+      0 25px 70px rgba(0,0,0,0.5),
+      0 0 140px rgba(102, 126, 234, 0.4),
+      0 0 220px rgba(240, 147, 251, 0.3),
+      inset 0 0 40px rgba(255,255,255,0.15);
+  }
+  
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  @keyframes pulseGlow {
+    0% { filter: brightness(1) contrast(1); }
+    100% { filter: brightness(1.1) contrast(1.05); }
+  }
+  
+  @keyframes rotateGradient {
+    0% { background-position: 0% 0%, 0% 0%, 50% 50%, 0% 50%; }
+    100% { background-position: 100% 100%, 100% 100%, 50% 50%, 100% 50%; }
+  }
+  
+  @keyframes floatLights {
+    0%, 100% { 
+      transform: translate(0, 0) scale(1);
+      opacity: 0.8;
+    }
+    33% { 
+      transform: translate(20px, -20px) scale(1.1);
+      opacity: 0.6;
+    }
+    66% { 
+      transform: translate(-20px, 20px) scale(0.9);
+      opacity: 0.9;
+    }
+  }
+  
+  @keyframes rotateLight {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   
   .skip-btn {
@@ -4603,48 +4702,143 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
   </div>
 </div>
 
-<!-- TEAM POPUP -->
-<div id="teamPopup" class="popup">
-  <div class="popupContent" style="max-height:80vh; overflow-y:auto;">
-    <span class="closeBtn" onclick="closePopup('teamPopup')">×</span>
-
-    <h2 style="text-align:center; color:var(--accent);">TEAM</h2>
-
-    <!-- Team Members -->
-    <ul>
-      <li><b>IoT Specialist:</b> Aarav Thakur</li>
-      <li><b>Circuit Designer:</b> Ankit</li>
-      <li><b>System Designer:</b> MD Rizwan</li>
-      <li><b>Website Developer:</b> Aarav Thakur</li>
-    </ul>
-
-    <!-- School & Mentors Info -->
-    <div style="margin-top:15px; color:var(--muted); line-height:1.6;">
-      <p>We are the students of <b>Class-10th</b> from the School: <b>SCAN SBV NO.2 JANAKPURI B BLOCK</b></p>
-      <p>Our School Principal Name is <b>INDER KUMAR</b></p>
-      <p>Our PTVT is <b>Mrs. VINITA KUMARI</b></p>
-    </div>
-
-    <!-- HOLISTIC WELLNESS LINE -->
-    <p style="
-      text-align:center; 
-      margin-top:20px; 
-      font-size:24px; 
-      font-weight:800; 
-      background: linear-gradient(135deg, #00d4ff, #0084ff); 
-      -webkit-background-clip: text; 
-      background-clip: text;
-      -webkit-text-fill-color: transparent; 
-      color: transparent;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.35);
-      font-family:'Arial Black', Gadget, sans-serif;
-    ">
-      HOLISTIC WELLNESS AND LIFE STYLE!!
-    </p>
-  </div>
-</div>
-
 <script>
+  // Team Member Popup Functions - Must be defined early for onclick handlers
+  const teamMemberData = {
+    aarav: {
+      name: 'AARAV THAKUR',
+      role: '👑 TEAM LEADER',
+      photo: 'images/profile3.jpg',
+      description: 'Software Architect & Team Lead',
+      details: 'Aarav is the team leader and software architect of our AI Fitness Monitoring Device. With expertise in embedded systems and IoT, he designed the device\'s intelligent signal processing algorithms and developed the entire web interface. He leads the team with innovative ideas and technical excellence.',
+      contributions: [
+        'Team leadership & project management',
+        'Arduino firmware development',
+        'Signal processing algorithms',
+        'Website design & development',
+        'QR code generation system',
+        'Real-time data visualization'
+      ]
+    },
+    ankit: {
+      name: 'ANKIT',
+      role: 'HARDWARE SPECIALIST',
+      photo: 'images/profile.jpg',
+      description: 'Electronics & Circuit Design',
+      details: 'Ankit is our electronics expert who designed and assembled the complete hardware circuit. He managed all sensor integration, PCB design, and soldering with precision to ensure optimal device performance.',
+      contributions: [
+        'Circuit design & optimization',
+        'PCB layout & routing',
+        'Sensor calibration',
+        'Power management system',
+        'Hardware troubleshooting'
+      ]
+    },
+    rizwan: {
+      name: 'MD RIZWAN',
+      role: 'DESIGN LEAD',
+      photo: 'images/profile2.jpg',
+      description: '3D Modeling & UI/UX Design',
+      details: 'Rizwan is our design lead who created the beautiful 3D model of the device and designed the elegant case. He also designed the entire user interface with a focus on usability and aesthetic appeal.',
+      contributions: [
+        '3D modeling & CAD design',
+        'Device case design',
+        'UI/UX design',
+        'Brand identity',
+        'Visual presentations'
+      ]
+    }
+  };
+
+  function openTeamPopup(memberId) {
+    console.log('🔵 openTeamPopup called with memberId:', memberId);
+    const member = teamMemberData[memberId];
+    if (!member) {
+      console.log('❌ Member not found for:', memberId);
+      return;
+    }
+    console.log('✅ Member data found:', member.name);
+    
+    const popup = document.getElementById('teamPopup');
+    const popupContent = document.getElementById('teamPopupContent');
+    const photo = document.getElementById('teamMemberPhoto');
+    const name = document.getElementById('teamMemberName');
+    const role = document.getElementById('teamMemberRole');
+    const description = document.getElementById('teamMemberDescription');
+    const details = document.getElementById('teamMemberDetails');
+    const contributions = document.getElementById('teamMemberContributions');
+    
+    console.log('🔍 Elements found - popup:', !!popup, 'name:', !!name, 'role:', !!role);
+    
+    if (photo) photo.src = member.photo || '';
+    if (name) name.textContent = member.name || '';
+    if (role) role.textContent = member.role || '';
+    if (description) description.textContent = member.description || '';
+    if (details) details.textContent = member.details || '';
+    
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    
+    if (popup) {
+      popup.style.background = isDarkMode ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.98)';
+    }
+    
+    if (popupContent) {
+      popupContent.style.color = isDarkMode ? '#e2e8f0' : '#1a202c';
+    }
+    
+    if (contributions && member.contributions) {
+      const textColor = isDarkMode ? '#e2e8f0' : '#1a202c';
+      const bulletColor = isDarkMode ? '#60a5fa' : '#2563eb';
+      
+      contributions.innerHTML = member.contributions
+        .map(item => `
+          <li style="
+            margin-bottom: 12px;
+            padding-left: 24px;
+            text-align: left;
+            font-size: 14px;
+            color: ${textColor};
+            position: relative;
+            list-style-type: none;
+          ">
+            <span style="
+              position: absolute;
+              left: 0;
+              color: ${bulletColor};
+              font-weight: bold;
+              font-size: 18px;
+              line-height: 1.3;
+              top: -1px;
+            ">•</span>
+            <span style="
+              color: ${textColor};
+              line-height: 1.5;
+              display: inline-block;
+              vertical-align: top;
+              width: calc(100% - 10px);
+            ">${item}</span>
+          </li>`)
+        .join('');
+    }
+    
+    if (popup) {
+      console.log('📱 Displaying popup...');
+      popup.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      console.log('✅ Popup should now be visible');
+    } else {
+      console.log('❌ Popup element not found!');
+    }
+  }
+
+  function closeTeamPopup() {
+    const popup = document.getElementById('teamPopup');
+    if (popup) {
+      popup.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  }
+
   function toggleMenu(){
     const menu=document.querySelector('.vk-nav');
     menu.classList.toggle('open');
@@ -5149,6 +5343,10 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 <audio id="welcome-audio" src="audio/voice player.mp3" preload="auto" crossorigin="anonymous"></audio>
 
 <script>
+// Background music element (optional). Define safely to avoid ReferenceError that can stop the rest of the scripts.
+const music = document.getElementById('background-music') || document.getElementById('backgroundMusic') || document.getElementById('music');
+let musicUnmuted = false;
+
 // Function to play welcome voice message
 function playWelcomeVoice() {
   console.log(' Playing welcome voice');
@@ -5297,66 +5495,64 @@ console.log(' Music toggle button:', musicToggleBtn);
 console.log(' Volume slider:', volumeSlider);
 console.log(' Background music element:', music);
 
-// Music toggle button functionality - handles pause/play
-if (musicToggleBtn && music) {
-  console.log(' Setting up music toggle button');
+// Volume toggle button functionality - handles video mute/unmute
+if (musicToggleBtn) {
+  console.log(' Setting up volume toggle button for video');
   
   musicToggleBtn.addEventListener('click', function(e) {
-    console.log(' Music button clicked, paused state:', music.paused);
+    console.log(' Volume button clicked');
     e.preventDefault();
     e.stopPropagation();
     
-    if (music.paused) {
-      console.log(' Resuming music...');
-      music.play().then(() => {
-        console.log(' Background music resumed successfully');
-        musicToggleBtn.style.opacity = '1';
-      }).catch((err) => {
-        console.log(' Could not resume music:', err);
-      });
+    const welcomeVideo = document.getElementById('welcomeVideo');
+    if (!welcomeVideo) return;
+    
+    if (welcomeVideo.muted) {
+      console.log(' Unmuting video...');
+      welcomeVideo.muted = false;
+      musicToggleBtn.classList.remove('muted');
+      musicToggleBtn.classList.add('playing');
+      musicToggleBtn.style.opacity = '1';
     } else {
-      console.log(' Pausing music...');
-      music.pause();
-      console.log(' Background music paused');
+      console.log(' Muting video...');
+      welcomeVideo.muted = true;
+      musicToggleBtn.classList.remove('playing');
+      musicToggleBtn.classList.add('muted');
       musicToggleBtn.style.opacity = '0.6';
     }
     
     return false;
   });
   
-  // Set initial button state based on music playing status
-  if (music.paused) {
-    musicToggleBtn.style.opacity = '0.6';
-  } else {
-    musicToggleBtn.style.opacity = '1';
+  // Set initial button state based on video mute status
+  const welcomeVideo = document.getElementById('welcomeVideo');
+  if (welcomeVideo) {
+    if (welcomeVideo.muted) {
+      musicToggleBtn.classList.add('muted');
+      musicToggleBtn.style.opacity = '0.6';
+    } else {
+      musicToggleBtn.classList.add('playing');
+      musicToggleBtn.style.opacity = '1';
+    }
   }
-  console.log(' Initial button state set');
+  console.log(' Initial video volume button state set');
 } else {
-  console.log(' Music toggle setup failed - btn:', !!musicToggleBtn, 'music:', !!music);
+  console.log(' Volume toggle setup failed - button not found');
 }
 
-// Volume slider control - adjust volume and show percentage with smooth updates
-if (volumeSlider && music) {
-  console.log(' Setting up smooth volume slider');
+// Volume slider control - adjust volume for welcome video and show percentage
+if (volumeSlider) {
+  console.log(' Setting up volume slider for video');
   
   let sliderTimeout;
-  let lastVolumeUpdate = 0;
   
-  // Function to update volume smoothly
-  const updateVolume = (volume) => {
-    // Smooth easing function for volume changes
-    const currentVolume = music.volume;
-    const targetVolume = volume / 100;
-    const diff = Math.abs(targetVolume - currentVolume);
+  // Function to update video volume
+  const updateVideoVolume = (volume) => {
+    const welcomeVideo = document.getElementById('welcomeVideo');
+    if (!welcomeVideo) return;
     
-    // If difference is small, apply directly for responsiveness
-    if (diff < 0.02) {
-      music.volume = targetVolume;
-    } else {
-      // Apply easing for larger changes
-      const step = diff * 0.4; // 40% step towards target
-      music.volume = currentVolume + (targetVolume > currentVolume ? step : -step);
-    }
+    const targetVolume = volume / 100;
+    welcomeVideo.volume = targetVolume;
     
     // Update visual feedback
     if (volumeValue) {
@@ -5373,22 +5569,7 @@ if (volumeSlider && music) {
     // Update slider fill with CSS variable
     volumeSlider.style.setProperty('--slider-fill', volume + '%');
     
-    // Auto-play if paused when adjusting volume
-    if (music.paused && volume > 0) {
-      music.play().catch((err) => {
-        console.log(' Could not play music on volume change:', err);
-      });
-      if (musicToggleBtn) {
-        musicToggleBtn.style.opacity = '1';
-      }
-    }
-    
-    // Pause if volume reaches 0
-    if (volume === '0') {
-      music.pause();
-    }
-    
-    console.log(' Volume set to:', volume + '%');
+    console.log(' Video volume set to:', volume + '%');
   };
   
   // Throttled input handler for smooth performance
@@ -5399,7 +5580,7 @@ if (volumeSlider && music) {
     if (!isProcessing) {
       isProcessing = true;
       requestAnimationFrame(() => {
-        updateVolume(volume);
+        updateVideoVolume(volume);
         isProcessing = false;
       });
     }
@@ -5424,139 +5605,20 @@ if (volumeSlider && music) {
   
   // Initialize slider fill
   volumeSlider.style.setProperty('--slider-fill', '70%');
+  updateVideoVolume(70); // Set initial video volume
 } else {
-  console.log(' Volume slider setup failed - slider:', !!volumeSlider, 'music:', !!music);
+  console.log(' Volume slider setup failed - slider not found');
 }
 
-// Team Member Popup Functions
-const teamMemberData = {
-  aarav: {
-    name: 'AARAV THAKUR',
-    role: '👑 TEAM LEADER',
-    photo: 'images/profile3.jpg',
-    description: 'Software Architect & Team Lead',
-    details: 'Aarav is the team leader and software architect of our AI Fitness Monitoring Device. With expertise in embedded systems and IoT, he designed the device\'s intelligent signal processing algorithms and developed the entire web interface. He leads the team with innovative ideas and technical excellence.',
-    contributions: [
-      'Team leadership & project management',
-      'Arduino firmware development',
-      'Signal processing algorithms',
-      'Website design & development',
-      'QR code generation system',
-      'Real-time data visualization'
-    ]
-  },
-  ankit: {
-    name: 'ANKIT',
-    role: 'HARDWARE SPECIALIST',
-    photo: 'images/profile.jpg',
-    description: 'Electronics & Circuit Design',
-    details: 'Ankit is our electronics expert who designed and assembled the complete hardware circuit. He managed all sensor integration, PCB design, and soldering with precision to ensure optimal device performance.',
-    contributions: [
-      'Circuit design & optimization',
-      'PCB layout & routing',
-      'Sensor calibration',
-      'Power management system',
-      'Hardware troubleshooting'
-    ]
-  },
-  rizwan: {
-    name: 'MD RIZWAN',
-    role: 'DESIGN LEAD',
-    photo: 'images/profile2.jpg',
-    description: '3D Modeling & UI/UX Design',
-    details: 'Rizwan is our design lead who created the beautiful 3D model of the device and designed the elegant case. He also designed the entire user interface with a focus on usability and aesthetic appeal.',
-    contributions: [
-      '3D modeling & CAD design',
-      'Device case design',
-      'UI/UX design',
-      'Brand identity',
-      'Visual presentations'
-    ]
-  }
-};
-
-function openTeamPopup(memberId) {
-  const member = teamMemberData[memberId];
-  if (!member) return;
-  
-  // Get the popup and content elements
-  const popup = document.getElementById('teamPopup');
-  const popupContent = document.getElementById('teamPopupContent');
-  const photo = document.getElementById('teamMemberPhoto');
-  const name = document.getElementById('teamMemberName');
-  const role = document.getElementById('teamMemberRole');
-  const description = document.getElementById('teamMemberDescription');
-  const details = document.getElementById('teamMemberDetails');
-  const contributions = document.getElementById('teamMemberContributions');
-  
-  // Set member data
-  if (photo) photo.src = member.photo || '';
-  if (name) name.textContent = member.name || '';
-  if (role) role.textContent = member.role || '';
-  if (description) description.textContent = member.description || '';
-  if (details) details.textContent = member.details || '';
-  
-  // Set theme-specific styles
-  const isDarkMode = document.body.classList.contains('dark-mode');
-  
-  // Update popup background and text colors based on theme
-  if (popup) {
-    popup.style.background = isDarkMode ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.98)';
-  }
-  
-  if (popupContent) {
-    popupContent.style.color = isDarkMode ? '#e2e8f0' : '#1a202c';
-  }
-  
-  // Update contributions list with theme-appropriate colors
-  if (contributions && member.contributions) {
-    const textColor = isDarkMode ? '#e2e8f0' : '#1a202c';
-    const bulletColor = isDarkMode ? '#60a5fa' : '#2563eb';
-    
-    contributions.innerHTML = member.contributions
-      .map(item => `
-        <li style="
-          margin-bottom: 12px;
-          padding-left: 24px;
-          text-align: left;
-          font-size: 14px;
-          color: ${textColor};
-          position: relative;
-          list-style-type: none;
-        ">
-          <span style="
-            position: absolute;
-            left: 0;
-            color: ${bulletColor};
-            font-weight: bold;
-            font-size: 18px;
-            line-height: 1.3;
-            top: -1px;
-          ">•</span>
-          <span style="
-            color: ${textColor};
-            line-height: 1.5;
-            display: inline-block;
-            vertical-align: top;
-            width: calc(100% - 10px);
-          ">${item}</span>
-        </li>`)
-      .join('');
-  }
-  
-  // Show the popup
-  openPopup('teamPopup');
-}
-
-function closeTeamPopup() {
-  document.getElementById('teamPopup').style.display = 'none';
-  document.body.style.overflow = 'auto';
-}
-
-// Close popup when clicking outside of it
-document.getElementById('teamPopup').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeTeamPopup();
+// Close popup when clicking outside of it (moved from duplicate section)
+window.addEventListener('DOMContentLoaded', function() {
+  const teamPopup = document.getElementById('teamPopup');
+  if (teamPopup) {
+    teamPopup.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeTeamPopup();
+      }
+    });
   }
 });
 
@@ -5699,6 +5761,26 @@ if (feedbackForm) {
   </div>
   <div class="chatbot-messages" id="chatbot-messages">
     <div class="message bot">Hello! I am the AI assistant for the AI Fitness Monitoring Device. I am here to provide information about our product. How can I assist you today?</div>
+    
+    <!-- AI Video Section -->
+    <div style="margin: 15px 0; text-align: center;">
+      <video id="aiVideo" style="width: 100%; max-width: 350px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); margin-bottom: 12px;" controls>
+        <source src="First Video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button id="aiVideoBtn" style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      ">Play AI Demo Video</button>
+    </div>
   </div>
   <div class="chatbot-input">
     <input type="text" id="chatbot-input" placeholder="Type your message...">
@@ -5718,6 +5800,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const chatbotClose = document.getElementById('chatbot-close');
   const chatbotMessages = document.getElementById('chatbot-messages');
   const chatbotInput = document.getElementById('chatbot-input');
+  const aiVideo = document.getElementById('aiVideo');
+  const aiVideoBtn = document.getElementById('aiVideoBtn');
 
   // Toggle chatbot
   chatbotToggle.addEventListener('click', function() {
@@ -5738,6 +5822,25 @@ document.addEventListener('DOMContentLoaded', function() {
   chatbotClose.addEventListener('click', function() {
     chatbotContainer.classList.remove('open');
     setTimeout(() => chatbotContainer.style.display = 'none', 400);
+  });
+
+  // AI Video button functionality
+  aiVideoBtn.addEventListener('click', function() {
+    if (aiVideo.paused) {
+      aiVideo.play();
+      aiVideoBtn.textContent = 'Pause AI Demo Video';
+      aiVideoBtn.style.background = 'linear-gradient(135deg, #f093fb 0%, #667eea 100%)';
+    } else {
+      aiVideo.pause();
+      aiVideoBtn.textContent = 'Play AI Demo Video';
+      aiVideoBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    }
+  });
+
+  // Update button text when video ends
+  aiVideo.addEventListener('ended', function() {
+    aiVideoBtn.textContent = 'Play AI Demo Video';
+    aiVideoBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
   });
 
   // Send message on Enter
@@ -6142,25 +6245,46 @@ function onPlayerStateChange(event) {
     const skipBtn = document.getElementById('skipWelcome');
     const welcomeVideo = document.getElementById('welcomeVideo');
     
-    // Force video to play immediately with sound
+    if (!welcomeVideo) return;
+
+    // Force autoplay with sound immediately when page loads
     function startVideo() {
-      welcomeVideo.muted = false; // Start with sound
+      welcomeVideo.muted = false;
       welcomeVideo.volume = 1.0;
-      welcomeVideo.play().then(() => {
-        console.log('✅ Video started playing automatically with sound');
-      }).catch(error => {
-        console.log("Video autoplay with sound prevented, trying muted:", error);
-        // If autoplay with sound fails, try muted
-        welcomeVideo.muted = true;
-        welcomeVideo.play().then(() => {
-          console.log('✅ Video started playing muted');
-          // Try to unmute after a short delay
-          setTimeout(() => {
-            welcomeVideo.muted = false;
-            welcomeVideo.volume = 1.0;
-          }, 100);
-        }).catch(e => console.log("Retry failed:", e));
-      });
+      
+      // Try multiple times to play with sound
+      const attemptPlayWithSound = () => {
+        const p = welcomeVideo.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch((error) => {
+            console.log('Video autoplay with sound prevented:', error);
+            // Retry after a short delay
+            setTimeout(() => {
+              welcomeVideo.muted = false;
+              welcomeVideo.volume = 1.0;
+              welcomeVideo.play().catch((e) => {
+                console.log('Retry failed, will try on user interaction');
+              });
+            }, 100);
+          });
+        }
+      };
+      
+      attemptPlayWithSound();
+    }
+
+    function unlockVideoAudioOnce() {
+      // Try to unmute + ensure playback. This will only work after a user gesture.
+      try {
+        welcomeVideo.muted = false;
+        welcomeVideo.volume = 1.0;
+        const p = welcomeVideo.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => {});
+        }
+      } catch (e) {
+        console.log('Video unmute/play failed:', e);
+      }
     }
     
     // Start video immediately
@@ -6170,16 +6294,17 @@ function onPlayerStateChange(event) {
       startVideo();
     }
     
-    // Function to hide welcome video (but keep audio playing)
+    // Function to hide welcome video but keep audio playing
     function skipWelcome() {
+      console.log('Skip button clicked - hiding video but keeping audio');
+      
       // Fade out the video container
       videoWelcome.style.opacity = '0';
       
-      // After fade out, hide video but keep audio playing
+      // After fade out, hide video but DO NOT pause - keep audio playing
       setTimeout(() => {
         videoWelcome.style.display = 'none';
-        // DO NOT pause the video - let audio continue playing
-        console.log('Video hidden but audio continues playing');
+        console.log('Video hidden, audio continues playing in background');
       }, 500);
     }
     
@@ -6188,14 +6313,10 @@ function onPlayerStateChange(event) {
       skipWelcome();
     });
     
-    // Also try to unmute on any user interaction
-    document.addEventListener('click', function() {
-      if (!welcomeVideo.paused && welcomeVideo.muted) {
-        welcomeVideo.muted = false;
-        welcomeVideo.volume = 1.0;
-        console.log('Video unmuted on user interaction');
-      }
-    }, { once: true });
+    // Enable sound on the first real user gesture
+    window.addEventListener('pointerdown', unlockVideoAudioOnce, { once: true, passive: true });
+    window.addEventListener('touchstart', unlockVideoAudioOnce, { once: true, passive: true });
+    window.addEventListener('click', unlockVideoAudioOnce, { once: true, passive: true });
   })();
 </script>
 

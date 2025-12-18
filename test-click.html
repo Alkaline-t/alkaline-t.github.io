@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Team Click</title>
+</head>
+<body>
+    <h1>Click Test</h1>
+    <div onclick="alert('Click works!')" style="cursor: pointer; padding: 20px; background: lightblue; margin: 20px;">
+        Click me to test
+    </div>
+    
+    <div onclick="openTeamPopup('aarav')" style="cursor: pointer; padding: 20px; background: lightgreen; margin: 20px;">
+        Click to open team popup
+    </div>
+    
+    <div id="teamPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999;">
+        <div style="background: white; padding: 40px; margin: 100px auto; max-width: 500px; border-radius: 16px;">
+            <h2 id="teamMemberName">Name</h2>
+            <p id="teamMemberRole">Role</p>
+            <button onclick="closeTeamPopup()">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        const teamMemberData = {
+            aarav: {
+                name: 'AARAV THAKUR',
+                role: 'TEAM LEADER'
+            }
+        };
+        
+        function openTeamPopup(memberId) {
+            console.log('openTeamPopup called with:', memberId);
+            const member = teamMemberData[memberId];
+            if (!member) {
+                console.log('Member not found');
+                return;
+            }
+            
+            const popup = document.getElementById('teamPopup');
+            const name = document.getElementById('teamMemberName');
+            const role = document.getElementById('teamMemberRole');
+            
+            if (name) name.textContent = member.name;
+            if (role) role.textContent = member.role;
+            
+            if (popup) {
+                popup.style.display = 'flex';
+                popup.style.alignItems = 'center';
+                popup.style.justifyContent = 'center';
+                console.log('Popup displayed');
+            }
+        }
+        
+        function closeTeamPopup() {
+            const popup = document.getElementById('teamPopup');
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
