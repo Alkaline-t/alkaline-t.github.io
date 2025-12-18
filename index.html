@@ -3458,6 +3458,66 @@ body.dark-mode .refresh-btn:hover {
     }
   }
 
+  /* Video Welcome Container */
+  .video-welcome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  
+  .video-welcome video {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 12px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+  }
+  
+  .skip-btn {
+    margin-top: 25px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 132, 255, 0.3);
+    z-index: 10001;
+  }
+  
+  .skip-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 132, 255, 0.4);
+  }
+  
+  .skip-btn:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 600px) {
+    .video-welcome video {
+      max-width: 95%;
+      max-height: 70vh;
+    }
+    
+    .skip-btn {
+      font-size: 14px;
+      padding: 10px 25px;
+    }
+  }
+
 /* AI Chatbot Styles */
 .chatbot-container {
   position: fixed;
@@ -5086,13 +5146,9 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
 
 </script>
 
-<audio id="bg-music" src="audio/Music.mp3" preload="metadata" loop muted crossorigin="anonymous"></audio>
 <audio id="welcome-audio" src="audio/voice player.mp3" preload="auto" crossorigin="anonymous"></audio>
 
 <script>
-const music = document.getElementById("bg-music");
-let musicUnmuted = false;
-
 // Function to play welcome voice message
 function playWelcomeVoice() {
   console.log(' Playing welcome voice');
@@ -5114,31 +5170,6 @@ function playWelcomeVoice() {
   // Reset and play the audio
   welcomeAudio.currentTime = 0;
   welcomeAudio.volume = 1;
-  
-  // Lower background music volume when voice starts
-  if (music) {
-    music.volume = 0.15; // Reduce to 15% so voice is clearly heard
-    console.log(' Background music volume lowered to 0.15');
-  }
-  
-  // When welcome voice ends, restore background music volume
-  welcomeAudio.addEventListener('ended', function() {
-    console.log(' Welcome voice finished, restoring background music');
-    if (music) {
-      music.muted = false;
-      music.volume = 0.7; // Restore to normal volume
-      console.log(' Background music volume restored to 0.7');
-      const playPromise = music.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          console.log(' Background music playing at normal volume');
-          musicUnmuted = true;
-        }).catch((err) => {
-          console.log(' Background music play error:', err);
-        });
-      }
-    }
-  }, { once: true }); // Only listen once
   
   try {
     const playPromise = welcomeAudio.play();
@@ -5168,7 +5199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 2500); // Show loading screen for 2.5 seconds
   }
 
-  // Auto-close welcome popup after 6 seconds
+  // Auto-close welcome popup after 2.5 seconds
   const welcomePopup = document.getElementById('welcome-popup');
   if (welcomePopup) {
     setTimeout(() => {
@@ -5177,7 +5208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         welcomePopup.style.display = 'none';
         console.log(' Welcome popup closed');
       }, 300);
-    }, 4000);
+    }, 2500);
   }
   
   const welcomeBtn = document.getElementById('welcome-btn');
@@ -5536,13 +5567,8 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// YouTube Video and Background Music Control
-let originalMusicVolume = 0.7;
+// YouTube Video Control
 let isVideoPlaying = false;
-
-  // YouTube Video and Background Music Control - Disabled (no video currently)
-  const backgroundMusic = document.getElementById('bg-music');
-  let ytPlayer;
 
   // YouTube API disabled - no video currently
   // (function loadYouTubeAPI(){
@@ -6095,28 +6121,83 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function onPlayerStateChange(event) {
-  const music = document.getElementById('bg-music');
-  if (!music) return;
-
-  if (event.data == YT.PlayerState.PLAYING) {
-    // Video started playing, pause background music
-    music.pause();
-    console.log('🎵 Background music paused because YouTube video is playing');
-  } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
-    // Video paused or ended, resume background music if it was playing before
-    if (!music.muted && music.volume > 0) {
-      music.play().catch(err => console.log('⚠️ Could not resume background music:', err));
-      console.log('🎵 Background music resumed because YouTube video paused/ended');
-    }
-  }
+  // YouTube player state change handler
+  // Background music functionality removed
 }
 </script>
 
-
+<!-- Video Welcome Overlay -->
+<div id="videoWelcome" class="video-welcome">
+  <video id="welcomeVideo" muted loop playsinline preload="auto">
+    <source src="First Video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <button class="skip-btn" id="skipWelcome">Skip Intro</button>
+</div>
 
 <script>
+  // Video Welcome Functionality
+  (function() {
+    const videoWelcome = document.getElementById('videoWelcome');
+    const skipBtn = document.getElementById('skipWelcome');
+    const welcomeVideo = document.getElementById('welcomeVideo');
+    
+    // Force video to play immediately with sound
+    function startVideo() {
+      welcomeVideo.muted = false; // Start with sound
+      welcomeVideo.volume = 1.0;
+      welcomeVideo.play().then(() => {
+        console.log('✅ Video started playing automatically with sound');
+      }).catch(error => {
+        console.log("Video autoplay with sound prevented, trying muted:", error);
+        // If autoplay with sound fails, try muted
+        welcomeVideo.muted = true;
+        welcomeVideo.play().then(() => {
+          console.log('✅ Video started playing muted');
+          // Try to unmute after a short delay
+          setTimeout(() => {
+            welcomeVideo.muted = false;
+            welcomeVideo.volume = 1.0;
+          }, 100);
+        }).catch(e => console.log("Retry failed:", e));
+      });
+    }
+    
+    // Start video immediately
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startVideo);
+    } else {
+      startVideo();
+    }
+    
+    // Function to hide welcome video (but keep audio playing)
+    function skipWelcome() {
+      // Fade out the video container
+      videoWelcome.style.opacity = '0';
+      
+      // After fade out, hide video but keep audio playing
+      setTimeout(() => {
+        videoWelcome.style.display = 'none';
+        // DO NOT pause the video - let audio continue playing
+        console.log('Video hidden but audio continues playing');
+      }, 500);
+    }
+    
+    // Skip on button click
+    skipBtn.addEventListener('click', function() {
+      skipWelcome();
+    });
+    
+    // Also try to unmute on any user interaction
+    document.addEventListener('click', function() {
+      if (!welcomeVideo.paused && welcomeVideo.muted) {
+        welcomeVideo.muted = false;
+        welcomeVideo.volume = 1.0;
+        console.log('Video unmuted on user interaction');
+      }
+    }, { once: true });
+  })();
+</script>
 
-<script>
-
-
-
+</body>
+</html>
