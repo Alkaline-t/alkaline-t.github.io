@@ -1325,79 +1325,158 @@
   }
 
   /* 🎨 BEAUTIFUL FOOTER */
-  footer{
+  footer {
     margin-top: 80px;
-    padding: 50px 24px;
-    /* light footer for better visibility */
-    background: linear-gradient(135deg, rgba(240,249,255,0.9) 0%, rgba(244,250,255,0.9) 50%, rgba(232,248,255,0.9) 100%);
-    color: #071029;
+    padding: 60px 24px 40px;
+    background: linear-gradient(135deg, rgba(240,249,255,0.98) 0%, rgba(244,250,255,0.95) 100%);
+    color: #1a1a2e;
     text-align: center;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 -12px 60px rgba(2,8,20,0.7);
-    border-top: 3px solid var(--accent);
-    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 132, 255, 0.15);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
+  /* Light mode specific styles */
+  footer {
+    background: linear-gradient(135deg, #f8faff 0%, #edf5ff 100%);
+    color: #1a1a2e;
+  }
 
-  footer::before{
+  footer .footer-section h4 {
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    position: relative;
+    display: inline-block;
+  }
+
+  footer .footer-section h4::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    animation: shine 4s infinite;
-    pointer-events: none;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
   }
 
-  @keyframes shine{
-    0%{ left: -100%; }
-    100%{ left: 100%; }
+  footer .footer-section ul li a {
+    color: #4a4a6a;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
   }
 
-  footer{
-    animation: fadeInUp 0.8s ease-out;
+  footer .footer-section ul li a:hover {
+    color: var(--accent);
+    padding-left: 5px;
   }
 
-  @keyframes fadeInUp{
-    from{ opacity: 0; transform: translateY(30px); }
-    to{ opacity: 1; transform: translateY(0); }
+  /* Team member cards in light mode */
+  .footer-section .team-member {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 132, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   }
 
-  footer:hover{
-    box-shadow: 0 -8px 40px rgba(102, 126, 234, 0.5), 0 0 30px rgba(240, 147, 251, 0.3);
-    transform: translateY(-4px);
+  /* Dark mode styles - Enhanced for better contrast */
+  body.dark-mode footer {
+    background: linear-gradient(135deg, #050813 0%, #0a0f23 100%);
+    color: #f0f4ff;
+    border-top: 1px solid rgba(0, 132, 255, 0.25);
   }
 
-  /* Dark mode footer */
-  body.dark-mode footer{
-    background: linear-gradient(135deg,#020613 0%, #071228 100%);
-    color: #e6f7ff;
-    box-shadow: 0 -16px 80px rgba(0,0,0,0.7);
+  body.dark-mode .footer-section h4 {
+    color: #4dabf7;
+    text-shadow: 0 0 10px rgba(77, 171, 247, 0.3);
   }
 
-  body.dark-mode footer:hover{
-    box-shadow: 0 -8px 40px rgba(102, 126, 234, 0.4), 0 0 30px rgba(240, 147, 251, 0.2);
+  body.dark-mode .footer-section ul li a {
+    color: #c9d1d9;
+    font-weight: 500;
+  }
+
+  body.dark-mode .footer-section ul li a:hover {
+    color: #4dabf7;
+    text-shadow: 0 0 8px rgba(77, 171, 247, 0.5);
+    padding-left: 8px;
+  }
+
+  /* Team member cards in dark mode */
+  body.dark-mode .footer-section .team-member {
+    background: rgba(20, 25, 50, 0.7);
+    border: 1px solid rgba(0, 132, 255, 0.25);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Hover effects */
+  footer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 -10px 50px rgba(0, 132, 255, 0.15);
+  }
+
+  body.dark-mode footer:hover {
+    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, #040710 0%, #090d1e 100%);
   }
 
   /* Responsive footer */
-  @media(max-width: 768px){
-    footer{
-      margin-top: 40px;
-      padding: 30px 16px;
-      font-size: 14px;
+  @media (max-width: 992px) {
+    .footer-content {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
     }
   }
 
-  @media(max-width: 480px){
-    footer{
-      margin-top: 30px;
-      padding: 24px 12px;
+  @media (max-width: 768px) {
+    footer {
+      margin-top: 50px;
+      padding: 40px 16px 30px;
+      font-size: 15px;
+    }
+    
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    
+    .footer-section {
+      text-align: center;
+    }
+    
+    .footer-section .team-member {
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    footer {
+      margin-top: 40px;
+      padding: 30px 12px 25px;
+      font-size: 14px;
+    }
+    
+    .footer-section h4 {
+      font-size: 16px !important;
+    }
+    
+    footer .brand {
+      font-size: 18px;
+    }
+    
+    footer .cta {
       font-size: 13px;
+      padding: 6px 12px;
     }
   }
 
@@ -3517,44 +3596,177 @@ body.dark-mode .refresh-btn:hover {
 
 .chatbot-toggle {
   position: fixed;
-  bottom: 100px;
-  right: 20px;
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  border-radius: 50%;
+  bottom: 90px;
+  right: 30px;
+  width: 70px;
+  height: auto;
+  background: none;
   color: white;
-  font-size: 14px;
+  border: none;
+  box-shadow: none;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
-  z-index: 999;
-  transition: all 0.3s ease;
+  z-index: 1002;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 10px;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  padding: 0;
+  overflow: visible;
+  animation: float 3s ease-in-out infinite;
+  transform: translateY(0);
+}
+
+.chatbot-toggle::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: 0.6s;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.chatbot-toggle:hover::before {
+  animation: shine 1.5s;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
 }
 
 .chatbot-toggle:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 15px 35px rgba(0, 132, 255, 0.6);
+  animation: none;
+}
+
+.chatbot-toggle:active {
+  transform: scale(0.95) translateY(-3px);
+}
+
+.chatbot-logo-container {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 25px rgba(0, 132, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .chatbot-logo {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.chatbot-toggle:hover .chatbot-logo-container {
+  transform: scale(1.1);
+  box-shadow: 0 15px 35px rgba(0, 132, 255, 0.6);
+}
+
+.chatbot-toggle:hover .chatbot-logo {
+  transform: scale(1.1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .chatbot-text {
-  font-weight: 500;
-  font-size: 11px;
+  font-weight: 600;
+  font-size: 12px;
   text-align: center;
   line-height: 1.2;
+  margin-top: 8px;
+  color: #333;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .chatbot-text {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Pulsing dot notification */
+.chatbot-toggle::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  background: #ff4d4d;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: pulseDot 2s infinite;
+  opacity: 0;
+}
+
+@keyframes pulseDot {
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 77, 77, 0);
+  }
+  100% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
+  }
+}
+
+/* Show notification dot on page load */
+.chatbot-toggle.has-notification::after {
+  opacity: 1;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .chatbot-close {
@@ -4328,8 +4540,6 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
       <li>📺 LCD Slides</li>
     </ul>
 
-    <button style="width:100%; padding:10px; background:var(--accent); color:#fff; border:none; border-radius:6px; margin-top:12px;"
-      onclick="openPopup('teamPopup')">Team Info →</button>
   </div>
 </div>
 
@@ -5450,10 +5660,12 @@ if (feedbackForm) {
 </script>
 
 <!-- AI Chatbot HTML -->
-<button class="chatbot-toggle" id="chatbot-toggle">
-  <img src="images/logo.png" alt="Device Logo" class="chatbot-logo">
-  <span class="chatbot-text">Chat with AI</span>
-</button>
+  <button class="chatbot-toggle" id="chatbot-toggle">
+    <div class="chatbot-logo-container">
+      <img src="images/logo.png" alt="AI Assistant" class="chatbot-logo">
+    </div>
+    <span class="chatbot-text">Chat with AI</span>
+  </button>
 <div class="chatbot-container" id="chatbot-container">
   <div class="chatbot-header">
     <span>AI Assistant</span>
@@ -5471,6 +5683,11 @@ if (feedbackForm) {
 // AI Chatbot JavaScript
 document.addEventListener('DOMContentLoaded', function() {
   const chatbotToggle = document.getElementById('chatbot-toggle');
+  
+  // Add notification dot on load
+  setTimeout(() => {
+    chatbotToggle.classList.add('has-notification');
+  }, 2000);
   const chatbotContainer = document.getElementById('chatbot-container');
   const chatbotClose = document.getElementById('chatbot-close');
   const chatbotMessages = document.getElementById('chatbot-messages');
@@ -5481,9 +5698,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (chatbotContainer.classList.contains('open')) {
       chatbotContainer.classList.remove('open');
       setTimeout(() => chatbotContainer.style.display = 'none', 400);
+      // Remove notification when chat is closed
+      chatbotToggle.classList.remove('has-notification');
     } else {
       chatbotContainer.style.display = 'flex';
       setTimeout(() => chatbotContainer.classList.add('open'), 10);
+      // Remove notification when chat is opened
+      chatbotToggle.classList.remove('has-notification');
     }
   });
 
@@ -5821,13 +6042,57 @@ function loadFeedback() {
 // YouTube Player API integration for background music control
 let player;
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player('youtube-player', {
-    videoId: 'zE7WM5-5lgs',
+  player = new YT.Player('player', {
     events: {
       'onStateChange': onPlayerStateChange
     }
   });
 }
+
+// AI Button Scroll Behavior
+document.addEventListener('DOMContentLoaded', function() {
+    const aiButton = document.getElementById('chatbot-toggle');
+    const musicButton = document.getElementById('music-toggle-btn');
+    let isAiButtonMoved = false;
+
+    function handleScroll() {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const pageHeight = document.documentElement.scrollHeight;
+        const distanceFromBottom = pageHeight - scrollPosition;
+        const threshold = 300; // Pixels from bottom to trigger the switch
+
+        if (distanceFromBottom < threshold && !isAiButtonMoved) {
+            // Move AI button to music button's position
+            const musicRect = musicButton.getBoundingClientRect();
+            aiButton.style.position = 'fixed';
+            aiButton.style.bottom = '30px';
+            aiButton.style.right = (window.innerWidth - musicRect.right) + 'px';
+            aiButton.style.transition = 'all 0.3s ease';
+            musicButton.style.opacity = '0';
+            musicButton.style.pointerEvents = 'none';
+            isAiButtonMoved = true;
+        } 
+        else if (distanceFromBottom >= threshold && isAiButtonMoved) {
+            // Return AI button to its original position
+            aiButton.style.position = 'fixed';
+            aiButton.style.bottom = '90px';
+            aiButton.style.right = '30px';
+            musicButton.style.opacity = '1';
+            musicButton.style.pointerEvents = 'auto';
+            isAiButtonMoved = false;
+        }
+    }
+
+    // Add scroll event listener with debounce
+    let isScrolling;
+    window.addEventListener('scroll', function() {
+        window.clearTimeout(isScrolling);
+        isScrolling = setTimeout(handleScroll, 50);
+    }, false);
+    
+    // Initial check
+    handleScroll();
+});
 
 function onPlayerStateChange(event) {
   const music = document.getElementById('bg-music');
