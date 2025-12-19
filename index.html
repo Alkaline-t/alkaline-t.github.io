@@ -38,8 +38,8 @@
   body{
     font-family: 'Plus Jakarta Sans', Inter, system-ui;
     color:var(--text);
-    background: linear-gradient(135deg, #f0f9ff 0%, #f4faff 50%, #e8f8ff 100%);
-    line-height:1.5;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    line-height:1.6;
     overflow-x:hidden;
     overflow-y:scroll;
     position: relative;
@@ -54,10 +54,19 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 20% 50%, rgba(0, 132, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(240, 147, 251, 0.1) 0%, transparent 50%);
+    background: 
+      radial-gradient(circle at 10% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 30%),
+      radial-gradient(circle at 90% 80%, rgba(240, 147, 251, 0.08) 0%, transparent 30%),
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
     pointer-events: none;
     z-index: 0;
+    animation: gradientPulse 15s ease infinite;
+  }
+
+  @keyframes gradientPulse {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   * { transition: all 0.15s ease; will-change: auto; }
@@ -1503,23 +1512,30 @@
 
   footer .cta {
     margin-top: 6px;
-    background: rgba(255,255,255,0.12);
+    background: rgba(0, 132, 255, 0.15);
     padding: 8px 14px;
     border-radius: 999px;
-    font-weight:700;
-    color: white;
-    box-shadow: inset 0 -2px 6px rgba(255,255,255,0.02);
+    font-weight: 700;
+    color: #0084ff;
+    box-shadow: inset 0 -2px 6px rgba(0, 132, 255, 0.1);
+    border: 1px solid rgba(0, 132, 255, 0.2);
   }
 
   /* Dark mode adjustments for footer inner parts */
   body.dark-mode footer .cta{
     background: rgba(255,255,255,0.06);
     color: #e6f6ff;
+    border-color: rgba(255,255,255,0.1);
   }
 
   body.dark-mode footer small { color: rgba(255,255,255,0.9); }
 
-  footer small { opacity: 0.9; color: rgba(255,255,255,0.9); }
+  footer small { 
+    opacity: 1; 
+    color: #333; 
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
 
   /* ENHANCED FOOTER CONTENT */
   .footer-content {
@@ -2783,17 +2799,31 @@ body.dark-mode .refresh-btn {
 }
 body.dark-mode .refresh-btn:hover {
   box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
-}
-</style>
 </head>
 
 <body>
-
-<!-- LOADING SCREEN -->
-<div id="loading-screen" style="
-  position: fixed;
-  top: 0;
-  left: 0;
+  <!-- Hero Section -->
+  <section class="hero" style="position: relative; padding: 160px 20px 100px; text-align: center; color: white; z-index: 2;">
+    <div class="container" style="max-width: 1000px; margin: 0 auto; position: relative;">
+      <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; line-height: 1.2; text-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        Revolutionizing Fitness with AI Technology
+      </h1>
+      <p style="font-size: 1.5rem; max-width: 800px; margin: 0 auto 40px; opacity: 0.9; line-height: 1.6;">
+        Experience the future of health monitoring with our cutting-edge AI-powered fitness device. 
+        Track your vitals, optimize your workouts, and achieve your fitness goals faster than ever before.
+      </p>
+      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="#features" style="display: inline-block; padding: 15px 32px; background: linear-gradient(135deg, #00d4ff 0%, #5a86ff 100%); color: white; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3); transition: all 0.3s ease;">
+          Explore Features
+        </a>
+        <a href="#demo" style="display: inline-block; padding: 15px 32px; background: rgba(255, 255, 255, 0.1); color: white; text-decoration: none; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 50px; font-weight: 600; font-size: 1.1rem; backdrop-filter: blur(10px); transition: all 0.3s ease;">
+          Watch Demo
+        </a>
+      </div>
+      <div style="margin-top: 60px; position: relative;">
+        <div style="position: absolute; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); top: 50%;"></div>
+        <span style="background: #0f2027; padding: 0 20px; position: relative; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase;">TRUSTED BY FITNESS ENTHUSIASTS WORLDWIDE</span>
+      </div>
   width: 100%;
   height: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -3725,6 +3755,12 @@ body.dark-mode .refresh-btn:hover {
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.chatbot-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .chatbot-input {
   padding: 20px;
   background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
@@ -3733,13 +3769,48 @@ body.dark-mode .refresh-btn:hover {
 
 .chatbot-input input {
   width: 100%;
-  padding: 12px 20px;
+  padding: 12px 50px 12px 20px;
   border: 2px solid rgba(0, 132, 255, 0.2);
   border-radius: 30px;
   outline: none;
   font-size: 14px;
   transition: all 0.3s ease;
   background: white;
+}
+
+.chatbot-send-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.3);
+}
+
+.chatbot-send-btn:hover {
+  background: linear-gradient(135deg, #0040ff 0%, #0084ff 100%);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.4);
+}
+
+.chatbot-send-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.chatbot-send-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5;
 }
 
 .chatbot-input input:focus {
@@ -4656,7 +4727,7 @@ Follow the on-screen instructions to repeat the measurement sequence.</p>
             </p>
           </div>
 
-          <button onclick="toggleFeedback()" class="feedback-toggle-btn">People Feedback!!</button> <button onclick="loadFeedback()" class="refresh-btn" title="Refresh Feedback" id="refreshBtn" style="display:none;">🔄</button>
+          <button onclick="toggleFeedback()" class="feedback-toggle-btn">People Feedback!!  CLICK</button> <button onclick="loadFeedback()" class="refresh-btn" title="Refresh Feedback" id="refreshBtn" style="display:none;">🔄</button>
 
           <div id="feedback-container"></div>
 
@@ -5502,10 +5573,14 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbotContainer.classList.remove('open');
         setTimeout(() => chatbotContainer.style.display = 'none', 400);
         chatbotToggle.classList.remove('has-notification');
+        // Show toggle button when chatbot closes
+        setTimeout(() => chatbotToggle.style.display = 'flex', 400);
       } else {
         chatbotContainer.style.display = 'flex';
         setTimeout(() => chatbotContainer.classList.add('open'), 10);
         chatbotToggle.classList.remove('has-notification');
+        // Hide toggle button when chatbot opens
+        chatbotToggle.style.display = 'none';
       }
     });
     
@@ -5515,6 +5590,8 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbotContainer.classList.remove('open');
         setTimeout(() => chatbotContainer.style.display = 'none', 400);
         chatbotToggle.classList.remove('has-notification');
+        // Show toggle button when chatbot closes via X button
+        setTimeout(() => chatbotToggle.style.display = 'flex', 400);
       });
     }
     
@@ -5878,7 +5955,15 @@ if (feedbackForm) {
     </div>
   </div>
   <div class="chatbot-input">
-    <input type="text" id="chatbot-input" placeholder="Type your message...">
+    <div class="chatbot-input-wrapper">
+      <input type="text" id="chatbot-input" placeholder="Type your message...">
+      <button class="chatbot-send-btn" id="chatbot-send-btn" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -5918,6 +6003,14 @@ document.addEventListener('DOMContentLoaded', function() {
         sendMessage();
       }
     });
+
+    // Send message on button click
+    const chatbotSendBtn = document.getElementById('chatbot-send-btn');
+    if (chatbotSendBtn) {
+      chatbotSendBtn.addEventListener('click', function() {
+        sendMessage();
+      });
+    }
 
     function sendMessage() {
       const message = chatbotInput.value.trim();
